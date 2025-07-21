@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="author" content="TemplatesJungle">
   <meta name="keywords" content="ecommerce,fashion,store">
   <meta name="description" content="Simple and elegant jewelry shop template.">
@@ -25,6 +25,45 @@
 </head>
 
 <body class="homepage">
+  <canvas id="network-canvas"></canvas>
+
+  <!-- Glacier Glass Navbar -->
+  <header class="site-header">
+    <div class="header-accent-line"></div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.png" alt="Jewelry Shop Logo" onerror="this.style.display='none';this.insertAdjacentHTML('afterend', '<span class=\'fw-bold text-gold\'>LUXURY</span>');" />
+      </a>
+      <div class="nav-links-desktop">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="shop.html" class="nav-link">Shop</a>
+      </div>
+      <div class="nav-mobile-toggle">
+        <button id="mobile-menu-open-btn" aria-label="Open main menu">
+          <svg class="icon-hamburger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+    <div id="mobile-menu" class="nav-mobile-menu">
+      <div class="mobile-menu-header">
+        <a href="index.html" class="mobile-logo">
+          <img src="images/logo.png" alt="Logo" onerror="this.style.display='none';this.insertAdjacentHTML('afterend', '<span class=\'fw-bold text-gold\'>LUXURY</span>');" />
+        </a>
+        <button id="mobile-menu-close-btn" aria-label="Close menu">
+          <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="mobile-menu-links">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="shop.html" class="mobile-nav-link">Shop</a>
+      </div>
+    </div>
+  </header>
+
   <svg xmlns="http://www.w3.org/2000/svg" class="visually-hidden-svg">
     <defs>
       <symbol xmlns="http://www.w3.org/2000/svg" id="instagram" viewBox="0 0 15 15">
@@ -193,36 +232,45 @@
     </div>
   </div>
 
-  <!-- Luxurious Navbar -->
-  <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-      <!-- Brand/Logo -->
-      <a class="navbar-brand" href="index.html" title="Luxury Jewelry">
-        <span class="d-inline-block align-middle">LUXURY</span>
-        <span class="gold-divider mx-2">|</span>
-        <span class="d-inline-block align-middle font-italic">Jewelry</span>
+  <!-- Glacier Glass Navbar -->
+  <header class="site-header">
+    <div class="header-accent-line"></div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.png" alt="Jewelry Shop Logo" onerror="this.style.display='none';this.insertAdjacentHTML('afterend', '<span class=\'fw-bold text-gold\'>LUXURY</span>');" />
       </a>
-
-      <!-- Mobile Toggle Button -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Desktop Navigation -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="shop.html">Shop</a>
-          </li>
-        </ul>
+      <div class="nav-links-desktop">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="shop.html" class="nav-link">Shop</a>
+      </div>
+      <div class="nav-mobile-toggle">
+        <button id="mobile-menu-open-btn" aria-label="Open main menu">
+          <svg class="icon-hamburger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+    <div id="mobile-menu" class="nav-mobile-menu">
+      <div class="mobile-menu-header">
+        <a href="index.html" class="mobile-logo">
+          <img src="images/logo.png" alt="Logo" onerror="this.style.display='none';this.insertAdjacentHTML('afterend', '<span class=\'fw-bold text-gold\'>LUXURY</span>');" />
+        </a>
+        <button id="mobile-menu-close-btn" aria-label="Close menu">
+          <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="mobile-menu-links">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="shop.html" class="mobile-nav-link">Shop</a>
       </div>
     </div>
-  </nav>
+  </header>
 
   <!-- Mobile Offcanvas Menu -->
+
   <div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas" aria-labelledby="navbarOffcanvasLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="navbarOffcanvasLabel">Menu</h5>
@@ -254,7 +302,7 @@
 
   <section id="shop-products" class="py-5">
     <div class="container">
-      <div class="row">
+      <div class="row product-grid">
   
         <div class="col-md-3">
           <div class="product-item">
@@ -404,11 +452,28 @@
         </div>
       </div>
     </div>
-    <div class="border-top py-4">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <p>© Copyright 2024 Kaira. All rights reserved.</p>
+  <footer id="footer" class="footer-section">
+    <div class="container">
+      <div class="footer-content pt-5 pb-5 text-center">
+        <div class="footer-logo mb-4">
+          <a href="index.html" class="navbar-brand" title="LUXURY Home">
+            <span class="fw-bold">LUXURY</span>
+            <span class="text-gold">.</span>
+          </a>
+        </div>
+        <ul class="social-list list-unstyled d-flex justify-content-center mb-4">
+          <li><a href="#" class="social-link" title="Facebook"><i class="bi bi-facebook"></i></a></li>
+          <li><a href="#" class="social-link" title="Instagram"><i class="bi bi-instagram"></i></a></li>
+          <li><a href="#" class="social-link" title="Twitter"><i class="bi bi-twitter"></i></a></li>
+          <li><a href="#" class="social-link" title="Pinterest"><i class="bi bi-pinterest"></i></a></li>
+        </ul>
+        <div class="footer-text">
+          <p> 2024 LUXURY. All Rights Reserved.</p>
+          <p>Designed with <i class="bi bi-heart-fill text-gold"></i> by Cascade</p>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <p>© Copyright 2024 Kaira. All rights reserved.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -421,16 +486,6 @@
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-  <div id="product-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-button">&times;</span>
-      <img id="modal-product-image" src="" alt="Product Image" class="img-fluid mb-4">
-      <h4 id="modal-product-title" class="text-uppercase"></h4>
-      <p>Detailed description of the product will go here. This is a placeholder text for the jewelry item.</p>
-    </div>
-  </div>
-
-  <script src="js/script.min.js"></script>
   <script src="js/custom.js"></script>
 </body>
 

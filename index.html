@@ -26,7 +26,45 @@
 
 <body class="homepage">
 
-  <div id="stars-container"></div>
+  <canvas id="network-canvas"></canvas>
+
+  <!-- Glacier Glass Navbar -->
+  <header class="site-header">
+    <div class="header-accent-line"></div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.png" alt="Jewelry Shop Logo" />
+      </a>
+      <div class="nav-links-desktop">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="shop.html" class="nav-link">Shop</a>
+      </div>
+      <div class="nav-mobile-toggle">
+        <button id="mobile-menu-open-btn" aria-label="Open main menu">
+          <svg class="icon-hamburger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+    <div id="mobile-menu" class="nav-mobile-menu">
+      <div class="mobile-menu-header">
+        <a href="index.html" class="mobile-logo">
+          <img src="images/logo.png" alt="Logo">
+        </a>
+        <button id="mobile-menu-close-btn" aria-label="Close menu">
+          <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="mobile-menu-links">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="shop.html" class="mobile-nav-link">Shop</a>
+      </div>
+    </div>
+  </header>
+
   <svg xmlns="http://www.w3.org/2000/svg" class="visually-hidden-svg">
     <defs>
       <symbol xmlns="http://www.w3.org/2000/svg" id="instagram" viewBox="0 0 15 15">
@@ -196,52 +234,6 @@
     </div>
   </div>
 
-  <!-- Luxurious Navbar -->
-  <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-      <!-- Brand/Logo -->
-      <a class="navbar-brand" href="index.html" title="Luxury Jewelry">
-        <span class="d-inline-block align-middle">LUXURY</span>
-        <span class="gold-divider mx-2">|</span>
-        <span class="d-inline-block align-middle font-italic">Jewelry</span>
-      </a>
-
-      <!-- Mobile Toggle Button -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Desktop Navigation -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="shop.html">Shop</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Mobile Offcanvas Menu -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas" aria-labelledby="navbarOffcanvasLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="navbarOffcanvasLabel">Menu</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="shop.html">Shop</a>
-        </li>
-      </ul>
-    </div>
-  </div>
 
   <!-- Hero Section -->
   <section class="hero-section text-white text-center d-flex align-items-center">
