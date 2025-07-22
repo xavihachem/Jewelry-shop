@@ -16,7 +16,13 @@
   <link rel="stylesheet" type="text/css" href="css/vendor.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
   <link rel="stylesheet" type="text/css" href="style.css">
-
+  <link rel="stylesheet" href="css/shop-custom.css">
+  <link rel="stylesheet" href="css/glass-effects.css">
+  <link rel="stylesheet" href="css/majestic-style.css">
+  <link rel="stylesheet" href="css/footer-glass.css">
+  <link rel="stylesheet" href="css/page-transitions.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -25,18 +31,20 @@
 </head>
 
 <body class="homepage">
+  <!-- Network Canvas Background -->
   <canvas id="network-canvas"></canvas>
-
+  
   <!-- Glacier Glass Navbar -->
   <header class="site-header">
     <div class="header-accent-line"></div>
     <nav class="main-nav">
       <a href="index.html" class="nav-logo">
-        <img src="images/logo.png" alt="Jewelry Shop Logo" onerror="this.style.display='none';this.insertAdjacentHTML('afterend', '<span class=\'fw-bold text-gold\'>LUXURY</span>');" />
+        <img src="images/main-logo.png" alt="Jewelry Shop Logo" onerror="this.style.display='none';this.insertAdjacentHTML('afterend', '<span class=\'fw-bold text-gold\'>LUXURY</span>');" />
       </a>
       <div class="nav-links-desktop">
         <a href="index.html" class="nav-link">Home</a>
-        <a href="shop.html" class="nav-link">Shop</a>
+        <a href="shop.html" class="nav-link active">Shop</a>
+        <a href="admin.html" class="nav-link ms-auto">Admin</a>
       </div>
       <div class="nav-mobile-toggle">
         <button id="mobile-menu-open-btn" aria-label="Open main menu">
@@ -49,7 +57,7 @@
     <div id="mobile-menu" class="nav-mobile-menu">
       <div class="mobile-menu-header">
         <a href="index.html" class="mobile-logo">
-          <img src="images/logo.png" alt="Logo" onerror="this.style.display='none';this.insertAdjacentHTML('afterend', '<span class=\'fw-bold text-gold\'>LUXURY</span>');" />
+          <img src="images/main-logo.png" alt="Logo" onerror="this.style.display='none';this.insertAdjacentHTML('afterend', '<span class=\'fw-bold text-gold\'>LUXURY</span>');" />
         </a>
         <button id="mobile-menu-close-btn" aria-label="Close menu">
           <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -59,10 +67,29 @@
       </div>
       <div class="mobile-menu-links">
         <a href="index.html" class="mobile-nav-link">Home</a>
-        <a href="shop.html" class="mobile-nav-link">Shop</a>
+        <a href="shop.html" class="mobile-nav-link active">Shop</a>
+        <a href="admin.html" class="mobile-nav-link">Admin</a>
       </div>
     </div>
   </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Shop Products Section -->
+    <section id="shop-products" class="py-5 position-relative shop-products-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-12">
+            <h1 class="text-center text-white mb-3">Our Luxury Collection</h1>
+            <p class="text-center text-white-50 mb-0">Discover our exclusive selection of fine jewelry</p>
+          </div>
+        </div>
+        <div class="row product-grid g-4">
+          <!-- Product items will be dynamically inserted here by shop.js -->
+        </div>
+      </div>
+    </section>
+  </main>
 
   <svg xmlns="http://www.w3.org/2000/svg" class="visually-hidden-svg">
     <defs>
@@ -218,51 +245,8 @@
         <li class="cat-list-item">
           <a href="#" title="Accessories">Accessories</a>
         </li>
-        <li class="cat-list-item">
-          <a href="#" title="Cosmetics">Cosmetics</a>
-        </li>
-        <li class="cat-list-item">
-          <a href="#" title="Dresses">Dresses</a>
-        </li>
-        <li class="cat-list-item">
-          <a href="#" title="Jumpsuits">Jumpsuits</a>
-        </li>
       </ul>
-
-    </div>
-  </div>
-
-  <!-- Glacier Glass Navbar -->
-  <header class="site-header">
-    <div class="header-accent-line"></div>
-    <nav class="main-nav">
-      <a href="index.html" class="nav-logo">
-        <img src="images/logo.png" alt="Jewelry Shop Logo" onerror="this.style.display='none';this.insertAdjacentHTML('afterend', '<span class=\'fw-bold text-gold\'>LUXURY</span>');" />
-      </a>
-      <div class="nav-links-desktop">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="shop.html" class="nav-link">Shop</a>
-      </div>
-      <div class="nav-mobile-toggle">
-        <button id="mobile-menu-open-btn" aria-label="Open main menu">
-          <svg class="icon-hamburger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-        </button>
-      </div>
-    </nav>
-    <div id="mobile-menu" class="nav-mobile-menu">
-      <div class="mobile-menu-header">
-        <a href="index.html" class="mobile-logo">
-          <img src="images/logo.png" alt="Logo" onerror="this.style.display='none';this.insertAdjacentHTML('afterend', '<span class=\'fw-bold text-gold\'>LUXURY</span>');" />
-        </a>
-        <button id="mobile-menu-close-btn" aria-label="Close menu">
-          <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="mobile-menu-links">
+      <div class="mobile-nav-links">
         <a href="index.html" class="mobile-nav-link">Home</a>
         <a href="shop.html" class="mobile-nav-link">Shop</a>
       </div>
@@ -284,6 +268,9 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="shop.html">Shop</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="admin.html">Admin</a>
+        </li>
       </ul>
     </div>
   </div>
@@ -303,156 +290,11 @@
   <section id="shop-products" class="py-5">
     <div class="container">
       <div class="row product-grid">
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Classic Gold Ring">
-              <img src="images/product-item-1.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Classic Gold Ring</a></h3>
-              <span class="product-price">$1,500</span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Diamond Necklace">
-              <img src="images/product-item-2.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Diamond Necklace</a></h3>
-              <span class="product-price">$1,800</span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Blue Stone Earring">
-              <img src="images/product-item-3.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Blue Stone Earring</a></h3>
-              <span class="product-price">$1,200</span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Diamond Ring">
-              <img src="images/product-item-4.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Diamond Ring</a></h3>
-              <span class="product-price">$2,200</span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Emerald Cut Diamond">
-              <img src="images/product-item-5.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Emerald Cut Diamond</a></h3>
-              <span class="product-price">$3,500</span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Pearl Necklace">
-              <img src="images/product-item-6.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Pearl Necklace</a></h3>
-              <span class="product-price">$1,800</span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Ruby Ring">
-              <img src="images/product-item-7.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Ruby Ring</a></h3>
-              <span class="product-price">$1,200</span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Diamond Earrings">
-              <img src="images/product-item-8.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Diamond Earrings</a></h3>
-              <span class="product-price">$2,500</span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Platinum Bracelet">
-              <img src="images/product-item-9.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Platinum Bracelet</a></h3>
-              <span class="product-price">$4,000</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Sapphire Necklace">
-              <img src="images/product-item-10.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Sapphire Necklace</a></h3>
-              <span class="product-price">$2,800</span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Gold Bracelet">
-              <img src="images/product-item-2.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Gold Bracelet</a></h3>
-              <span class="product-price">$950</span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="product-item">
-            <a href="#" class="product-image" title="Silver Locket">
-              <img src="images/product-item-3.jpg" alt="product-item" class="img-fluid">
-            </a>
-            <div class="product-content text-uppercase">
-              <h3 class="product-title fs-5"><a href="#">Silver Locket</a></h3>
-              <span class="product-price">$750</span>
-            </div>
-          </div>
-        </div>
-  
-      </div>
-        </div>
+        <!-- Product grid will be populated by JavaScript -->
       </div>
     </div>
-  <footer id="footer" class="footer-section">
+  </section>
+  <footer id="footer" class="footer-section glass-footer">
     <div class="container">
       <div class="footer-content pt-5 pb-5 text-center">
         <div class="footer-logo mb-4">
@@ -468,17 +310,38 @@
           <li><a href="#" class="social-link" title="Pinterest"><i class="bi bi-pinterest"></i></a></li>
         </ul>
         <div class="footer-text">
-          <p> 2024 LUXURY. All Rights Reserved.</p>
+          <p>© 2024 LUXURY. All Rights Reserved.</p>
           <p>Designed with <i class="bi bi-heart-fill text-gold"></i> by Cascade</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Product Detail Modal -->
+  <div class="modal fade product-modal" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-body">
           <div class="row">
-            <div class="col-md-12 text-center">
-              <p>© Copyright 2024 Kaira. All rights reserved.</p>
+            <div class="col-lg-6">
+              <div class="modal-image-container">
+                <img src="" class="img-fluid" id="modalProductImage" alt="Product Image">
+              </div>
+            </div>
+            <div class="col-lg-6 d-flex flex-column justify-content-center">
+              <div class="modal-product-details">
+                <h2 class="modal-product-title" id="modalProductTitle"></h2>
+                <p class="modal-product-description" id="modalProductDescription"></p>
+                <h3 class="modal-product-price" id="modalProductPrice"></h3>
+                <a href="#" class="btn btn-lg btn-outline-gold mt-3 order-now-btn"><i class="bi bi-bag-check"></i> Order Now</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </footer>
+  </div>
+
   <script src="js/jquery.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/SmoothScroll.js"></script>
@@ -486,7 +349,13 @@
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+
+<script src="js/script.min.js"></script>
   <script src="js/custom.js"></script>
+  <script src="js/database.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/order.js"></script>
 </body>
 
 </html>

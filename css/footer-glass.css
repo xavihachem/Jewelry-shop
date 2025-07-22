@@ -1,0 +1,256 @@
+/**
+ * Glass Effect Footer Styling for Kaira Jewelry Shop
+ */
+
+/* Footer Glass Effect */
+footer {
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  position: relative !important;
+  z-index: 10 !important;
+  color: #fff !important;
+  margin-top: 50px !important;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Create reflection effect */
+footer::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%) !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+/* Add subtle network pattern reflection */
+footer::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: url('../images/network-pattern.png') !important;
+  background-size: cover !important;
+  opacity: 0.05 !important;
+  mix-blend-mode: overlay !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+/* Footer Content */
+.footer-content {
+  padding: 50px 0 !important;
+}
+
+/* Footer Logo */
+.footer-logo img {
+  max-width: 150px !important;
+  margin-bottom: 20px !important;
+  filter: brightness(1.2) !important;
+}
+
+/* Footer Links */
+.footer-links h5 {
+  color: #c5a47e !important;
+  margin-bottom: 20px !important;
+  font-weight: 600 !important;
+  position: relative !important;
+  display: inline-block !important;
+}
+
+.footer-links h5:after {
+  content: '' !important;
+  position: absolute !important;
+  width: 50% !important;
+  height: 2px !important;
+  background: #c5a47e !important;
+  bottom: -8px !important;
+  left: 0 !important;
+}
+
+.footer-links ul {
+  list-style: none !important;
+  padding-left: 0 !important;
+}
+
+.footer-links ul li {
+  margin-bottom: 10px !important;
+}
+
+.footer-links ul li a {
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  padding-left: 15px !important;
+}
+
+.footer-links ul li a:before {
+  content: '→' !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  color: #c5a47e !important;
+  opacity: 0 !important;
+  transition: all 0.3s ease !important;
+  transform: translateX(-10px) !important;
+}
+
+.footer-links ul li a:hover {
+  color: #c5a47e !important;
+  padding-left: 20px !important;
+}
+
+.footer-links ul li a:hover:before {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+/* Social Links */
+.social-links {
+  margin-top: 20px !important;
+}
+
+.social-links a {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+  margin-right: 10px !important;
+  transition: all 0.3s ease !important;
+  text-decoration: none !important;
+}
+
+.social-links a:hover {
+  background: #c5a47e !important;
+  transform: translateY(-5px) !important;
+  box-shadow: 0 5px 15px rgba(197, 164, 126, 0.4) !important;
+}
+
+/* Copyright */
+.copyright {
+  padding: 20px 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  text-align: center !important;
+  font-size: 14px !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Make sure the network animation shows through the footer */
+#network-animation {
+  z-index: 1 !important;
+}
+
+/* Footer Newsletter */
+.newsletter-form {
+  position: relative !important;
+  margin-top: 20px !important;
+}
+
+.newsletter-form input {
+  width: 100% !important;
+  padding: 12px 15px !important;
+  border-radius: 30px !important;
+  border: none !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.newsletter-form input:focus {
+  background: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(197, 164, 126, 0.5) !important;
+}
+
+.newsletter-form button {
+  position: absolute !important;
+  right: 5px !important;
+  top: 5px !important;
+  bottom: 5px !important;
+  border-radius: 30px !important;
+  background: #c5a47e !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 0 20px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+
+.newsletter-form button:hover {
+  background: #b08e68 !important;
+}
+
+/* Contact Info */
+.contact-info {
+  margin-top: 20px !important;
+}
+
+.contact-info p {
+  margin-bottom: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.contact-info i {
+  margin-right: 10px !important;
+  color: #c5a47e !important;
+  font-size: 18px !important;
+}
+
+/* Footer Glass Effect */
+.footer-section {
+  background: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  margin-top: 50px !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.footer-section .footer-content {
+  padding: 40px 0 !important;
+}
+
+.footer-section .footer-logo a {
+  color: #c5a47e !important;
+  font-size: 1.8rem !important;
+}
+
+.footer-section .social-list {
+  gap: 15px !important;
+}
+
+.footer-section .social-link {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 1.2rem !important;
+  transition: color 0.3s ease !important;
+}
+
+.footer-section .social-link:hover {
+  color: #c5a47e !important;
+}
+
+.footer-section .footer-text {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Make sure the network animation shows through the footer */
+#network-canvas {
+  z-index: -1 !important;
+}

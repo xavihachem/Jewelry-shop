@@ -16,6 +16,7 @@
   <link rel="stylesheet" type="text/css" href="css/vendor.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="css/page-transitions.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +34,7 @@
     <div class="header-accent-line"></div>
     <nav class="main-nav">
       <a href="index.html" class="nav-logo">
-        <img src="images/logo.png" alt="Jewelry Shop Logo" />
+        <img src="images/main-logo.png" alt="Jewelry Shop Logo" />
       </a>
       <div class="nav-links-desktop">
         <a href="index.html" class="nav-link">Home</a>
@@ -50,7 +51,7 @@
     <div id="mobile-menu" class="nav-mobile-menu">
       <div class="mobile-menu-header">
         <a href="index.html" class="mobile-logo">
-          <img src="images/logo.png" alt="Logo">
+          <img src="images/main-logo.png" alt="Logo">
         </a>
         <button id="mobile-menu-close-btn" aria-label="Close menu">
           <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -272,56 +273,12 @@
         </div>
       </div>
       <div class="row">
-        <!-- Product Item 1 -->
-        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="product-item">
-            <div class="image-holder">
-              <a href="#" class="product-link">
-                <img src="images/product-item-1.jpg" alt="Diamond Ring" class="img-fluid product-image">
-              </a>
-            </div>
-            <div class="product-content text-center">
-              <h5 class="product-title mt-3"><a href="#">The Solitaire</a></h5>
-              <p class="product-description d-none">A timeless classic, this solitaire diamond ring features a brilliant-cut diamond set in a 14k white gold band. Perfect for engagements and special anniversaries.</p>
-              <span class="item-price">$2,450</span>
-            </div>
-          </div>
-        </div>
-        <!-- Product Item 2 -->
-        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
-          <div class="product-item">
-            <div class="image-holder">
-              <a href="#" class="product-link">
-                <img src="images/product-item-2.jpg" alt="Pearl Earrings" class="img-fluid product-image">
-              </a>
-            </div>
-            <div class="product-content text-center">
-              <h5 class="product-title mt-3"><a href="#">Pearl Drops</a></h5>
-              <p class="product-description d-none">Elegant and sophisticated, these freshwater pearl drop earrings are accented with small diamonds and set in sterling silver.</p>
-              <span class="item-price">$890</span>
-            </div>
-          </div>
-        </div>
-        <!-- Product Item 3 -->
-        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
-          <div class="product-item">
-            <div class="image-holder">
-              <a href="#" class="product-link">
-                <img src="images/product-item-3.jpg" alt="Gold Necklace" class="img-fluid product-image">
-              </a>
-            </div>
-            <div class="product-content text-center">
-              <h5 class="product-title mt-3"><a href="#">The Aurelia</a></h5>
-              <p class="product-description d-none">This stunning 18k gold necklace features a delicate chain and a unique pendant, making it a versatile piece for any occasion.</p>
-              <span class="item-price">$1,200</span>
-            </div>
-          </div>
-        </div>
+        <!-- Featured products will be populated by JavaScript -->
       </div>
     </div>
   </section>
 
-  <footer id="footer" class="footer-section">
+  <footer id="footer" class="footer-section glass-footer">
     <div class="container">
       <div class="footer-content pt-5 pb-5 text-center">
         <div class="footer-logo mb-4">
@@ -390,7 +347,10 @@
   </div>
 
 <script src="js/script.min.js"></script>
-<script src="js/custom.js"></script>
+  <script src="js/custom.js"></script>
+  <script src="js/database.js"></script>
+  <script src="js/home.js"></script>
+  <link rel="stylesheet" href="css/footer-glass.css">
 </body>
 
 </html>

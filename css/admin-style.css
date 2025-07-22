@@ -1,0 +1,181 @@
+/**
+ * Admin Dashboard Styling for Kaira Jewelry Shop
+ */
+
+/* Edit Button Styling */
+.btn-outline-gold {
+  color: #c5a47e !important;
+  border-color: #c5a47e !important;
+  background-color: rgba(197, 164, 126, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-outline-gold:hover {
+  color: #fff !important;
+  background-color: #c5a47e !important;
+  border-color: #c5a47e !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Edit Panel Styling */
+.modal-content {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-radius: 15px !important;
+  border: 1px solid rgba(197, 164, 126, 0.3) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 
+              0 1px 3px rgba(197, 164, 126, 0.3), 
+              inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+  overflow: hidden !important;
+  color: #fff !important; /* Ensure text is visible on dark background */
+}
+
+.modal-header {
+  border-bottom: 1px solid rgba(197, 164, 126, 0.3) !important;
+  background-color: rgba(197, 164, 126, 0.2) !important;
+  color: #fff !important;
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(197, 164, 126, 0.3) !important;
+  background-color: rgba(197, 164, 126, 0.2) !important;
+}
+
+.modal-title {
+  color: #c5a47e !important;
+  font-weight: 600 !important;
+}
+
+/* Form Controls */
+.form-control {
+  border: 1px solid rgba(197, 164, 126, 0.3) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important; /* Lighter background for input fields */
+  color: #fff !important; /* Text color for input fields */
+  transition: all 0.3s ease !important;
+}
+
+.form-control:focus {
+  border-color: #c5a47e !important;
+  box-shadow: 0 0 0 0.25rem rgba(197, 164, 126, 0.25) !important;
+  background-color: rgba(255, 255, 255, 0.15) !important; /* Slightly lighter on focus */
+}
+
+/* Fix for dropdown menu */
+.dropdown-menu {
+  display: none !important;
+  background-color: rgba(0, 0, 0, 0.8) !important; /* Darker dropdown background */
+  border: 1px solid rgba(197, 164, 126, 0.3) !important;
+}
+
+.dropdown-menu.show {
+  display: block !important;
+}
+
+.dropdown-item {
+  color: #fff !important; /* Dropdown item text color */
+}
+
+.dropdown-item:hover {
+  background-color: rgba(197, 164, 126, 0.3) !important;
+}
+
+/* Page navigation effect */
+.nav-link {
+  transition: transform 0.3s ease, color 0.3s ease !important;
+}
+
+.nav-link:hover {
+  transform: translateY(-2px) !important;
+}
+
+.nav-link.active {
+  color: #c5a47e !important;
+  font-weight: 600 !important;
+}
+
+/* Fix for page numbering */
+.pagination .page-item .page-link {
+  color: #c5a47e !important;
+  background-color: transparent !important;
+  border-color: rgba(197, 164, 126, 0.3) !important;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #c5a47e !important;
+  color: #fff !important;
+  border-color: #c5a47e !important;
+}
+
+/* Admin card styling */
+.admin-card {
+  background: rgba(0, 0, 0, 0.7) !important; /* Darker background for admin cards */
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-radius: 15px !important;
+  border: 1px solid rgba(197, 164, 126, 0.3) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  margin-bottom: 30px !important;
+  overflow: hidden !important;
+  color: #fff !important; /* Ensure text is visible on dark background */
+}
+
+.admin-card-header {
+  background-color: rgba(197, 164, 126, 0.2) !important; /* Darker header for admin cards */
+  border-bottom: 1px solid rgba(197, 164, 126, 0.3) !important;
+  padding: 15px 20px !important;
+  font-weight: 600 !important;
+  color: #c5a47e !important;
+}
+
+.admin-card-body {
+  padding: 20px !important;
+}
+
+/* Table styling for dark theme */
+.table {
+  color: #fff !important; /* Default text color for table */
+}
+
+.table thead th {
+  color: #c5a47e !important; /* Header text color */
+  border-bottom-color: rgba(197, 164, 126, 0.3) !important;
+}
+
+.table tbody tr {
+  background-color: transparent !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(197, 164, 126, 0.1) !important; /* Hover effect for table rows */
+}
+
+.table td, .table th {
+  border-top-color: rgba(197, 164, 126, 0.1) !important;
+}
+
+.product-image-preview {
+  border: 1px solid rgba(197, 164, 126, 0.3) !important;
+  border-radius: 5px !important;
+}
+
+/* Adjust button text color for better visibility on dark theme */
+.btn-outline-gold {
+  color: #c5a47e !important;
+}
+
+.btn-outline-danger {
+  color: #dc3545 !important;
+}
+
+.btn-light {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.btn-light:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}

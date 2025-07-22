@@ -1,4 +1,21 @@
 document.addEventListener('DOMContentLoaded', function () {
+  // Add page transition effect
+  document.body.classList.add('page-loaded');
+  
+  // Handle internal links for smooth page transitions
+  document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"], a[href^="index"], a[href^="shop"], a[href^="admin"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      if (this.href.includes(window.location.hostname) || this.href.startsWith('/') || this.href.startsWith('./') || this.href.startsWith('../')) {
+        e.preventDefault();
+        document.body.classList.add('page-transitioning');
+        
+        setTimeout(() => {
+          window.location.href = this.href;
+        }, 500);
+      }
+    });
+  });
+  
   console.log('[custom.js] DOMContentLoaded fired');
   const modalElem = document.getElementById('productModal');
   console.log('[custom.js] Modal element:', modalElem);
@@ -9,28 +26,47 @@ document.addEventListener('DOMContentLoaded', function () {
     const modalProductDescription = document.getElementById('modalProductDescription');
     const modalProductPrice = document.getElementById('modalProductPrice');
 
+    // Handle product image clicks for detail modal
+    document.addEventListener('click', function(event) {
+      const productLink = event.target.closest('.product-link');
+      if (!productLink) return;
+      event.preventDefault();
+      const productItem = productLink.closest('.product-item');
+      if (!productItem) return;
+      const dataElem = productItem.querySelector('.cart-link') || productItem.querySelector('.add-to-cart');
+      if (!dataElem) return;
+      modalProductImage.src = dataElem.dataset.productImage;
+      modalProductTitle.textContent = dataElem.dataset.productTitle;
+      modalProductDescription.textContent = dataElem.dataset.productDescription;
+      modalProductPrice.textContent = dataElem.dataset.productPrice;
+      productModal.show();
+    });
+
     // Add event listeners to all product items
     const productItems = document.querySelectorAll('.product-item');
     console.log('[custom.js] Product items found:', productItems.length);
 
     productItems.forEach(item => {
-      item.addEventListener('click', function (event) {
-        event.preventDefault();
+      const cartButton = item.querySelector('.cart-link');
+      if (cartButton) {
+        cartButton.addEventListener('click', function (event) {
+          event.preventDefault();
 
-        const image = item.querySelector('.product-image').src;
-        const title = item.querySelector('.product-title a').textContent;
-        const description = item.querySelector('.product-description') ? item.querySelector('.product-description').textContent : 'No description available.';
-        const price = item.querySelector('.item-price').textContent;
+          const image = this.dataset.productImage;
+          const title = this.dataset.productTitle;
+          const description = this.dataset.productDescription;
+          const price = this.dataset.productPrice;
 
-        // Populate the modal with the product data
-        modalProductImage.src = image;
-        modalProductTitle.textContent = title;
-        modalProductDescription.textContent = description;
-        modalProductPrice.textContent = price;
+          // Populate the modal with the product data
+          modalProductImage.src = image;
+          modalProductTitle.textContent = title;
+          modalProductDescription.textContent = description;
+          modalProductPrice.textContent = price;
 
-        // Show the modal
-        productModal.show();
-      });
+          // Show the modal
+          productModal.show();
+        });
+      }
     });
   }
 
