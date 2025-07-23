@@ -44,7 +44,11 @@ async function loadFeaturedProducts() {
     productCol.innerHTML = `
       <div class="product-item majestic-card">
         <div class="image-holder">
-          <a href="#" class="product-link">
+          <a href="#" class="product-link" 
+             data-product-image="${product.image}" 
+             data-product-title="${product.name}" 
+             data-product-description="${product.description}" 
+             data-product-price="${(parseFloat(product.price) * 1300).toLocaleString('en-US')} د.ع">
             <img src="${product.image}" alt="${product.name}" class="img-fluid product-image">
           </a>
           <div class="product-badge">

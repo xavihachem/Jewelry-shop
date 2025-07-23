@@ -203,6 +203,32 @@ function cleanupOldData() {
 
 // Product operations
 const productOperations = {
+  // Get a single product by ID
+  getProductById: async function(id) {
+    await initDatabase();
+    if (!db) return null;
+    
+    try {
+      const result = db.exec('SELECT * FROM products WHERE id = ?', [id]);
+      if (result.length === 0 || result[0].values.length === 0) {
+        console.log(`database.js: getProductById - No product found with ID ${id}`);
+        return null;
+      }
+      
+      const columns = result[0].columns;
+      const product = {};
+      columns.forEach((col, i) => {
+        product[col] = result[0].values[0][i];
+      });
+      
+      console.log(`database.js: getProductById - Found product:`, product);
+      return product;
+    } catch (error) {
+      console.error('Error getting product by ID:', error);
+      return null;
+    }
+  },
+  
   // Get all products
   getAllProducts: async function() {
     await initDatabase();

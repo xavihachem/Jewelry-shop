@@ -4,30 +4,33 @@
  */
 
 document.addEventListener('DOMContentLoaded', async function() {
-  console.log('[shop.js] DOMContentLoaded fired');
-  console.log('shop.js: DOMContentLoaded - Initializing database and loading products.');
+  
+  
   
   // Initialize database
   await window.dbOperations.init();
   
-  // Load products from database
-  loadProducts();
+  // Load products from database and wait for completion
+  try {
+    const loaded = await loadProducts();
+    console.log('[shop.js] loadProducts completed:', loaded);
+  } catch (e) {
+    console.error('[shop.js] Error loading products:', e);
+  }
   
-  // Initialize product modal
-  initProductModal();
 });
 
 /**
  * Load products from database and display them in the product grid
  */
 async function loadProducts() {
-  console.log('shop.js: loadProducts - Attempting to get all products from database.');
+  
   const productGrid = document.querySelector('#shop-products .row.product-grid');
   if (!productGrid) {
     console.error('shop.js: loadProducts - Product grid not found in DOM. Products cannot be displayed.');
     return;
   }
-  console.log('shop.js: loadProducts - Found product grid:', productGrid);
+  
   return loadProductsIntoGrid(productGrid);
 }
 
@@ -42,28 +45,29 @@ async function loadProductsIntoGrid(productGrid) {
   try {
     // Get products from database
     const products = await window.dbOperations.products.getAllProducts();
-    console.log(`shop.js: loadProducts - Retrieved ${products.length} products.`);
-    console.log('Products data:', JSON.stringify(products));
+    
+    
     
     if (!products || products.length === 0) {
-      console.log('shop.js: loadProducts - No products found in database, displaying message.');
+      
       productGrid.innerHTML = '<div class="col-12 text-center"><p>No products found</p></div>';
       return;
     }
   
     // Add products to grid
     products.forEach(product => {
-      console.log(`shop.js: loadProducts - Processing product: ${product.name}`);
+      
       const productCol = document.createElement('div');
       productCol.className = 'product-col';
       
+      // legacy generated HTML log removed
       productCol.innerHTML = `
         <div class="product-item">
           <div class="product-badge">
             <span>Exclusive</span>
           </div>
           <div class="image-holder">
-            <a href="#" class="product-link" data-product-image="${product.image}" data-product-title="${product.name}" data-product-description="${product.description}" data-product-price="${parseFloat(product.price) * 1300}">
+            <a href="product.html?id=${product.id}" class="product-link" data-product-id="${product.id}">
               <img src="${product.image}" alt="${product.name}" class="img-fluid product-image">
             </a>
           </div>
@@ -106,7 +110,22 @@ async function loadProductsIntoGrid(productGrid) {
       replaceCartButtons();
     }
     
-    console.log('shop.js: loadProducts - Successfully loaded products into grid');
+    // Make product items clickable
+    document.querySelectorAll('.product-item').forEach(item => {
+      const link = item.querySelector('a.product-link');
+      if (link) {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', (e) => {
+          if (!e.target.closest('.add-to-cart') && !e.target.closest('button')) {
+            window.location.href = link.href;
+          }
+        });
+      }
+    });
+    
+    
+    
+      
     return true;
   } catch (error) {
     console.error('shop.js: loadProducts - Error loading products:', error);
@@ -119,18 +138,24 @@ async function loadProductsIntoGrid(productGrid) {
  * Initialize product modal functionality
  */
 function initProductModal() {
+  
   const modalElem = document.getElementById('productModal');
   if (!modalElem) {
     console.error('shop.js: initProductModal - Product modal element not found');
     return;
   }
   
-  const productModal = new bootstrap.Modal(modalElem);
+  // Using custom modal, no Bootstrap modal instance
   const modalProductImage = document.getElementById('modalProductImage');
   const modalProductTitle = document.getElementById('modalProductTitle');
   const modalProductDescription = document.getElementById('modalProductDescription');
   const modalProductPrice = document.getElementById('modalProductPrice');
   const orderNowBtn = modalElem.querySelector('.order-now-btn');
+  // Close button for custom modal
+  const closeBtn = modalElem.querySelector('.close-button');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => modalElem.classList.remove('active'));
+  }
   
   if (!modalProductImage || !modalProductTitle || !modalProductDescription || !modalProductPrice) {
     console.error('shop.js: initProductModal - One or more modal elements not found');
@@ -139,10 +164,21 @@ function initProductModal() {
   
   // Add event listeners to product links (and reuse data attributes from order buttons)
   document.addEventListener('click', function(event) {
+      
     // Check if clicked on product link or product image
-    const productLink = event.target.closest('.product-link');
-    if (productLink) {
-      event.preventDefault();
+    let productLink = event.target.closest('.product-link');
+      // Fallback: if click is inside product-item (but not on add-to-cart), use its .product-link
+      if (!productLink && !event.target.closest('.add-to-cart')) {
+        const productItem = event.target.closest('.product-item');
+        if (productItem) {
+          productLink = productItem.querySelector('.product-link');
+          
+        }
+      }
+      console.log('[shop.js] Click event on document, found productLink:', productLink);
+    if (productLink && !event.target.closest('button')) {
+        event.preventDefault();
+        console.log('[shop.js] Triggering product modal open via link:', productLink);
       
       // Find the parent product item
       const productItem = productLink.closest('.product-item');
@@ -176,7 +212,7 @@ function initProductModal() {
           e.preventDefault();
           
           // Close product modal
-          productModal.hide();
+          modalElem.classList.remove('active');
           
           // Wait for modal to close before opening order modal
           setTimeout(() => {
@@ -189,7 +225,7 @@ function initProductModal() {
       }
       
       // Show the modal
-      productModal.show();
+      modalElem.classList.add('active');
     }
   });
 }

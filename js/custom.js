@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const modalElem = document.getElementById('productModal');
   console.log('[custom.js] Modal element:', modalElem);
   if (modalElem) {
-    const productModal = new bootstrap.Modal(modalElem);
+
     const modalProductImage = document.getElementById('modalProductImage');
     const modalProductTitle = document.getElementById('modalProductTitle');
     const modalProductDescription = document.getElementById('modalProductDescription');
@@ -31,15 +31,28 @@ document.addEventListener('DOMContentLoaded', function () {
       const productLink = event.target.closest('.product-link');
       if (!productLink) return;
       event.preventDefault();
-      const productItem = productLink.closest('.product-item');
-      if (!productItem) return;
-      const dataElem = productItem.querySelector('.cart-link') || productItem.querySelector('.add-to-cart');
-      if (!dataElem) return;
-      modalProductImage.src = dataElem.dataset.productImage;
-      modalProductTitle.textContent = dataElem.dataset.productTitle;
-      modalProductDescription.textContent = dataElem.dataset.productDescription;
-      modalProductPrice.textContent = dataElem.dataset.productPrice;
-      productModal.show();
+      // Prefer data attributes on the .product-link itself
+      let image = productLink.dataset.productImage;
+      let title = productLink.dataset.productTitle;
+      let description = productLink.dataset.productDescription;
+      let price = productLink.dataset.productPrice;
+      // If not present, fallback to .cart-link or .add-to-cart
+      if (!image || !title || !description || !price) {
+        const productItem = productLink.closest('.product-item');
+        const dataElem = productItem ? (productItem.querySelector('.cart-link') || productItem.querySelector('.add-to-cart')) : null;
+        if (dataElem) {
+          image = dataElem.dataset.productImage;
+          title = dataElem.dataset.productTitle;
+          description = dataElem.dataset.productDescription;
+          price = dataElem.dataset.productPrice;
+        }
+      }
+      if (!(image && title && description && price)) return;
+      modalProductImage.src = image;
+      modalProductTitle.textContent = title;
+      modalProductDescription.textContent = description;
+      modalProductPrice.textContent = price;
+      modalElem.classList.add('active');
     });
 
     // Add event listeners to all product items
@@ -64,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
           modalProductPrice.textContent = price;
 
           // Show the modal
-          productModal.show();
+          modalElem.classList.add('active');
         });
       }
     });
