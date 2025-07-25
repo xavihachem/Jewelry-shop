@@ -500,16 +500,77 @@ a:hover, .nav-link:hover, .mobile-nav-link:hover {
   transform: scaleX(1);
 }
 
+/* Majestic Navbar Redesign - Admin Style */
+
+/* 1. Site Header & Glass Effect */
+.site-header {
+  position: fixed;
+  width: 100%;
+  z-index: 1030;
+  padding: 12px 0;
+  background: rgba(15, 12, 9, 0.7);
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  backdrop-filter: blur(15px) saturate(180%);
+  border-bottom: 1px solid rgba(197, 164, 126, 0.2);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.site-header.scrolled {
+  background: rgba(15, 12, 9, 0.9);
+  padding: 8px 0;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(197, 164, 126, 0.15);
+}
+
+/* 2. Logo */
+.navbar-brand {
+  color: #e8d9b5 !important;
+  font-family: 'Marcellus', serif;
+  font-size: 1.8rem;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: rgba(197, 164, 126, 0.1);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(197, 164, 126, 0.1);
+}
+
+.navbar-brand:hover {
+  color: #ffffff !important;
+  background: rgba(197, 164, 126, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 3. Navigation Links */
 .navbar-nav .nav-link {
   color: #e0e0e0 !important;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 1px;
-  padding: 0.8rem 1.2rem !important;
-  margin: 0 0.2rem;
+  padding: 10px 20px !important;
+  margin: 0 4px;
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-transform: uppercase;
   font-size: 0.85rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(197, 164, 126, 0.1);
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #ffffff !important;
+  background: rgba(197, 164, 126, 0.2) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(197, 164, 126, 0.3);
 }
 
 .navbar-nav .nav-link::after {
@@ -518,34 +579,98 @@ a:hover, .nav-link:hover, .mobile-nav-link:hover {
   bottom: 0;
   left: 50%;
   width: 0;
-  height: 1px;
-  background: #c5a47e;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c5a47e, transparent);
+  transition: all 0.3s ease;
   transform: translateX(-50%);
-  transition: width 0.3s ease;
-}
-
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link.active {
-  color: #c5a47e !important;
 }
 
 .navbar-nav .nav-link:hover::after,
 .navbar-nav .nav-link.active::after {
-  width: 60%;
+  width: 70%;
 }
 
-/* New Site Header Styling */
-.site-header {
-  position: fixed;
-  width: 100%;
-  z-index: 50;
-  transition: all 0.5s ease-in-out;
-  padding: 1rem 0;
-  background: rgba(30, 40, 60, 0.35); /* Icy blue glass */
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  backdrop-filter: blur(18px) saturate(140%);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-  border-bottom: 1.5px solid rgba(197, 164, 126, 0.18); /* gold accent glass border */
+/* 4. Mobile Navbar Toggler */
+.navbar-toggler {
+  border: 1px solid rgba(197, 164, 126, 0.3) !important;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler:hover {
+  background: rgba(197, 164, 126, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0.25rem rgba(197, 164, 126, 0.25);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(232, 217, 181, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+/* 5. Offcanvas Mobile Menu */
+.offcanvas {
+  background: rgba(15, 12, 9, 0.95) !important;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  color: #e0e0e0;
+  border-left: 1px solid rgba(197, 164, 126, 0.1) !important;
+}
+
+.offcanvas-header {
+  border-bottom: 1px solid rgba(197, 164, 126, 0.1);
+  padding: 1.5rem 1.5rem 1rem;
+}
+
+.offcanvas-title {
+  color: #e8d9b5;
+  font-family: 'Marcellus', serif;
+  font-size: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.offcanvas .navbar-nav {
+  padding: 1rem 1.5rem;
+}
+
+.offcanvas .navbar-nav .nav-link {
+  font-size: 1.1rem;
+  padding: 0.8rem 1.5rem !important;
+  margin: 0.5rem 0;
+  text-align: left;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(197, 164, 126, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.offcanvas .navbar-nav .nav-link:hover,
+.offcanvas .navbar-nav .nav-link.active {
+  background: rgba(197, 164, 126, 0.15) !important;
+  color: #ffffff !important;
+  transform: translateX(5px);
+  border-color: rgba(197, 164, 126, 0.2);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.offcanvas .btn-close {
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23e8d9b5'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.offcanvas .btn-close:hover {
+  opacity: 1;
+  transform: rotate(90deg);
 }
 
 .site-header.scrolled {

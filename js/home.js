@@ -56,21 +56,9 @@ async function loadFeaturedProducts() {
           </div>
         </div>
         <div class="product-content text-center">
-          <h5 class="product-title mt-3"><a href="#">${product.name}</a></h5>
-          <p class="product-description">${product.description}</p>
-          <span class="item-price">$${parseFloat(product.price).toFixed(2)}</span>
-          <div class="cart-concern mt-3">
-            <div class="cart-button d-flex justify-content-center align-items-center">
-              <button type="button" class="btn-wrap cart-link d-flex align-items-center add-to-cart" 
-                data-product-image="${product.image}"
-                data-product-title="${product.name}" 
-                data-product-description="${product.description}"
-                data-product-price="$${parseFloat(product.price).toFixed(2)}">
-                <span class="cart-icon"><i class="bi bi-bag"></i></span>
-                <span class="text-uppercase">add to cart</span>
-              </button>
-            </div>
-          </div>
+          <h5 class="product-title mt-3">${product.name}</h5>
+          <p class="product-description mb-2">${product.description}</p>
+          <span class="item-price d-block mb-3">$${parseFloat(product.price).toFixed(2)}</span>
         </div>
       </div>
     `;
@@ -99,32 +87,17 @@ function initProductModal() {
   
   // Add event listeners to product items after they're loaded
   document.addEventListener('click', function(event) {
-    // Determine trigger: 'Add to Cart' or product image click
-    let trigger = event.target.closest('.cart-link');
-    let isImage = false;
-    if (!trigger) {
-      trigger = event.target.closest('.product-link');
-      isImage = !!trigger;
-    }
+    // Check if the click is on a product link or image
+    const trigger = event.target.closest('.product-link');
     if (!trigger) return;
 
     event.preventDefault();
 
-    // Use data from cart-link regardless of trigger
-    let dataElem;
-    if (!isImage) {
-      dataElem = trigger;
-    } else {
-      const productItem = trigger.closest('.product-item');
-      if (!productItem) return;
-      dataElem = productItem.querySelector('.cart-link');
-      if (!dataElem) return;
-    }
-
-    const image = dataElem.dataset.productImage;
-    const title = dataElem.dataset.productTitle;
-    const description = dataElem.dataset.productDescription;
-    const price = dataElem.dataset.productPrice;
+    // Get data from the product link
+    const image = trigger.dataset.productImage;
+    const title = trigger.dataset.productTitle;
+    const description = trigger.dataset.productDescription;
+    const price = trigger.dataset.productPrice;
 
     // Populate the modal with the product data
     modalProductImage.src = image;

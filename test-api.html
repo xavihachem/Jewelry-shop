@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Test Page</h1>
+    
+    <div class="test-section">
+        <h2>Test Connection</h2>
+        <button onclick="testConnection()">Test Connection</button>
+        <div id="connection-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test GET /api/products</h2>
+        <button onclick="getProducts()">Get Products</button>
+        <div id="products-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Add Product</h2>
+        <button onclick="addTestProduct()">Add Test Product</button>
+        <div id="add-product-result"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+        
+        async function testConnection() {
+            const resultDiv = document.getElementById('connection-result');
+            resultDiv.innerHTML = 'Testing connection...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/test');
+                const data = await response.json();
+                resultDiv.innerHTML = `<span class="success">Success!</span> ${JSON.stringify(data, null, 2)}`;
+                resultDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">Error:</span> ${error.message}`;
+                console.error('Connection test failed:', error);
+            }
+        }
+
+        async function getProducts() {
+            const resultDiv = document.getElementById('products-result');
+            resultDiv.innerHTML = 'Fetching products...';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/products`);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to fetch products');
+                }
+                
+                resultDiv.innerHTML = `<span class="success">Success!</span> Found ${data.length} products`;
+                resultDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">Error:</span> ${error.message}`;
+                console.error('Failed to fetch products:', error);
+            }
+        }
+
+        async function addTestProduct() {
+            const resultDiv = document.getElementById('add-product-result');
+            resultDiv.innerHTML = 'Adding test product...';
+            
+            const testProduct = {
+                name: 'Test Product ' + new Date().getTime(),
+                description: 'This is a test product',
+                price: 9.99,
+                category: 'test',
+                stock: 10
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/products`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testProduct),
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to add product');
+                }
+                
+                resultDiv.innerHTML = `<span class="success">Success!</span> Product added successfully`;
+                resultDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                
+                // Refresh the products list
+                getProducts();
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">Error:</span> ${error.message}`;
+                console.error('Failed to add product:', error);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -49,6 +49,7 @@
         border: 2px solid red !important;
         z-index: 2147483646 !important;
         display: inherit !important;
+        overflow: visible !important;
       }
       .debug-id-label {
         position: absolute !important;
@@ -67,6 +68,9 @@
         align-items: center;
         gap: 4px;
         opacity: 0.9;
+        max-width: 90vw;
+        white-space: pre;
+        overflow-x: auto;
       }
       .debug-id-label.copied {
         background: #28a745 !important;

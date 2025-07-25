@@ -1,23 +1,30 @@
 /**
  * Shop page functionality for Kaira Jewelry Shop
- * Loads products from database and handles product display
+ * Loads products from API and handles product display
  */
 
 document.addEventListener('DOMContentLoaded', async function() {
+  // Initialize API
+  await window.api.init();
   
-  
-  
-  // Initialize database
-  await window.dbOperations.init();
-  
-  // Load products from database and wait for completion
+  // Load products from API and wait for completion
   try {
     const loaded = await loadProducts();
     console.log('[shop.js] loadProducts completed:', loaded);
   } catch (e) {
     console.error('[shop.js] Error loading products:', e);
+    // Show error message to user
+    const productGrid = document.querySelector('#shop-products .row.product-grid');
+    if (productGrid) {
+      productGrid.innerHTML = `
+        <div class="col-12 text-center py-5">
+          <div class="alert alert-danger">
+            Failed to load products. Please check your connection and try again.
+          </div>
+        </div>
+      `;
+    }
   }
-  
 });
 
 /**
@@ -43,10 +50,17 @@ async function loadProductsIntoGrid(productGrid) {
   productGrid.innerHTML = '';
   
   try {
-    // Get products from database
-    const products = await window.dbOperations.products.getAllProducts();
+    // Get products from API
+    const products = await window.api.products.getAllProducts();
     
-    
+    if (!products || products.length === 0) {
+      productGrid.innerHTML = `
+        <div class="col-12 text-center py-5">
+          <p>No products found.</p>
+        </div>
+      `;
+      return;
+    }
     
     if (!products || products.length === 0) {
       

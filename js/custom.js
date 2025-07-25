@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+
   // Add page transition effect
   document.body.classList.add('page-loaded');
   

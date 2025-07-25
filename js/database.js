@@ -108,6 +108,17 @@ async function initDatabase() {
       // Load existing database
       const uInt8Array = new Uint8Array(JSON.parse(dbData));
       db = new SQL.Database(uInt8Array);
+          // Migrate schema: add image column if missing
+          try {
+            const tableInfo = db.exec("PRAGMA table_info(products)");
+            if (tableInfo.length && !tableInfo[0].values.some(col => col[1] === 'image')) {
+              db.run("ALTER TABLE products ADD COLUMN image TEXT");
+              console.log('Added missing image column to products table');
+              saveDatabase();
+            }
+          } catch (e) {
+            console.warn('Schema migration failed:', e);
+          }
     } else {
       console.log('Creating a new database.');
       // Create a new database
