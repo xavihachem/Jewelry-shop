@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Product - Admin Panel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c5a47e;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid var(--gold);
+        }
+        
+        .page-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-header {
+            background-color: var(--dark);
+            color: white;
+            font-weight: 500;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 2px solid var(--gold);
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select, .form-control:focus {
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 0.25rem rgba(197, 164, 126, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--gold);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: #b08f6e;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline-secondary {
+            border-color: var(--gray);
+            color: var(--gray);
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-secondary:hover {
+            background-color: var(--gray);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .product-image-preview {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 1rem;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .product-image-preview:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 26, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+        }
+        
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            color: var(--gold);
+        }
+        
+        .back-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #b08f6e;
+            transform: translateX(-3px);
+        }
+        
+        .back-link i {
+            margin-right: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .back-link:hover i {
+            transform: translateX(-3px);
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--gold);
+        }
+        
+        /* Image upload styles */
+        .image-upload-container {
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .image-upload-btn {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--gold);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            margin: 0.5rem 0;
+        }
+        
+        .image-upload-btn:hover {
+            background: #b08f6e;
+            transform: translateY(-2px);
+        }
+        
+        .image-upload-preview {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 1rem auto;
+            display: block;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .image-upload-input {
+            display: none;
+        }
+        
+        .currency-symbol {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .price-input-container {
+            position: relative;
+        }
+        
+        .price-input {
+            padding-left: 30px !important;
+        }
+        
+        @media (max-width: 991.98px) {
+            .card-body {
+                padding: 1.25rem;
+            }
+            
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .form-control {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .page-title {
+                font-size: 1.25rem;
+            }
+            
+            .card-header h2 {
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Additional images styles */
+        .additional-image-item {
+            background-color: #fff;
+            transition: all 0.2s ease;
+            cursor: move;
+        }
+        
+        .additional-image-item:hover {
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .additional-image-item.dragging {
+            opacity: 0.5;
+            background-color: #e9ecef;
+        }
+        
+        .additional-image-item.drag-over {
+            border: 2px dashed #0d6efd;
+            background-color: #f0f7ff;
+        }
+        
+        .additional-image-item .btn-group {
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        
+        .additional-image-item:hover .btn-group {
+            opacity: 1;
+        }
+        
+        /* Additional image thumbnails */
+        .additional-image-thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+        
+        /* Image upload preview */
+        .image-upload-preview {
+            max-width: 200px;
+            height: auto;
+            display: none;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+        
+        /* Price input with currency */
+        .price-input-container {
+            position: relative;
+        }
+        
+        .currency-symbol {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 500;
+            color: #6c757d;
+        }
+        
+        .price-input {
+            padding-left: 40px !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="page-title">Edit Product</h1>
+                <a href="admin.html" class="back-link">
+                    <i class="bi bi-arrow-left"></i> Back to Admin
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+
+        <div class="loading-overlay">
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading product data...</p>
+            </div>
+        </div>
+
+        <div id="product-form-container">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="h5 mb-0">Product Details</h2>
+                    <span class="badge bg-secondary">Editing Mode</span>
+                </div>
+                <div class="card-body">
+                    <form id="edit-product-form">
+                        <input type="hidden" id="product-id" name="id">
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="product-name" class="form-label">Product Name</label>
+                                    <input type="text" class="form-control" id="product-name" name="name" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="product-price" class="form-label">Price (Dinar)</label>
+                                    <div class="price-input-container">
+                                        <span class="currency-symbol">DZD</span>
+                                        <input type="number" 
+                                               step="0.01" 
+                                               class="form-control price-input" 
+                                               id="product-price" 
+                                               name="price" 
+                                               required
+                                               aria-label="Product price in DZD">
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="display-on-home" name="display_home">
+                                    <label class="form-check-label" for="display-on-home">
+                                        Display on Homepage
+                                    </label>
+                                </div>
+                                
+                                <div id="home-position-container" style="display: none;">
+                                    <label for="home-position" class="form-label">Homepage Position</label>
+                                    <input type="number" class="form-control" id="home-position" name="home_position" min="1" value="1">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label class="form-label d-block">Product Image</label>
+                                    <div class="image-upload-container">
+                                        <img id="image-preview" 
+                                             src="" 
+                                             alt="Product Preview" 
+                                             class="image-upload-preview mb-3">
+                                        <input type="file" id="image-upload" class="image-upload-input" accept="image/*">
+                                        <button type="button" class="image-upload-btn" id="upload-btn">
+                                            <i class="bi bi-upload"></i> Upload New Image
+                                        </button>
+                                        <input type="hidden" id="product-image" name="image">
+                                        <div class="text-muted small mt-2">Recommended size: 800x800px, max 2MB</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="product-description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="product-description" name="description" rows="5" required></textarea>
+                                </div>
+                                
+                                <!-- Additional Images Section -->
+                                <div class="mb-3">
+                                    <label class="form-label">Additional Images</label>
+                                    <div id="additional-images-container" class="mb-3">
+                                        <!-- Additional images will be added here -->
+                                    </div>
+                                    <div class="d-flex gap-2 mb-3">
+                                        <button type="button" id="add-image-btn" class="btn btn-outline-primary btn-sm" aria-label="Add additional images">
+                                            <i class="bi bi-plus-lg" aria-hidden="true"></i> Add Image
+                                        </button>
+                                        <label for="additional-image-upload" class="visually-hidden">Upload additional images</label>
+                                        <input type="file" 
+                                               id="additional-image-upload" 
+                                               class="d-none" 
+                                               accept="image/*" 
+                                               multiple 
+                                               aria-describedby="additional-images-help"
+                                               title="Upload additional product images">
+                                    </div>
+                                    <div class="text-muted small">Upload up to 5 additional images. Drag to reorder.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center pt-4 border-top mt-4 gap-2">
+                            <button type="button" id="delete-btn" class="btn btn-danger flex-grow-1 flex-sm-grow-0">
+                                <i class="bi bi-trash"></i> <span class="d-none d-sm-inline">Delete</span>
+                            </button>
+                            <div class="d-flex gap-2 w-100 justify-content-end">
+                                <a href="admin.html" class="btn btn-outline-secondary">
+                                    <i class="bi bi-x-lg"></i> <span class="d-none d-sm-inline">Cancel</span>
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-save"></i> <span class="d-none d-sm-inline">Save</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="confirm-delete" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (!productId) {
+                showError('No product ID provided');
+                return;
+            }
+            
+            const form = document.getElementById('edit-product-form');
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            
+            // Toggle home position input based on checkbox
+            document.getElementById('display-on-home').addEventListener('change', function() {
+                document.getElementById('home-position-container').style.display = 
+                    this.checked ? 'block' : 'none';
+            });
+            
+            // Image upload handling
+            const imageUpload = document.getElementById('image-upload');
+            const uploadBtn = document.getElementById('upload-btn');
+            const imagePreview = document.getElementById('image-preview');
+            const imageInput = document.getElementById('product-image');
+            
+            // Handle click on upload button
+            uploadBtn.addEventListener('click', () => imageUpload.click());
+            
+            // Handle file selection
+            imageUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                // Check file type
+                if (!file.type.match('image.*')) {
+                    alert('Please select an image file (JPEG, PNG, etc.)');
+                    return;
+                }
+                
+                // Check file size (max 2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Image size should be less than 2MB');
+                    return;
+                }
+                
+                // Create a FileReader to read the image
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // Set the preview image
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    
+                    // Store the base64 image data in the hidden input
+                    imageInput.value = e.target.result;
+                    
+                    // Change button text
+                    uploadBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Change Image';
+                };
+                
+                // Read the image file as a data URL
+                reader.readAsDataURL(file);
+            });
+            
+            // Initialize image preview if there's an existing image
+            if (imageInput.value) {
+                imagePreview.src = imageInput.value;
+                imagePreview.style.display = 'block';
+                uploadBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Change Image';
+            }
+            
+            // Additional Images Functionality
+            const additionalImagesContainer = document.getElementById('additional-images-container');
+            const addImageBtn = document.getElementById('add-image-btn');
+            const additionalImageUpload = document.getElementById('additional-image-upload');
+            let additionalImages = [];
+            
+            // Function to render additional images
+            function renderAdditionalImages() {
+                additionalImagesContainer.innerHTML = '';
+                
+                additionalImages.forEach((image, index) => {
+                    const imageElement = document.createElement('div');
+                    imageElement.className = 'additional-image-item mb-2 p-2 border rounded d-flex align-items-center';
+                    imageElement.draggable = true;
+                    imageElement.dataset.index = index;
+                    
+                    imageElement.innerHTML = `
+                        <img src="${image}" class="img-thumbnail me-2 additional-image-thumbnail" alt="Additional product image">
+                        <div class="flex-grow-1">
+                            <div class="small text-truncate">Image ${index + 1}</div>
+                            <div class="btn-group btn-group-sm mt-1">
+                                <button type="button" class="btn btn-outline-secondary btn-move-up" ${index === 0 ? 'disabled' : ''}>
+                                    <i class="bi bi-arrow-up"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-move-down" ${index === additionalImages.length - 1 ? 'disabled' : ''}>
+                                    <i class="bi bi-arrow-down"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-remove">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add drag and drop functionality
+                    imageElement.addEventListener('dragstart', handleDragStart);
+                    imageElement.addEventListener('dragover', handleDragOver);
+                    imageElement.addEventListener('drop', handleDrop);
+                    imageElement.addEventListener('dragend', handleDragEnd);
+                    
+                    // Add button event listeners
+                    const moveUpBtn = imageElement.querySelector('.btn-move-up');
+                    const moveDownBtn = imageElement.querySelector('.btn-move-down');
+                    const removeBtn = imageElement.querySelector('.btn-remove');
+                    
+                    moveUpBtn?.addEventListener('click', () => moveImage(index, 'up'));
+                    moveDownBtn?.addEventListener('click', () => moveImage(index, 'down'));
+                    removeBtn?.addEventListener('click', () => removeImage(index));
+                    
+                    additionalImagesContainer.appendChild(imageElement);
+                });
+                
+                // Update hidden input with current images
+                updateAdditionalImagesInput();
+            }
+            
+            // Move image up or down
+            function moveImage(index, direction) {
+                if (direction === 'up' && index > 0) {
+                    [additionalImages[index], additionalImages[index - 1]] = [additionalImages[index - 1], additionalImages[index]];
+                } else if (direction === 'down' && index < additionalImages.length - 1) {
+                    [additionalImages[index], additionalImages[index + 1]] = [additionalImages[index + 1], additionalImages[index]];
+                }
+                renderAdditionalImages();
+            }
+            
+            // Remove image
+            function removeImage(index) {
+                additionalImages.splice(index, 1);
+                renderAdditionalImages();
+            }
+            
+            // Update hidden input with current images
+            function updateAdditionalImagesInput() {
+                const input = document.getElementById('additional-images-input');
+                if (!input) {
+                    const newInput = document.createElement('input');
+                    newInput.type = 'hidden';
+                    newInput.id = 'additional-images-input';
+                    newInput.name = 'additionalImages';
+                    form.appendChild(newInput);
+                }
+                document.getElementById('additional-images-input').value = JSON.stringify(additionalImages);
+            }
+            
+            // Drag and drop functionality
+            let draggedItem = null;
+            
+            function handleDragStart(e) {
+                draggedItem = this;
+                this.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', this.innerHTML);
+            }
+            
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                this.classList.add('drag-over');
+                return false;
+            }
+            
+            function handleDrop(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                
+                if (draggedItem !== this) {
+                    // Get indices
+                    const fromIndex = parseInt(draggedItem.dataset.index);
+                    const toIndex = parseInt(this.dataset.index);
+                    
+                    // Move the item in the array
+                    const [movedItem] = additionalImages.splice(fromIndex, 1);
+                    additionalImages.splice(toIndex, 0, movedItem);
+                    
+                    // Re-render
+                    renderAdditionalImages();
+                }
+                
+                return false;
+            }
+            
+            function handleDragEnd() {
+                this.classList.remove('dragging');
+                document.querySelectorAll('.additional-image-item').forEach(item => {
+                    item.classList.remove('drag-over');
+                });
+                draggedItem = null;
+            }
+            
+            // Handle add image button click
+            addImageBtn.addEventListener('click', () => {
+                additionalImageUpload.click();
+            });
+            
+            // Handle additional image upload
+            additionalImageUpload.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+                
+                if (files.length + additionalImages.length > 5) {
+                    showAlert('You can upload a maximum of 5 additional images', 'warning');
+                    return;
+                }
+                
+                let processedCount = 0;
+                
+                files.forEach(file => {
+                    if (file.size > 2 * 1024 * 1024) {
+                        showAlert(`Image ${file.name} is too large (max 2MB)`, 'warning');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = (event) => {
+                        additionalImages.push(event.target.result);
+                        processedCount++;
+                        
+                        if (processedCount === files.length) {
+                            renderAdditionalImages();
+                        }
+                    };
+                    
+                    reader.readAsDataURL(file);
+                });
+                
+                // Reset the file input
+                e.target.value = '';
+            });
+            
+            // Initialize additional images from product data if available
+            function initAdditionalImages(images) {
+                if (Array.isArray(images) && images.length > 0) {
+                    additionalImages = [...images];
+                    renderAdditionalImages();
+                }
+            }
+            
+            // Preview image when URL changes
+            document.getElementById('product-image').addEventListener('input', function() {
+                const preview = document.getElementById('image-preview');
+                if (this.value) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+            
+            // Load product data
+            async function loadProduct() {
+                let isLoading = true;
+                try {
+                    showLoading(true);
+                    console.log('Loading product with ID:', productId);
+                    
+                    if (!productId) {
+                        throw new Error('No product ID provided');
+                    }
+                    
+                    // First, try to get the product from the products list if available
+                    let product;
+                    if (window.productsList && Array.isArray(window.productsList)) {
+                        console.log('Checking products list for product...');
+                        product = window.productsList.find(p => (p._id === productId || p.id === productId));
+                        console.log('Found in products list:', !!product);
+                    }
+                    
+                    // If not found in the list, try to fetch it directly
+                    if (!product) {
+                        console.log('Product not in list, fetching directly...');
+                        try {
+                            product = await window.dbOperations.products.getProductById(productId);
+                            console.log('Fetched product:', product);
+                        } catch (fetchError) {
+                            console.error('Error fetching product:', fetchError);
+                            throw new Error('Could not load product details. Please try again later.');
+                        }
+                    }
+                    
+                    if (!product) {
+                        throw new Error('Product not found');
+                    }
+                    
+                    console.log('Product data to load:', product);
+                    
+                    // Fill form with product data
+                    const form = document.getElementById('edit-product-form');
+                    if (!form) {
+                        throw new Error('Form element not found');
+                    }
+                    
+                    // Set form values
+                    const setValue = (id, value) => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.value = value !== undefined ? value : '';
+                        } else {
+                            console.warn(`Element with ID '${id}' not found`);
+                        }
+                    };
+                    
+                    // Set basic fields
+                    setValue('product-id', product._id || product.id || '');
+                    setValue('product-name', product.name || '');
+                    setValue('product-price', product.price || '');
+                    setValue('product-description', product.description || '');
+                    setValue('product-category', product.category || '');
+                    
+                    // Handle image preview
+                    const imagePreview = document.getElementById('image-preview');
+                    const imageInput = document.getElementById('product-image');
+                    if (product.image) {
+                        imagePreview.src = product.image;
+                        imagePreview.style.display = 'block';
+                        imageInput.value = product.image;  // Set the hidden input value
+                        
+                        // Update upload button text
+                        const uploadBtn = document.getElementById('upload-btn');
+                        if (uploadBtn) {
+                            uploadBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Change Image';
+                        }
+                    }
+                    
+                    // Initialize additional images if they exist
+                    if (product.additionalImages && product.additionalImages.length > 0) {
+                        initAdditionalImages(product.additionalImages);
+                    } else if (product.images && product.images.length > 0) {
+                        // Fallback to the old images property if it exists
+                        initAdditionalImages(product.images);
+                    }
+                    
+                    // Show the form container
+                    const formContainer = document.getElementById('product-form-container');
+                    if (formContainer) {
+                        formContainer.style.display = 'block';
+                    }
+                    
+                    // Handle home display settings
+                    const displayHome = document.getElementById('display-on-home');
+                    const homePositionContainer = document.getElementById('home-position-container');
+                    
+                    if (product.displayOnHome) {
+                        displayHome.checked = true;
+                        homePositionContainer.style.display = 'block';
+                        setValue('home-position', product.homePosition || 0);
+                    } else {
+                        displayHome.checked = false;
+                        homePositionContainer.style.display = 'none';
+                    }
+                    
+                    return product;
+                    
+                } catch (error) {
+                    console.error('Error loading product:', error);
+                    showError(error.message || 'Failed to load product');
+                    throw error; // Re-throw to be caught by the outer try-catch
+                } finally {
+                    // Always hide loading indicator when done
+                    if (isLoading) {
+                        isLoading = false;
+                        showLoading(false);
+                    }
+                }
+            }
+            
+            // Handle form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Get all form elements
+                const formElements = {
+                    id: document.getElementById('product-id'),
+                    name: document.getElementById('product-name'),
+                    price: document.getElementById('product-price'),
+                    description: document.getElementById('product-description'),
+                    image: document.getElementById('product-image'),
+                    displayHome: document.getElementById('display-on-home'),
+                    homePosition: document.getElementById('home-position'),
+                    category: document.getElementById('product-category')
+                };
+                
+                // Create product data object with only existing fields
+                const productData = {};
+                const productId = formElements.id.value;
+                
+                // Required fields
+                if (!formElements.name.value || !formElements.price.value || !formElements.description.value) {
+                    showAlert('Please fill in all required fields', 'warning');
+                    return;
+                }
+                
+                // Basic product data
+                productData.name = formElements.name.value;
+                productData.price = parseFloat(formElements.price.value);
+                productData.description = formElements.description.value;
+                
+                // Additional images
+                if (additionalImages.length > 0) {
+                    productData.additionalImages = additionalImages;
+                }
+                
+                // Optional fields
+                if (formElements.image && formElements.image.value) {
+                    productData.image = formElements.image.value;
+                }
+                
+                if (formElements.category && formElements.category.value) {
+                    productData.category = formElements.category.value;
+                }
+                
+                // Home display settings
+                if (formElements.displayHome) {
+                    productData.display_home = formElements.displayHome.checked;
+                    
+                    if (formElements.homePosition && formElements.displayHome.checked) {
+                        productData.home_position = parseInt(formElements.homePosition.value) || 0;
+                    } else {
+                        productData.home_position = 0;
+                    }
+                }
+                
+                console.log('Submitting product data:', { productId, productData });
+                
+                try {
+                    showLoading(true);
+                    
+                    // If we have a new image upload, handle it first
+                    const fileInput = document.getElementById('image-upload');
+                    if (fileInput.files && fileInput.files[0]) {
+                        const file = fileInput.files[0];
+                        if (file.size > 2 * 1024 * 1024) { // 2MB limit
+                            throw new Error('Image size should be less than 2MB');
+                        }
+                        
+                        // Convert image to base64
+                        const base64Image = await new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => resolve(reader.result);
+                            reader.onerror = error => reject(error);
+                        });
+                        
+                        productData.image = base64Image;
+                    }
+                    
+                    // Update the product
+                    const updatedProduct = await window.dbOperations.products.updateProduct(
+                        productId.toString(),
+                        productData
+                    );
+                    
+                    showAlert('Product updated successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 1000);
+                    
+                } catch (error) {
+                    console.error('Error updating product:', error);
+                    let errorMessage = 'Failed to update product';
+                    
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        const responseData = await error.response.json().catch(() => ({}));
+                        errorMessage = responseData.message || errorMessage;
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        errorMessage = 'No response from server. Please try again.';
+                    }
+                    
+                    showAlert(`${errorMessage}: ${error.message || ''}`, 'danger');
+                    showLoading(false);
+                }
+            });
+            
+            // Delete product
+            document.getElementById('delete-btn').addEventListener('click', () => {
+                deleteModal.show();
+            });
+            
+            document.getElementById('confirm-delete').addEventListener('click', async () => {
+                try {
+                    showLoading(true);
+                    const success = await window.dbOperations.products.deleteProduct(productId);
+                    
+                    if (success) {
+                        alert('Product deleted successfully!');
+                        window.location.href = 'admin.html';
+                    } else {
+                        throw new Error('Failed to delete product');
+                    }
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                    alert('Failed to delete product: ' + (error.message || 'Unknown error'));
+                } finally {
+                    showLoading(false);
+                    deleteModal.hide();
+                }
+            });
+            
+            // Show loading overlay
+            function showLoading(show) {
+                console.log(`showLoading(${show}) called`);
+                const loadingOverlay = document.querySelector('.loading-overlay');
+                if (loadingOverlay) {
+                    console.log(`Setting loading overlay display to: ${show ? 'flex' : 'none'}`);
+                    loadingOverlay.style.display = show ? 'flex' : 'none';
+                } else {
+                    console.warn('Loading overlay element not found');
+                    // Create a fallback loading indicator if needed
+                    if (show) {
+                        const fallbackLoading = document.createElement('div');
+                        fallbackLoading.id = 'fallback-loading';
+                        fallbackLoading.style.position = 'fixed';
+                        fallbackLoading.style.top = '10px';
+                        fallbackLoading.style.right = '10px';
+                        fallbackLoading.style.padding = '10px';
+                        fallbackLoading.style.background = 'rgba(0,0,0,0.8)';
+                        fallbackLoading.style.color = 'white';
+                        fallbackLoading.style.borderRadius = '4px';
+                        fallbackLoading.style.zIndex = '9999';
+                        fallbackLoading.textContent = 'Loading...';
+                        document.body.appendChild(fallbackLoading);
+                    } else {
+                        const fallback = document.getElementById('fallback-loading');
+                        if (fallback) {
+                            console.log('Removing fallback loading indicator');
+                            fallback.remove();
+                        }
+                    }
+                }
+            }
+            
+            // Show alert message
+            function showAlert(message, type = 'info') {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
+                alertDiv.role = 'alert';
+                alertDiv.style.zIndex = '1100';
+                alertDiv.style.minWidth = '300px';
+                alertDiv.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                
+                // Remove any existing alerts
+                document.querySelectorAll('.alert').forEach(alert => alert.remove());
+                
+                // Add to document
+                document.body.appendChild(alertDiv);
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 5000);
+            }
+            
+            function showError(message) {
+                alert('Error: ' + message);
+            }
+            
+            // Initial load with safety timeout
+            loadProduct().catch(error => {
+                console.error('Error in initial load:', error);
+                showError('Failed to load product: ' + (error.message || 'Unknown error'));
+            }).finally(() => {
+                // Safety check - hide loading after 5 seconds no matter what
+                setTimeout(() => {
+                    console.log('Safety timeout - forcing loading overlay to hide');
+                    showLoading(false);
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>

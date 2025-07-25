@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add New Product - Admin Panel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --gold: #c5a47e;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .page-header {
+            background-color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .price-input-container {
+            position: relative;
+        }
+        
+        .currency-symbol {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 500;
+            color: #6c757d;
+        }
+        
+        .price-input {
+            padding-left: 40px;
+        }
+        
+        .image-upload-container {
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .image-upload-container:hover {
+            border-color: var(--gold);
+            background-color: #fff;
+        }
+        
+        .image-upload-container.drag-over {
+            border-color: var(--gold);
+            background-color: rgba(197, 164, 126, 0.1);
+        }
+        
+        .image-upload-container.has-image {
+            min-height: 200px;
+        }
+        
+        .image-upload-container .upload-icon {
+            font-size: 2rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        /* Additional Images Styles */
+        .additional-images-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .additional-image-item {
+            position: relative;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 120px;
+            background-color: #f8f9fa;
+        }
+        
+        .additional-image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .additional-image-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .additional-image-item:hover .additional-image-remove {
+            opacity: 1;
+        }
+        
+        .additional-image-upload {
+            border: 2px dashed #dee2e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .additional-image-upload:hover {
+            border-color: var(--gold);
+            background-color: rgba(197, 164, 126, 0.1);
+        }
+        
+        .additional-image-upload i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #6c757d;
+        }
+        
+        .image-upload-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 4px;
+        }
+        
+        .image-upload-input {
+            display: none;
+        }
+        
+        .image-upload-btn {
+            background-color: var(--gold);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.25rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .image-upload-btn:hover {
+            background-color: #b3936d;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h4 mb-0">Add New Product</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="admin.html">Admin</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Add Product</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="loading-overlay" id="loading-overlay" style="display: none;">
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Saving product...</p>
+            </div>
+        </div>
+
+        <div id="product-form-container">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="h5 mb-0">Product Details</h2>
+                    <span class="badge bg-success">New Product</span>
+                </div>
+                <div class="card-body">
+                    <form id="add-product-form">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="product-name" class="form-label">Product Name</label>
+                                    <input type="text" class="form-control" id="product-name" name="name" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="product-price" class="form-label">Price (Dinar)</label>
+                                    <div class="price-input-container">
+                                        <span class="currency-symbol">DZD</span>
+                                        <input type="number" step="0.01" class="form-control price-input" id="product-price" name="price" required>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="display-on-home" name="display_home">
+                                    <label class="form-check-label" for="display-on-home">
+                                        Display on Homepage
+                                    </label>
+                                </div>
+                                
+                                <div id="home-position-container" style="display: none;">
+                                    <label for="home-position" class="form-label">Homepage Position</label>
+                                    <input type="number" class="form-control" id="home-position" name="home_position" min="1" value="1">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label class="form-label d-block">Main Product Image <span class="text-danger">*</span></label>
+                                    <div class="image-upload-container" id="upload-container">
+                                        <img id="image-preview" src="" alt="Product Preview" class="image-upload-preview mb-3">
+                                        <div id="upload-placeholder">
+                                            <i class="bi bi-cloud-arrow-up upload-icon"></i>
+                                            <p class="mb-2">Drag & drop an image here or click to browse</p>
+                                        </div>
+                                        <input type="file" id="image-upload" class="d-none" accept="image/*">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="upload-btn">
+                                            <i class="bi bi-upload"></i> Browse Files
+                                        </button>
+                                        <input type="hidden" id="product-image" name="image" required>
+                                        <div class="text-muted small mt-2">Recommended size: 800x800px, max 2MB</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="form-label d-block">Additional Product Images</label>
+                                    <div class="additional-images-container mb-3" id="additional-images-container">
+                                        <!-- Additional images will be added here -->
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <button type="button" class="btn btn-outline-primary btn-sm" id="add-another-image">
+                                            <i class="bi bi-plus-lg"></i> Add Another Image
+                                        </button>
+                                        <small class="text-muted ms-2">Add more images to create a product gallery</small>
+                                    </div>
+                                    <input type="hidden" id="additional-images-input" name="additionalImages">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="product-description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="product-description" name="description" rows="5" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-end gap-2 pt-4 border-top mt-4">
+                            <a href="admin.html" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-lg"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-plus-lg"></i> Add Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get DOM elements
+            const form = document.getElementById('add-product-form');
+            const imageUpload = document.getElementById('image-upload');
+            const imagePreview = document.getElementById('image-preview');
+            const uploadBtn = document.getElementById('upload-btn');
+            const uploadContainer = document.getElementById('upload-container');
+            const uploadPlaceholder = document.getElementById('upload-placeholder');
+            const displayHome = document.getElementById('display-on-home');
+            const homePositionContainer = document.getElementById('home-position-container');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const productImageInput = document.getElementById('product-image');
+
+            // Hide image preview initially
+            imagePreview.style.display = 'none';
+
+            // Handle click on upload container
+            uploadContainer.addEventListener('click', function(e) {
+                // Don't trigger file input if clicking on the button or file input
+                if (e.target !== imageUpload && e.target !== uploadBtn) {
+                    imageUpload.click();
+                }
+            });
+
+            // Handle click on upload button
+            uploadBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                imageUpload.click();
+            });
+
+            // Handle file selection
+            function handleFileSelect(file) {
+                if (!file) return false;
+                
+                // Check if file is an image
+                if (!file.type.match('image.*')) {
+                    showAlert('Please select a valid image file (JPEG, PNG, etc.)', 'warning');
+                    return false;
+                }
+                
+                // Check file size (max 2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    showAlert('Image size should be less than 2MB', 'warning');
+                    return false;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // Show the image preview
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    
+                    // Hide the upload placeholder
+                    uploadPlaceholder.style.display = 'none';
+                    
+                    // Update the hidden input with base64 data
+                    productImageInput.value = e.target.result;
+                    
+                    // Update the upload button text
+                    uploadBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Change Image';
+                    
+                    // Add visual feedback
+                    uploadContainer.classList.add('has-image');
+                };
+                
+                reader.onerror = function() {
+                    console.error('Error reading file');
+                    showAlert('Error reading the image file. Please try again.', 'danger');
+                };
+                
+                reader.readAsDataURL(file);
+                return true;
+            }
+            
+            // Handle file input change
+            imageUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                handleFileSelect(file);
+            });
+            
+            // Handle drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                uploadContainer.classList.add('drag-over');
+            }
+            
+            function unhighlight() {
+                uploadContainer.classList.remove('drag-over');
+            }
+            
+            // Handle dropped files
+            uploadContainer.addEventListener('drop', function(e) {
+                const dt = e.dataTransfer;
+                const file = dt.files[0];
+                
+                if (file) {
+                    if (handleFileSelect(file)) {
+                        // Update the file input
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        imageUpload.files = dataTransfer.files;
+                    }
+                }
+            });
+            
+            // Additional Images Functionality
+            const additionalImagesContainer = document.getElementById('additional-images-container');
+            const addImageBtn = document.getElementById('add-another-image');
+            const additionalImagesInput = document.getElementById('additional-images-input');
+            let additionalImages = [];
+            
+            // Function to create an image item
+            function createImageItem(imageData, index) {
+                const item = document.createElement('div');
+                item.className = 'additional-image-item';
+                item.innerHTML = `
+                    <img src="${imageData}" alt="Additional product image">
+                    <button type="button" class="additional-image-remove" data-index="${index}">
+                        <i class="bi bi-x"></i>
+                    </button>
+                `;
+                return item;
+            }
+            
+            // Function to update the hidden input with all images
+            function updateAdditionalImagesInput() {
+                additionalImagesInput.value = JSON.stringify(additionalImages);
+            }
+            
+            // Function to handle additional image upload
+            function handleAdditionalImageUpload(file) {
+                return new Promise((resolve, reject) => {
+                    if (!file.type.match('image.*')) {
+                        reject('Please select a valid image file (JPEG, PNG, etc.)');
+                        return;
+                    }
+                    
+                    if (file.size > 2 * 1024 * 1024) {
+                        reject('Image size should be less than 2MB');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        additionalImages.push(e.target.result);
+                        updateAdditionalImagesInput();
+                        renderAdditionalImages();
+                        resolve();
+                    };
+                    
+                    reader.onerror = function() {
+                        reject('Error reading the image file');
+                    };
+                    
+                    reader.readAsDataURL(file);
+                });
+            }
+            
+            // Function to render all additional images
+            function renderAdditionalImages() {
+                additionalImagesContainer.innerHTML = '';
+                
+                // Add existing images
+                additionalImages.forEach((img, index) => {
+                    const item = createImageItem(img, index);
+                    additionalImagesContainer.appendChild(item);
+                });
+                
+                // Add the "add more" button if we have less than 10 images
+                if (additionalImages.length < 10) {
+                    const addMoreItem = document.createElement('div');
+                    addMoreItem.className = 'additional-image-upload';
+                    addMoreItem.innerHTML = `
+                        <i class="bi bi-plus-lg"></i>
+                        <small>Add Image</small>
+                    `;
+                    
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = 'image/*';
+                    fileInput.className = 'd-none';
+                    fileInput.multiple = false;
+                    
+                    addMoreItem.appendChild(fileInput);
+                    additionalImagesContainer.appendChild(addMoreItem);
+                    
+                    // Handle click on add more
+                    addMoreItem.addEventListener('click', () => {
+                        fileInput.click();
+                    });
+                    
+                    // Handle file selection
+                    fileInput.addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            handleAdditionalImageUpload(file)
+                                .catch(error => {
+                                    showAlert(error, 'warning');
+                                });
+                        }
+                    });
+                }
+                
+                // Add event listeners to remove buttons
+                document.querySelectorAll('.additional-image-remove').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const index = parseInt(btn.getAttribute('data-index'));
+                        additionalImages.splice(index, 1);
+                        updateAdditionalImagesInput();
+                        renderAdditionalImages();
+                    });
+                });
+            }
+            
+            // Initialize the additional images section
+            renderAdditionalImages();
+            
+            // Handle click on "Add Another Image" button
+            addImageBtn.addEventListener('click', () => {
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = 'image/*';
+                fileInput.multiple = false;
+                
+                fileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        handleAdditionalImageUpload(file)
+                            .catch(error => {
+                                showAlert(error, 'warning');
+                            });
+                    }
+                });
+                
+                fileInput.click();
+            });
+            
+            // Handle drag and drop for additional images container
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                additionalImagesContainer.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                additionalImagesContainer.addEventListener(eventName, function() {
+                    this.classList.add('drag-over');
+                }, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                additionalImagesContainer.addEventListener(eventName, function() {
+                    this.classList.remove('drag-over');
+                }, false);
+            });
+            
+            additionalImagesContainer.addEventListener('drop', function(e) {
+                const dt = e.dataTransfer;
+                const file = dt.files[0];
+                
+                if (file) {
+                    handleAdditionalImageUpload(file)
+                        .catch(error => {
+                            showAlert(error, 'warning');
+                        });
+                }
+            });
+
+            // Toggle home position field
+            displayHome.addEventListener('change', function() {
+                homePositionContainer.style.display = this.checked ? 'block' : 'none';
+                if (!this.checked) {
+                    document.getElementById('home-position').value = '';
+                }
+            });
+
+            // Show loading overlay
+            function showLoading(show) {
+                loadingOverlay.style.display = show ? 'flex' : 'none';
+            }
+
+            // Show alert message
+            function showAlert(message, type = 'info') {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+                alertDiv.role = 'alert';
+                alertDiv.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                
+                const container = document.querySelector('.container');
+                container.insertBefore(alertDiv, container.firstChild);
+                
+                // Auto-dismiss after 5 seconds
+                setTimeout(() => {
+                    const bsAlert = new bootstrap.Alert(alertDiv);
+                    bsAlert.close();
+                }, 5000);
+            }
+
+            // Form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                try {
+                    const formData = new FormData(form);
+                    
+                    // Get the main image data
+                    const mainImage = document.getElementById('product-image').value;
+                    if (!mainImage) {
+                        throw new Error('Please upload a main product image');
+                    }
+                    
+                    // Get additional images from the array
+                    let additionalImagesData = Array.isArray(additionalImages) ? 
+                        additionalImages.filter(img => img && typeof img === 'string' && img.trim() !== '') : [];
+                    
+                    console.log('Additional images to be saved:', additionalImagesData);
+                    
+                    // Get main product data
+                    
+                    const productData = {
+                        name: formData.get('name'),
+                        price: parseFloat(formData.get('price') || 0),
+                        description: formData.get('description'),
+                        image: mainImage,
+                        display_home: document.getElementById('display-on-home').checked,
+                        home_position: document.getElementById('display-on-home').checked ? 
+                            parseInt(document.getElementById('home-position').value) || 0 : 0,
+                        stock: parseInt(formData.get('stock') || 0),
+                        additionalImages: additionalImagesData // Add the filtered array of additional images
+                    };
+                    
+                    console.log('Product data being submitted:', JSON.stringify(productData, null, 2));
+                    
+                    console.log('Submitting product with additional images:', additionalImagesData.length);
+                    console.log('Full product data being submitted:', JSON.stringify(productData, null, 2));
+                    
+                    // Basic validation
+                    if (!productData.name) {
+                        throw new Error('Product name is required');
+                    }
+                    if (isNaN(productData.price) || productData.price <= 0) {
+                        throw new Error('Please enter a valid price');
+                    }
+                    if (!productData.description) {
+                        throw new Error('Product description is required');
+                    }
+                    if (!productData.image) {
+                        throw new Error('Please upload an image for the product');
+                    }
+                    
+                    showLoading(true);
+                    
+                    // Add the new product
+                    const response = await fetch('http://localhost:5000/api/products', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(productData)
+                    });
+                    
+                    const result = await response.json();
+                    console.log('Server response:', result);
+                    
+                    if (!response.ok) {
+                        // Log the full response for debugging
+                        console.error('Server validation error - Status:', response.status);
+                        console.error('Response headers:', Object.fromEntries(response.headers.entries()));
+                        
+                        let errorMessage = 'Failed to add product';
+                        
+                        try {
+                            // Try to parse the response body as JSON
+                            if (result) {
+                                console.error('Error details:', result);
+                                if (result.errors) {
+                                    // If we have field-specific errors, show them
+                                    const errorMessages = Object.values(result.errors).join('\n');
+                                    errorMessage = errorMessages || 'Validation error';
+                                } else if (result.message) {
+                                    errorMessage = result.message;
+                                }
+                            }
+                        } catch (e) {
+                            console.error('Error parsing error response:', e);
+                        }
+                        
+                        throw new Error(errorMessage);
+                    }
+                    
+                    // Refresh the admin panel if opened as a popup
+                    if (window.opener && !window.opener.closed) {
+                        const productAddedEvent = new CustomEvent('productAdded');
+                        window.opener.document.dispatchEvent(productAddedEvent);
+                        
+                        // Close the window after a short delay to allow the event to be processed
+                        setTimeout(() => {
+                            window.close();
+                        }, 500);
+                    } else {
+                        // If not opened as a popup, just show success message and reset form
+                        showAlert('Product added successfully!', 'success');
+                        form.reset();
+                        
+                        // If there's a file input, reset it too
+                        const fileInput = document.getElementById('product-image');
+                        if (fileInput) {
+                            fileInput.value = '';
+                        }
+                        
+                        // Clear additional images
+                        const additionalImagesContainer = document.getElementById('additional-images-container');
+                        if (additionalImagesContainer) {
+                            additionalImagesContainer.innerHTML = '';
+                            additionalImagesData = [];
+                        }
+                    }
+                    
+                    showAlert('Product added successfully!', 'success');
+                    
+                    // Reset form
+                    form.reset();
+                    imagePreview.style.display = 'none';
+                    uploadPlaceholder.style.display = 'block';
+                    document.getElementById('product-image').value = '';
+                    uploadBtn.innerHTML = '<i class="bi bi-upload"></i> Upload Image';
+                    uploadContainer.classList.remove('has-image');
+                    homePositionContainer.style.display = 'none';
+                    
+                } catch (error) {
+                    console.error('Error adding product:', error);
+                    showAlert(error.message || 'Failed to add product. Please try again.', 'danger');
+                } finally {
+                    showLoading(false);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

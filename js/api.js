@@ -40,12 +40,32 @@ const productApi = {
 
   // Update an existing product
   updateProduct: async (id, product) => {
-    const response = await fetch(`${API_URL}/products/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(product)
-    });
-    return handleResponse(response);
+    console.log('Updating product with ID:', id);
+    console.log('Product data:', product);
+    
+    // Ensure the ID is a string and properly formatted
+    const productId = id.toString().trim();
+    
+    try {
+      const response = await fetch(`${API_URL}/products/${productId}`, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(product)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error in updateProduct:', error);
+      throw error;
+    }
   },
 
   // Delete a product
