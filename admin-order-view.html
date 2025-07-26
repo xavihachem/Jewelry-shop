@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Order Details - Admin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body { 
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .order-header {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .order-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .status-badge {
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+            font-weight: 600;
+            border-radius: 0.25rem;
+        }
+        .status-pending { background-color: #fff3cd; color: #856404; }
+        .status-processing { background-color: #cce5ff; color: #004085; }
+        .status-shipped { background-color: #d4edda; color: #155724; }
+        .status-delivered { background-color: #d1ecf1; color: #0c5460; }
+        .customer-info-card, .shipping-info-card {
+            height: 100%;
+        }
+        @media (max-width: 768px) {
+            .customer-info-card, .shipping-info-card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <div class="mb-4">
+            <a href="admin-orders.html" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Orders
+            </a>
+        </div>
+
+        <!-- Order Header -->
+        <div class="order-header">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h4 mb-0">Order #<span id="orderId">-</span></h1>
+                <div>
+                    <span class="status-badge status-pending" id="orderStatus">Pending</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>Date:</strong> <span id="orderDate">-</span></p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>Total:</strong> <span id="orderTotal">-</span></p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>Items:</strong> <span id="orderItemsCount">-</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Customer Information -->
+            <div class="col-md-6">
+                <div class="order-card customer-info-card">
+                    <h5 class="mb-3"><i class="bi bi-person me-2"></i>Customer Information</h5>
+                    <p class="mb-1"><strong>Name:</strong> <span id="customerName">-</span></p>
+                    <p class="mb-1"><strong>Phone:</strong> <span id="customerPhone">-</span></p>
+                </div>
+            </div>
+
+            <!-- Shipping Information -->
+            <div class="col-md-6">
+                <div class="order-card shipping-info-card">
+                    <h5 class="mb-3"><i class="bi bi-truck me-2"></i>Shipping Information</h5>
+                    <p class="mb-1"><strong>Delivery Type:</strong> <span id="deliveryType">-</span></p>
+                    <p class="mb-1"><strong>City:</strong> <span id="shippingCity">-</span></p>
+                    <p class="mb-1"><strong>Address:</strong> <span id="shippingAddress">-</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="order-card">
+            <h5 class="mb-3"><i class="bi bi-box-seam me-2"></i>Order Items</h5>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderItemsList">
+                        <!-- Order items will be inserted here -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Subtotal:</strong></td>
+                            <td id="subtotal">-</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Delivery Fee:</strong></td>
+                            <td id="deliveryFee">-</td>
+                        </tr>
+                        <tr class="table-active">
+                            <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                            <td id="total"><strong>-</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Order Actions -->
+        <div class="d-flex justify-content-end gap-2 mb-4">
+            <button class="btn btn-outline-primary" id="printInvoice">
+                <i class="bi bi-printer me-2"></i>Print Invoice
+            </button>
+            <button class="btn btn-primary" id="updateStatusBtn">
+                <i class="bi bi-check-circle me-2"></i>Update Status
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get order ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('id');
+            
+            if (!orderId) {
+                alert('No order ID provided');
+                window.location.href = 'admin-orders.html';
+                return;
+            }
+
+            // Get order details from localStorage
+            const orders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
+            const order = orders.find(o => o.orderId === orderId);
+
+            if (!order) {
+                alert('Order not found');
+                window.location.href = 'admin-orders.html';
+                return;
+            }
+
+            // Format date
+            const formatDate = (dateString) => {
+                const options = { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                return new Date(dateString).toLocaleDateString('en-US', options);
+            };
+
+            // Format currency
+            const formatCurrency = (amount) => {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'TND',
+                    minimumFractionDigits: 2
+                }).format(amount || 0);
+            };
+
+            // Update order header
+            document.getElementById('orderId').textContent = order.orderId;
+            document.getElementById('orderDate').textContent = formatDate(order.timestamp);
+            document.getElementById('orderTotal').textContent = formatCurrency(order.total);
+            document.getElementById('orderItemsCount').textContent = order.items.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Update status
+            const statusElement = document.getElementById('orderStatus');
+            statusElement.textContent = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+            statusElement.className = `status-badge status-${order.status}`;
+
+            // Update customer info
+            document.getElementById('customerName').textContent = order.fullName || 'N/A';
+            document.getElementById('customerPhone').textContent = order.phoneNumber || 'N/A';
+
+            // Update shipping info
+            document.getElementById('deliveryType').textContent = order.deliveryType === 'home' ? 'Home Delivery' : 'In-Store Pickup';
+            document.getElementById('shippingCity').textContent = order.city || 'N/A';
+            document.getElementById('shippingAddress').textContent = order.deliveryType === 'home' 
+                ? (order.deliveryAddress || 'No address provided')
+                : 'In-Store Pickup';
+
+            // Update order items
+            const orderItemsList = document.getElementById('orderItemsList');
+            orderItemsList.innerHTML = order.items.map(item => {
+                // Ensure we have the correct image path
+                let imagePath = item.image || 'img/placeholder.jpg';
+                // If it's a relative path, make sure it's correct
+                if (imagePath.startsWith('http') === false && !imagePath.startsWith('/')) {
+                    imagePath = '../' + imagePath; // Adjust path if needed
+                }
+                
+                return `
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="${imagePath}" alt="${item.name}" class="product-img me-3" 
+                                 onerror="this.src='img/placeholder.jpg'">
+                            <div>
+                                <h6 class="mb-1">${item.name || 'Product name not available'}</h6>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${formatCurrency(item.price)}</td>
+                    <td>${item.quantity}</td>
+                    <td>${formatCurrency(item.price * item.quantity)}</td>
+                </tr>`;
+            }).join('');
+
+            // Update order totals
+            document.getElementById('subtotal').textContent = formatCurrency(order.subtotal);
+            document.getElementById('deliveryFee').textContent = formatCurrency(order.deliveryFee || 0);
+            document.getElementById('total').innerHTML = `<strong>${formatCurrency(order.total)}</strong>`;
+
+            // Print invoice
+            document.getElementById('printInvoice').addEventListener('click', function() {
+                window.print();
+            });
+
+            // Update status
+            document.getElementById('updateStatusBtn').addEventListener('click', function() {
+                const newStatus = prompt('Enter new status (pending, processing, shipped, delivered):', order.status);
+                if (newStatus && newStatus !== order.status) {
+                    // Update status in the order
+                    order.status = newStatus;
+                    
+                    // Update in localStorage
+                    const orderIndex = orders.findIndex(o => o.orderId === orderId);
+                    if (orderIndex !== -1) {
+                        orders[orderIndex] = order;
+                        localStorage.setItem('adminOrders', JSON.stringify(orders));
+                        
+                        // Update UI
+                        statusElement.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+                        statusElement.className = `status-badge status-${newStatus}`;
+                        
+                        alert('Order status updated successfully');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

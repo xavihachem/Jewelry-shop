@@ -290,6 +290,57 @@
       box-shadow: 0 4px 12px rgba(192, 160, 98, 0.3);
     }
     
+    .btn-outline-gold {
+      border: 1px solid var(--primary-gold);
+      color: var(--primary-gold);
+      background: transparent;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      border-radius: 8px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.1);
+    }
+    
+    .btn-outline-gold:hover {
+      background: var(--primary-gold);
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+    }
+    
+    .btn-hover-gold {
+      position: relative;
+      z-index: 1;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .btn-hover-gold:hover {
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
+    }
+    
+    .btn-hover-gold .btn-glow {
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%) scale(0);
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+    }
+    
+    .btn-hover-gold:hover .btn-glow {
+      transform: translateY(-50%) scale(1);
+      opacity: 1;
+      right: 0.5rem;
+    }
+    
     /* Responsive adjustments */
     @media (max-width: 991.98px) {
       .row {
@@ -369,10 +420,13 @@
   <header class="py-2">
     <div class="container">
       <div class="d-flex align-items-center">
-        <a href="shop.html" class="text-decoration-none d-flex align-items-center">
-          <i class="bi bi-arrow-left me-2 fs-5"></i>
-          <span>Back to Shop</span>
-        </a>
+        <div class="ms-lg-3 mt-2 mt-lg-0">
+          <a href="shop.html" class="btn btn-outline-gold btn-hover-gold px-4 py-2 d-flex align-items-center">
+            <i class="bi bi-arrow-left-short fs-5 me-2"></i>
+            <span>Back to Shop</span>
+            <div class="btn-glow"></div>
+          </a>
+        </div>
       </div>
     </div>
   </header>
@@ -389,9 +443,9 @@
         <p id="productDescription">Loading product details...</p>
         <div class="d-flex flex-column align-items-center w-100">
           <p id="productPrice" class="fs-3 fw-bold my-4 text-center w-100"></p>
-          <button class="btn btn-gold btn-lg py-3 px-5" id="orderNowBtn" style="min-width: 200px;">
+          <a href="order.html" id="orderNowBtn" class="btn btn-gold btn-lg py-3 px-5 d-inline-flex align-items-center" style="min-width: 200px;">
             <i class="bi bi-bag-check me-2"></i>Order Now
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -408,7 +462,64 @@
   </div>
   <!-- Footer removed for cleaner product view -->
   <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/database.js"></script>
+  <script>
+    // Update the price display in the Add to Cart button
+    function updatePriceDisplay() {
+      const priceElement = document.getElementById('productPrice');
+      const priceDisplay = document.getElementById('priceDisplay');
+      if (priceElement && priceDisplay) {
+        priceDisplay.textContent = priceElement.textContent;
+      }
+    }
+    
+    // Generate a random SKU based on product ID
+    function generateSku(productId) {
+      if (!productId) return 'N/A';
+      return productId.toString().slice(-6).toUpperCase();
+    }
+    
+    // Update the updateProductUI function to include new features
+    const originalUpdateUI = window.updateProductUI;
+    window.updateProductUI = function(product) {
+      originalUpdateUI(product);
+      
+      // Update price in Add to Cart button
+      updatePriceDisplay();
+      
+      // Generate and display SKU
+      const skuElement = document.getElementById('productSku');
+      if (skuElement) {
+        skuElement.textContent = generateSku(product._id);
+      }
+      
+      // Add animation class to product image
+      const productImage = document.getElementById('productImage');
+      if (productImage) {
+        productImage.classList.add('fade-in');
+      }
+    };
+    
+    // Initialize tooltips
+    document.addEventListener('DOMContentLoaded', function() {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+      
+      // Hide loading overlay when page is fully loaded
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const overlay = document.getElementById('loadingOverlay');
+          if (overlay) {
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.style.display = 'none', 300);
+          }
+        }, 500);
+      });
+    });
+  </script>
   <script>
     // Show loading state
     function showLoading() {
@@ -430,7 +541,6 @@
 
     // Initialize the page
     async function initializePage() {
-      console.log('Initializing product page...');
       showLoading();
       
       try {
@@ -439,39 +549,34 @@
         const productId = urlParams.get('id');
         
         if (!productId) {
-          console.error('No product ID found in URL');
-          window.location.href = 'shop.html';
+          window.location.href = 'index.html';
           return;
         }
         
-        console.log('Loading product with ID:', productId);
-        
-        // Initialize database if not already done
-        if (!window.dbOperations) {
-          console.error('dbOperations not found. Make sure database.js is loaded.');
-          throw new Error('Database operations not available');
+        // Load product data using the API
+        let product;
+        try {
+          const response = await window.api.products.getProductById(productId);
+          
+          if (!response) {
+            throw new Error('No response from server');
+          }
+          
+          // Check if response has success property (API format) or is the product directly
+          product = response.success !== undefined ? response.data : response;
+          
+          if (!product) {
+            throw new Error('Product data is empty');
+          }
+          
+          // Update the UI with product data
+          updateProductUI(product);
+          
+        } catch (error) {
+          throw error;
         }
-        
-        console.log('Initializing database...');
-        await window.dbOperations.init();
-        console.log('Database initialized');
-        
-        // Load product data
-        console.log('Fetching product data...');
-        const product = await window.dbOperations.products.getProductById(parseInt(productId));
-        console.log('Product data received:', product);
-        
-        if (!product) {
-          console.error('Product not found');
-          window.location.href = 'shop.html';
-          return;
-        }
-        
-        // Update the UI with product data
-        updateProductUI(product);
         
       } catch (error) {
-        console.error('Error initializing page:', error);
         showError('Failed to load product. Please try again later.');
       } finally {
         hideLoading();
@@ -480,22 +585,45 @@
     
     // Update the UI with product data
     function updateProductUI(product) {
-      console.log('Updating UI with product:', product);
+      // Update product title
+      const productTitle = document.getElementById('productTitle');
+      if (productTitle) {
+        productTitle.textContent = product.name || 'Product';
+      }
+      
+      // Update product price
+      const productPrice = document.getElementById('productPrice');
+      if (productPrice) {
+        const price = parseFloat(product.price) * 1300; // Convert to IQD
+        const formattedPrice = price.toLocaleString('en-US') + ' د.ع';
+        productPrice.textContent = formattedPrice;
+      }
+      
+      // Update product description
+      const productDescription = document.getElementById('productDescription');
+      if (productDescription) {
+        productDescription.innerHTML = product.description || 'No description available.';
+      }
       
       // Update product image
       const productImage = document.getElementById('productImage');
-      if (product.image) {
-        productImage.src = product.image;
-        productImage.alt = product.name || 'Product Image';
-        productImage.onerror = function() {
-          console.error('Error loading product image');
-          this.src = 'images/placeholder.jpg';
-          this.alt = 'Image not available';
-        };
-      } else {
-        productImage.src = 'images/placeholder.jpg';
-        productImage.alt = 'No image available';
+      if (productImage) {
+        if (product.image) {
+          productImage.src = product.image;
+          productImage.alt = product.name || 'Product Image';
+          productImage.onerror = function() {
+            this.src = 'images/placeholder.jpg';
+            this.alt = 'Image not available';
+          };
+        } else {
+          productImage.src = 'images/placeholder.jpg';
+          productImage.alt = 'No image available';
+        }
       }
+      
+      // Update page title
+      const pageTitle = (product.name || 'Product') + ' - Kaira';
+      document.title = pageTitle;
       
       // Update product details
       if (product.name) {
@@ -512,13 +640,7 @@
       // Update price
       document.getElementById('productPrice').textContent = formatPrice(product.price);
       
-      // Set up order button
-      const orderBtn = document.getElementById('orderNowBtn');
-      if (orderBtn) {
-        orderBtn.addEventListener('click', function() {
-          alert('Order functionality will be implemented soon!');
-        });
-      }
+
     }
     
     // Show error message
@@ -527,11 +649,14 @@
       if (productInfo) {
         productInfo.innerHTML = `
           <div class="alert alert-warning">
-            <p>${message}</p>
-            <a href="shop.html" class="d-flex align-items-center text-gold">
-            <i class="bi bi-arrow-left me-2"></i>
-            <span>Back to Shop</span>
-          </a>
+            <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+            <a href="shop.html" class="btn btn-outline-gold btn-hover-gold px-4 py-2 d-flex align-items-center">
+              <i class="bi bi-arrow-left-short fs-5 me-2"></i>
+              <span>Back to Shop</span>
+              <div class="btn-glow"></div>
+            </a>
+          </li>
+          <p>${message}</p>
           </div>
         `;
       }
@@ -539,22 +664,30 @@
     
     // Initialize the page when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('DOM fully loaded');
       initializePage().catch(error => {
-        console.error('Unhandled error in page initialization:', error);
         showError('An unexpected error occurred. Please try again later.');
         hideLoading();
       });
     });
   </script>
+  <!-- Include required JavaScript files -->
+  <script src="js/api.js"></script>
   <script>
-    // Add this to help debug SQL.js loading
-    console.log('SQL.js status:', {
-      SQL: window.SQL ? 'Loaded' : 'Not loaded',
-      dbOperations: window.dbOperations ? 'Available' : 'Not available',
-      db: window.db ? 'Initialized' : 'Not initialized'
+    // Initialize the API
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Initializing API...');
+      window.api.init().then(() => {
+        console.log('API initialized');
+        // Now initialize the page
+        initializePage().catch(error => {
+          console.error('Error initializing page:', error);
+          showError('Failed to load product. Please try again later.');
+        });
+      }).catch(error => {
+        console.error('Failed to initialize API:', error);
+        showError('Failed to initialize application. Please refresh the page.');
+      });
     });
   </script>
-<script src="js/debug-ids.js"></script>
 </body>
 </html>

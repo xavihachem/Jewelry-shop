@@ -4,7 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize order modal functionality
-  initOrderModal();
+  
   
   // Replace "Add to Cart" buttons with "Order Now" buttons
   replaceCartButtons();
@@ -94,6 +94,9 @@ function replaceCartButtons() {
     button.parentNode.replaceChild(newButton, button);
     
     newButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = 'order.html';
+        return;
       e.preventDefault();
       
       // Get product information from data attributes or parent elements

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order Now - Kaira</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/theme-override.css">
+  <link rel="stylesheet" href="css/glass-effects.css">
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-light: #f4e5c2;
+      --dark: #121212;
+      --darker: #0a0a0a;
+      --light: #f8f9fa;
+      --gray: #2a2a2a;
+      --light-gray: #444;
+      --transition: all 0.3s ease;
+    }
+    
+    body {
+      background-color: var(--darker);
+      color: #e0e0e0;
+      font-family: 'Jost', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .nav-back {
+      padding: 1.5rem;
+      position: relative;
+      z-index: 1000;
+    }
+    
+    .btn-back-shop {
+      display: inline-flex;
+      align-items: center;
+      background: transparent;
+      color: var(--gold);
+      border: 2px solid var(--gold);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .btn-back-shop::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: var(--gold);
+      transition: var(--transition);
+      z-index: -1;
+    }
+    
+    .btn-back-shop:hover {
+      color: var(--dark);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+    }
+    
+    .btn-back-shop:hover::before {
+      width: 100%;
+    }
+    
+    .btn-back-shop i {
+      margin-right: 8px;
+      transition: var(--transition);
+    }
+    
+    .order-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2.5rem;
+      background: rgba(26, 26, 26, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+    
+    .order-title {
+      color: var(--gold);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+      padding-bottom: 1rem;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .order-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    
+    .form-label {
+      font-weight: 500;
+      color: var(--gold-light);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    
+    .form-control, .form-select, textarea.form-control {
+      background-color: var(--gray);
+      border: 1px solid var(--light-gray);
+      color: #fff;
+      padding: 0.85rem 1.25rem;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus, .form-select:focus, textarea.form-control:focus {
+      background-color: var(--gray);
+      border-color: var(--gold);
+      color: #fff;
+      box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+    }
+    
+    .form-control::placeholder {
+      color: #888;
+    }
+    
+    .form-check-label {
+      color: #e0e0e0;
+      cursor: pointer;
+    }
+    
+    .form-check-input {
+      background-color: var(--gray);
+      border-color: var(--light-gray);
+    }
+    
+    .form-check-input:checked {
+      background-color: var(--gold);
+      border-color: var(--gold);
+    }
+    
+    .btn-submit {
+      background: linear-gradient(135deg, var(--gold), #b8860b);
+      color: #000;
+      border: none;
+      padding: 1rem 2rem;
+      font-weight: 700;
+      border-radius: 8px;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      width: 100%;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #b8860b, var(--gold));
+      transition: var(--transition);
+      z-index: -1;
+    }
+    
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn-submit:hover::before {
+      left: 0;
+    }
+    
+    .btn-submit i {
+      margin-right: 8px;
+    }
+    
+    .form-group {
+      margin-bottom: 1.75rem;
+    }
+    
+    .order-summary {
+      background: rgba(42, 42, 42, 0.7);
+      border-radius: 10px;
+      padding: 1.75rem;
+      margin-top: 2.5rem;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+    }
+    
+    .order-summary h5 {
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .order-summary p {
+      color: #aaa;
+      margin-bottom: 1.5rem;
+    }
+    
+    .order-summary div {
+      color: #e0e0e0;
+      font-size: 1.05rem;
+    }
+    
+    .order-summary .fw-bold {
+      color: var(--gold);
+    }
+    
+    @media (max-width: 768px) {
+      .order-container {
+        margin: 1rem;
+        padding: 1.75rem 1.25rem;
+      }
+      
+      .order-title {
+        font-size: 1.75rem;
+        margin-bottom: 2rem;
+      }
+      
+      .btn-back-shop {
+        padding: 0.4rem 1.25rem;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <div class="nav-back">
+    <a href="shop.html" class="btn-back-shop">
+      <i class="bi bi-arrow-left"></i>
+      <span>Back to Shop</span>
+    </a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container my-5">
+    <div class="order-container">
+      <h1 class="order-title">Complete Your Order</h1>
+      
+      <form id="orderForm">
+        <!-- Personal Information -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="fullName" class="form-label">Full Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="fullName" name="fullName" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="phoneNumber" class="form-label">Phone Number <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="city" name="city" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label d-block">Delivery Type <span class="text-danger">*</span></label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="deliveryType" id="homeDelivery" value="home" checked>
+                <label class="form-check-label" for="homeDelivery">Home Delivery</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="deliveryType" id="desktopDelivery" value="desktop">
+                <label class="form-check-label" for="desktopDelivery">Desktop Delivery</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Delivery Address (shown when home delivery is selected) -->
+        <div class="form-group" id="addressField">
+          <label for="deliveryAddress" class="form-label">Delivery Address <span class="text-danger">*</span></label>
+          <textarea class="form-control" id="deliveryAddress" name="deliveryAddress" rows="3" required></textarea>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="order-summary">
+          <h5>Order Summary</h5>
+          <p>Your selected items will appear here</p>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Subtotal:</span>
+            <span>0.00 TND</span>
+          </div>
+          <div class="d-flex justify-content-between fw-bold">
+            <span>Total:</span>
+            <span>0.00 TND</span>
+          </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-submit">
+          <i class="bi bi-check-circle me-2"></i> Place Order
+        </button>
+      </form>
+      
+
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Logging utility
+    function logOrderEvent(message, data = {}) {
+      const timestamp = new Date().toISOString();
+      const logEntry = {
+        timestamp,
+        message,
+        ...data
+      };
+      
+      console.log(`[Order System] ${timestamp} - ${message}`, data);
+      
+      // Store logs in session storage for debugging
+      const logs = JSON.parse(sessionStorage.getItem('orderLogs') || '[]');
+      logs.push(logEntry);
+      sessionStorage.setItem('orderLogs', JSON.stringify(logs));
+      
+      return logEntry;
+    }
+
+    // Toggle address field based on delivery type
+    document.addEventListener('DOMContentLoaded', function() {
+      logOrderEvent('Order page loaded');
+      
+      const homeDelivery = document.getElementById('homeDelivery');
+      const desktopDelivery = document.getElementById('desktopDelivery');
+      const addressField = document.getElementById('addressField');
+      const orderForm = document.getElementById('orderForm');
+      
+      // Log form elements state
+      logOrderEvent('Form elements initialized', {
+        homeDelivery: homeDelivery.checked,
+        desktopDelivery: desktopDelivery.checked,
+        formFields: Array.from(orderForm.elements).map(el => ({
+          id: el.id,
+          name: el.name,
+          type: el.type,
+          required: el.required,
+          value: el.value
+        })).filter(field => field.name) // Only include named fields
+      });
+      
+      // Initial state
+      updateAddressField();
+      
+      // Add event listeners
+      homeDelivery.addEventListener('change', function() {
+        logOrderEvent('Delivery type changed to Home Delivery');
+        updateAddressField();
+      });
+      
+      desktopDelivery.addEventListener('change', function() {
+        logOrderEvent('Delivery type changed to Desktop Delivery');
+        updateAddressField();
+      });
+      
+      // Form submission
+      orderForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(orderForm);
+        const orderData = Object.fromEntries(formData.entries());
+        
+        try {
+          logOrderEvent('Form submission started', { orderData });
+          
+          // Enhanced validation with detailed messages
+          const requiredFields = [
+            { name: 'fullName', label: 'Full Name' },
+            { name: 'phoneNumber', label: 'Phone Number' },
+            { name: 'city', label: 'City' }
+          ];
+          
+          // Check required fields
+          const missingFields = requiredFields
+            .filter(field => !orderData[field.name]?.trim())
+            .map(field => field.label);
+          
+          if (missingFields.length > 0) {
+            throw new Error(`Please fill in the following required fields: ${missingFields.join(', ')}`);
+          }
+          
+          // Check delivery address if home delivery is selected
+          if (orderData.deliveryType === 'home' && !orderData.deliveryAddress?.trim()) {
+            throw new Error('Delivery address is required for home delivery');
+          }
+          
+          // Validate phone number format (basic validation)
+          const phoneRegex = /^[0-9+\-\s()]{8,20}$/;
+          if (!phoneRegex.test(orderData.phoneNumber)) {
+            throw new Error('Please enter a valid phone number');
+          }
+          
+          // Log validation passed
+          logOrderEvent('Form validation passed');
+          
+          // Get cart items from localStorage
+          const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+          
+          // Calculate total
+          const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+          const deliveryFee = orderData.deliveryType === 'home' ? 10 : 0; // Example delivery fee
+          const total = subtotal + deliveryFee;
+          
+          // Prepare complete order data
+          const completeOrderData = {
+            ...orderData,
+            orderId: 'ORD-' + Date.now(),
+            timestamp: new Date().toISOString(),
+            status: 'pending',
+            items: cartItems.map(item => {
+              // Ensure we have all necessary product details
+              const productDetails = {
+                id: item.id || 'N/A',
+                name: item.name || 'Unnamed Product',
+                price: parseFloat(item.price) || 0,
+                quantity: parseInt(item.quantity) || 1,
+                image: item.image || 'img/placeholder.jpg',
+                description: item.description || ''
+              };
+              
+              // If the image path is relative, make sure it's accessible
+              if (productDetails.image && !productDetails.image.startsWith('http') && 
+                  !productDetails.image.startsWith('/') && !productDetails.image.startsWith('data:')) {
+                productDetails.image = 'img/products/' + productDetails.image.split('/').pop();
+              }
+              
+              return productDetails;
+            }),
+            subtotal: subtotal,
+            deliveryFee: deliveryFee,
+            total: total
+          };
+          
+          console.log('Complete order data:', completeOrderData); // Debug log
+          
+          logOrderEvent('Preparing to submit order', { orderData: completeOrderData });
+          
+          // Here you would typically send the data to your server
+          // For now, we'll store it in localStorage
+          const existingOrders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
+          existingOrders.push(completeOrderData);
+          localStorage.setItem('adminOrders', JSON.stringify(existingOrders));
+          
+          // Simulate API call
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          // Log successful submission
+          logOrderEvent('Order submitted successfully', { 
+            orderId: completeOrderData.orderId,
+            timestamp: completeOrderData.timestamp
+          });
+          
+          // Clear cart after successful order
+          localStorage.removeItem('cart');
+          
+          // Show success message
+          alert('Thank you for your order! We will contact you soon.');
+          logOrderEvent('Success message shown to user');
+          
+          // Reset form
+          orderForm.reset();
+          logOrderEvent('Form reset');
+          
+        } catch (error) {
+          // Log the error
+          logOrderEvent('Form submission error', { 
+            error: error.message,
+            stack: error.stack 
+          });
+          
+          // Show error to user
+          alert(`Error: ${error.message}`);
+          console.error('Order submission error:', error);
+        }
+      });
+      
+      function updateAddressField() {
+        const isHomeDelivery = homeDelivery.checked;
+        
+        logOrderEvent('Updating address field visibility', {
+          isHomeDelivery,
+          wasVisible: addressField.style.display === 'block'
+        });
+        
+        if (isHomeDelivery) {
+          addressField.style.display = 'block';
+          document.getElementById('deliveryAddress').required = true;
+          logOrderEvent('Address field shown and set as required');
+        } else {
+          addressField.style.display = 'none';
+          document.getElementById('deliveryAddress').required = false;
+          logOrderEvent('Address field hidden and requirement removed');
+        }
+      }
+      
+      // Log initial page load completion
+      logOrderEvent('Page initialization complete', {
+        userAgent: navigator.userAgent,
+        screenSize: `${window.innerWidth}x${window.innerHeight}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+      });
+    });
+    
+    // Log any JavaScript errors
+    window.onerror = function(message, source, lineno, colno, error) {
+      logOrderEvent('JavaScript Error', {
+        message,
+        source,
+        line: lineno,
+        column: colno,
+        error: error ? error.stack : 'No error stack'
+      });
+      return false; // Let the default handler run as well
+    };
+  </script>
+</body>
+</html>

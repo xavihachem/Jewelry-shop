@@ -24,8 +24,24 @@ const productApi = {
 
   // Get a single product by ID
   getProductById: async (id) => {
-    const response = await fetch(`${API_URL}/products/${id}`);
-    return handleResponse(response);
+    try {
+      console.log(`[API] Fetching product with ID: ${id}`);
+      const response = await fetch(`${API_URL}/products/${id}`);
+      console.log(`[API] Response status: ${response.status} ${response.statusText}`);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`[API] Error response:`, errorText);
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('[API] Response data:', data);
+      return data;
+    } catch (error) {
+      console.error('[API] Error in getProductById:', error);
+      throw error;
+    }
   },
 
   // Add a new product

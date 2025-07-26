@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin - Orders Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body { padding: 20px; background-color: #f8f9fa; }
+        .loading { opacity: 0.6; pointer-events: none; }
+        
+        /* Card styling */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .card-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        /* Table styles matching products table */
+        .table {
+            --bs-table-bg: transparent;
+            --bs-table-striped-bg: rgba(0, 0, 0, 0.02);
+            --bs-table-hover-bg: rgba(0, 0, 0, 0.03);
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 1.5rem;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .table thead th {
+            background-color: #212529;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            padding: 0.75rem 1rem;
+            vertical-align: middle;
+            color: #fff;
+            white-space: nowrap;
+        }
+        
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-top: 1px solid #f0f0f0;
+            color: #212529;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        /* Status badges */
+        .status-badge {
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+        }
+        
+        .status-pending {
+            color: #856404;
+            background-color: #fff3cd;
+        }
+        
+        .status-completed {
+            color: #155724;
+            background-color: #d4edda;
+        }
+        
+        .status-cancelled {
+            color: #721c24;
+            background-color: #f8d7da;
+        }
+        
+        /* Loading indicator */
+        .loading-indicator {
+            display: none;
+        }
+        
+        /* No orders state */
+        .no-orders i {
+            font-size: 2rem;
+            opacity: 0.5;
+        }
+        
+        /* Responsive table */
+        @media (max-width: 991.98px) {
+            .table-responsive {
+                border: 0;
+                width: 100%;
+                overflow-x: auto;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch; /* For older Safari */
+            }
+            
+            .table {
+                min-width: 800px; /* Minimum width before horizontal scroll */
+            }
+            
+            .table thead {
+                display: none;
+            }
+            
+            .table tbody tr {
+                display: block;
+                margin-bottom: 1.5rem;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                overflow: hidden;
+                background: #fff;
+            }
+            
+            .table tbody tr td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem 1rem;
+                border: none;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            .table tbody tr td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #6c757d;
+                margin-right: 1rem;
+                min-width: 120px;
+            }
+            
+            .table tbody tr td:last-child {
+                justify-content: flex-end;
+                border-bottom: none;
+            }
+            
+            .table tbody tr:last-child {
+                margin-bottom: 0;
+            }
+            
+            .table tbody td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.5rem 1rem;
+                border-top: 1px solid #dee2e6;
+            }
+            
+            .table tbody td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                margin-right: 1rem;
+                color: #6c757d;
+            }
+            
+            .table tbody tr:last-child td {
+                border-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="my-0">Orders Management</h1>
+            <div class="btn-group" role="group" aria-label="Navigation">
+                <a href="admin.html" class="btn btn-outline-primary me-2">
+                    <i class="bi bi-box-seam"></i> Products
+                </a>
+                <a href="index.html" class="btn btn-outline-secondary">
+                    <i class="bi bi-shop"></i> View Shop
+                </a>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title mb-0">All Orders</h5>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-download"></i> Export
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-funnel"></i> Filter
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="loading-indicator" class="text-center my-4 loading-indicator">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading orders...</p>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark d-none d-md-table-header-group">
+                            <tr>
+                                <th width="120">Order ID</th>
+                                <th>Customer</th>
+                                <th width="150">Date</th>
+                                <th width="120">Amount</th>
+                                <th width="100">Status</th>
+                                <th width="150">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <!-- Orders will be loaded here -->
+                            <tr>
+                                <td colspan="6" class="no-orders text-center py-5 text-muted">
+                                    <i class="bi bi-inbox"></i>
+                                    <p class="mt-2 mb-0">No orders found</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div id="pagination" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Order Modal -->
+    <div class="modal fade" id="viewOrderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold">Order Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="container-fluid p-0">
+                        <div class="row g-0">
+                            <!-- Order Summary -->
+                            <div class="col-lg-7 p-4">
+                                <h6 class="text-uppercase text-muted mb-3">Order Summary</h6>
+                                <div id="orderItems" class="mb-4">
+                                    <!-- Order items will be inserted here -->
+                                    <div class="text-center py-4 text-muted">
+                                        <i class="bi bi-box-seam display-6 mb-2"></i>
+                                        <p class="mb-0">Loading order items...</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-light p-3 rounded mb-4">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Subtotal</span>
+                                        <span id="orderSubtotal" class="fw-medium">-</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Shipping</span>
+                                        <span id="orderShipping" class="fw-medium">-</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between fw-bold fs-5">
+                                        <span>Total</span>
+                                        <span id="orderTotal" class="text-primary">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Customer & Shipping -->
+                            <div class="col-lg-5 bg-light p-4">
+                                <div class="mb-4">
+                                    <h6 class="text-uppercase text-muted mb-3">Customer Information</h6>
+                                    <div id="customerInfo">
+                                        <p class="mb-1"><strong>Name:</strong> <span id="customerName">-</span></p>
+                                        <p class="mb-1"><strong>Email:</strong> <span id="customerEmail">-</span></p>
+                                        <p class="mb-1"><strong>Phone:</strong> <span id="customerPhone">-</span></p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h6 class="text-uppercase text-muted mb-3">Shipping Address</h6>
+                                    <div id="shippingAddress">
+                                        <p id="shippingDetails">-</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h6 class="text-uppercase text-muted mb-3">Order Status</h6>
+                                    <div class="d-flex align-items-center">
+                                        <select id="orderStatus" class="form-select form-select-sm w-auto">
+                                            <option value="pending">Pending</option>
+                                            <option value="processing">Processing</option>
+                                            <option value="shipped">Shipped</option>
+                                            <option value="delivered">Delivered</option>
+                                            <option value="cancelled">Cancelled</option>
+                                        </select>
+                                        <button id="updateStatusBtn" class="btn btn-sm btn-outline-primary ms-2">
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary">
+                                        <i class="bi bi-printer me-2"></i> Print Invoice
+                                    </button>
+                                    <button class="btn btn-outline-secondary">
+                                        <i class="bi bi-envelope me-2"></i> Resend Confirmation
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Order Information</h6>
+                            <p class="mb-1"><strong>Order ID:</strong> #12345</p>
+                            <p class="mb-1"><strong>Date:</strong> July 26, 2025</p>
+                            <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning">Pending</span></p>
+                            
+                            <h6 class="mt-4">Customer Information</h6>
+                            <p class="mb-1"><strong>Name:</strong> John Doe</p>
+                            <p class="mb-1"><strong>Email:</strong> john@example.com</p>
+                            <p class="mb-1"><strong>Phone:</strong> +1 234 567 890</p>
+                            
+                            <h6 class="mt-4">Delivery Address</h6>
+                            <p>123 Main St, Apt 4B<br>New York, NY 10001<br>United States</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Order Items</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Qty</th>
+                                            <th>Price</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Gold Necklace</td>
+                                            <td>1</td>
+                                            <td>$299.99</td>
+                                            <td>$299.99</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Silver Ring</td>
+                                            <td>2</td>
+                                            <td>$149.99</td>
+                                            <td>$299.98</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="3" class="text-end">Subtotal:</th>
+                                            <td>$599.97</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="text-end">Shipping:</th>
+                                            <td>$10.00</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="text-end">Total:</th>
+                                            <th>$609.97</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <label class="form-label">Update Status</label>
+                                <select class="form-select">
+                                    <option>Pending</option>
+                                    <option>Processing</option>
+                                    <option>Shipped</option>
+                                    <option>Delivered</option>
+                                    <option>Cancelled</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <label class="form-label">Add Note</label>
+                                <textarea class="form-control" rows="2" placeholder="Add a private note..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Logging utility
+    function logAdminEvent(message, data = {}) {
+      const timestamp = new Date().toISOString();
+      const logEntry = {
+        timestamp,
+        message,
+        ...data
+      };
+      
+      console.log(`[Admin Orders] ${timestamp} - ${message}`, data);
+      
+      // Store logs in session storage for debugging
+      const logs = JSON.parse(sessionStorage.getItem('adminOrderLogs') || '[]');
+      logs.push(logEntry);
+      sessionStorage.setItem('adminOrderLogs', JSON.stringify(logs));
+      
+      return logEntry;
+    }
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      logAdminEvent('Admin Orders page loaded');
+      
+      // Log initial state
+      logAdminEvent('Initial state', {
+        userAgent: navigator.userAgent,
+        screenSize: `${window.innerWidth}x${window.innerHeight}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+      });
+      
+      // Simulate loading orders (replace with actual API call)
+      loadOrders();
+      
+      // Add refresh button handler
+      document.getElementById('refreshBtn')?.addEventListener('click', function() {
+        logAdminEvent('Refresh button clicked');
+        loadOrders();
+      });
+    });
+    
+    // Load orders function
+    async function loadOrders() {
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const ordersTable = document.getElementById('orders-table-body');
+      
+      try {
+        logAdminEvent('Starting to load orders');
+        loadingIndicator.style.display = 'block';
+        ordersTable.innerHTML = '<tr><td colspan="6" class="text-center py-5 text-muted">Loading orders...</td></tr>';
+        
+        // Get orders from session storage
+        const orderLogs = JSON.parse(sessionStorage.getItem('orderLogs') || '[]');
+        logAdminEvent('Raw order logs from sessionStorage', { rawLogs: orderLogs });
+        
+        // Filter for successful orders
+        const successfulOrders = orderLogs.filter(log => {
+          const isSuccessful = log.message === 'Order submitted successfully' && log.orderId;
+          if (isSuccessful) {
+            logAdminEvent('Found successful order', { 
+              orderId: log.orderId,
+              timestamp: log.timestamp,
+              hasOrderData: !!log.orderData
+            });
+          }
+          return isSuccessful;
+        });
+        
+        logAdminEvent('Orders retrieved', { 
+          totalLogs: orderLogs.length,
+          successfulOrders: successfulOrders.length,
+          orderIds: successfulOrders.map(o => o.orderId)
+        });
+        
+        // Clear the table
+        ordersTable.innerHTML = '';
+        
+        if (successfulOrders.length === 0) {
+          ordersTable.innerHTML = `
+            <tr>
+              <td colspan="6" class="text-center py-5 text-muted">
+                <i class="bi bi-inbox"></i>
+                <p class="mt-2 mb-0">No orders found</p>
+                <p class="small">Total logs in session: ${orderLogs.length}</p>
+              </td>
+            </tr>`;
+          return;
+        }
+        
+        // Process and display each order
+        successfulOrders.forEach(order => {
+          try {
+            const orderRow = document.createElement('tr');
+            
+            // Create and append table cells
+            const cells = [
+              { value: order.orderId },
+              { value: order.orderData?.fullName || 'N/A' },
+              { value: new Date(order.timestamp).toLocaleString() },
+              { value: `${order.orderData?.total || '0.00'} TND` },
+              { 
+                value: '<span class="badge bg-warning">Pending</span>',
+                isHtml: true 
+              },
+              {
+                value: `
+                  <a href="admin-order-view.html?id=${order.orderId}" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-eye"></i> View
+                  </a>
+                `,
+                isHtml: true
+              }
+            ];
+            
+            cells.forEach(cellData => {
+              const cell = document.createElement('td');
+              if (cellData.isHtml) {
+                cell.innerHTML = cellData.value;
+              } else {
+                cell.textContent = cellData.value;
+              }
+              orderRow.appendChild(cell);
+            });
+            
+            ordersTable.appendChild(orderRow);
+            
+          } catch (error) {
+            logAdminEvent('Error processing order', {
+              orderId: order.orderId,
+              error: error.message,
+              stack: error.stack
+            });
+          }
+        });
+        
+        // Function to format currency
+        const formatCurrency = (amount) => {
+          return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'TND',
+            minimumFractionDigits: 2
+          }).format(amount || 0);
+        };
+
+        // Function to show order details in modal
+        const showOrderDetails = (order) => {
+          if (!order) return;
+          
+          // Set basic order info
+          document.getElementById('customerName').textContent = order.orderData?.fullName || 'N/A';
+          document.getElementById('customerEmail').textContent = order.orderData?.email || 'N/A';
+          document.getElementById('customerPhone').textContent = order.orderData?.phoneNumber || 'N/A';
+          
+          // Set shipping address
+          const shippingText = order.orderData?.deliveryType === 'home' 
+            ? `${order.orderData?.deliveryAddress || 'No address provided'}, ${order.orderData?.city || ''}`
+            : 'In-store pickup';
+          document.getElementById('shippingDetails').textContent = shippingText;
+          
+          // Set order items
+          const orderItemsContainer = document.getElementById('orderItems');
+          if (order.orderData?.items?.length > 0) {
+            orderItemsContainer.innerHTML = order.orderData.items.map(item => `
+              <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                <div class="d-flex align-items-center">
+                  <img src="${item.image || 'img/placeholder.jpg'}" alt="${item.name}" 
+                       class="img-thumbnail me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                  <div>
+                    <h6 class="mb-0">${item.name}</h6>
+                    <small class="text-muted">Qty: ${item.quantity || 1}</small>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <div class="fw-medium">${formatCurrency(item.price)}</div>
+                  ${item.quantity > 1 ? `<small class="text-muted">${formatCurrency(item.price * item.quantity)} total</small>` : ''}
+                </div>
+              </div>
+            `).join('');
+          } else {
+            orderItemsContainer.innerHTML = `
+              <div class="text-center py-4 text-muted">
+                <i class="bi bi-box-seam display-6 mb-2"></i>
+                <p class="mb-0">No items in this order</p>
+              </div>`;
+          }
+          
+          // Set order totals
+          const subtotal = order.orderData?.subtotal || order.orderData?.total || 0;
+          const shipping = order.orderData?.shipping || 0;
+          const total = order.orderData?.total || subtotal + shipping;
+          
+          document.getElementById('orderSubtotal').textContent = formatCurrency(subtotal);
+          document.getElementById('orderShipping').textContent = formatCurrency(shipping);
+          document.getElementById('orderTotal').textContent = formatCurrency(total);
+          
+          // Set order status
+          const statusSelect = document.getElementById('orderStatus');
+          if (statusSelect) {
+            statusSelect.value = order.status || 'pending';
+          }
+          
+          // Show the modal
+          const modal = new bootstrap.Modal(document.getElementById('viewOrderModal'));
+          modal.show();
+        };
+
+        // Add event listeners to view buttons
+        document.querySelectorAll('.view-order').forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const orderId = this.getAttribute('data-order-id');
+            logAdminEvent('View order clicked', { orderId });
+            
+            // Find the order in our successful orders
+            const order = successfulOrders.find(o => o.orderId === orderId);
+            if (order) {
+              showOrderDetails(order);
+            } else {
+              alert(`Order ${orderId} not found`);
+            }
+          });
+        });
+        
+        // Handle status update
+        document.getElementById('updateStatusBtn')?.addEventListener('click', function() {
+          const statusSelect = document.getElementById('orderStatus');
+          if (statusSelect) {
+            const newStatus = statusSelect.value;
+            // Here you would typically update the order status via an API call
+            logAdminEvent('Order status update requested', { 
+              status: newStatus,
+              // Add order ID and other relevant data
+            });
+            
+            // Show success message
+            alert(`Order status updated to: ${newStatus}`);
+          }
+        });
+        
+      } catch (error) {
+        logAdminEvent('Error loading orders', { 
+          error: error.message,
+          stack: error.stack 
+        });
+        
+        ordersTable.innerHTML = `
+          <tr>
+            <td colspan="6" class="text-center py-5 text-danger">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              <p class="mt-2 mb-0">Error loading orders</p>
+              <p class="small">${error.message}</p>
+              <button class="btn btn-sm btn-outline-secondary mt-2" onclick="console.log(JSON.parse(sessionStorage.getItem('orderLogs') || '[]'))">
+                View Raw Order Data
+              </button>
+            </td>
+          </tr>`;
+      } finally {
+        loadingIndicator.style.display = 'none';
+      }
+    }
+    
+    // Log any JavaScript errors
+    window.onerror = function(message, source, lineno, colno, error) {
+      logAdminEvent('JavaScript Error', {
+        message,
+        source,
+        line: lineno,
+        column: colno,
+        error: error ? error.stack : 'No error stack'
+      });
+      return false; // Let the default handler run as well
+    };
+  </script>
+    <script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
+        // Show order details modal
+        document.addEventListener('DOMContentLoaded', function() {
+            // This will be replaced with actual order loading logic
+            console.log('Orders page loaded');
+        });
+    </script>
+</body>
+</html>
