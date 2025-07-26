@@ -41,30 +41,55 @@ const productApi = {
   // Update an existing product
   updateProduct: async (id, product) => {
     console.log('Updating product with ID:', id);
-    console.log('Product data:', product);
+    console.log('Product data:', JSON.parse(JSON.stringify(product))); // Deep clone to avoid reference issues
     
     // Ensure the ID is a string and properly formatted
     const productId = id.toString().trim();
     
     try {
+      console.log('Sending request to:', `${API_URL}/products/${productId}`);
+      
       const response = await fetch(`${API_URL}/products/${productId}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify(product)
+        body: JSON.stringify(product, (key, value) => {
+          // Log each property being stringified
+          console.log(`Stringifying ${key}:`, value);
+          return value;
+        })
       });
       
+      console.log('Response status:', response.status, response.statusText);
+      
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
+        let errorData;
+        try {
+          errorData = await response.json();
+          console.error('Error response data:', errorData);
+        } catch (e) {
+          console.error('Failed to parse error response:', e);
+          const text = await response.text();
+          console.error('Raw error response:', text);
+          errorData = { message: `HTTP error! status: ${response.status} - ${text}` };
+        }
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
       
-      return await response.json();
+      const responseData = await response.json();
+      console.log('Update successful, response:', responseData);
+      return responseData;
     } catch (error) {
-      console.error('Error in updateProduct:', error);
-      throw error;
+      console.error('Error in updateProduct:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+        productId,
+        productData: product
+      });
+      throw new Error(`Failed to update product: ${error.message}`);
     }
   },
 

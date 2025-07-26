@@ -47,21 +47,59 @@
             margin-bottom: 0.5rem;
         }
         
+        /* Price input styling */
         .price-input-container {
             position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .currency-symbol {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
             font-weight: 500;
-            color: #6c757d;
+            color: #495057;
+            min-width: 40px;
+            text-align: center;
         }
         
         .price-input {
-            padding-left: 40px;
+            flex: 1;
+        }
+        
+        /* Breadcrumb styling */
+        .breadcrumb {
+            background: none;
+            padding: 0.5rem 0;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "/";
+            color: #6c757d;
+            padding: 0 0.5rem;
+            display: inline-block;
+        }
+        
+        .breadcrumb-item a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .breadcrumb-item a:hover {
+            color: #d4b28c;
+            text-decoration: underline;
+        }
+        
+        .breadcrumb-item.active {
+            color: #6c757d;
+            font-weight: 500;
         }
         
         .image-upload-container {
@@ -250,6 +288,13 @@
                                     <label for="product-name" class="form-label">Product Name</label>
                                     <input type="text" class="form-control" id="product-name" name="name" required>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="small-description" class="form-label">Small Description (for product cards)</label>
+                                    <textarea class="form-control" id="small-description" name="small-description" rows="2" maxlength="150" placeholder="A short description that will appear on product cards (max 150 characters)"></textarea>
+                                    <div class="form-text text-muted">
+                                        <span id="char-count">0</span>/150 characters
+                                    </div>
+                                </div>
                                 
                                 <div class="mb-3">
                                     <label for="product-price" class="form-label">Price (Dinar)</label>
@@ -329,6 +374,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/api.js"></script>
     <script>
+        // Character counter for small description
+        const smallDescription = document.getElementById('small-description');
+        const charCount = document.getElementById('char-count');
+        
+        if (smallDescription && charCount) {
+            smallDescription.addEventListener('input', function() {
+                const currentLength = this.value.length;
+                charCount.textContent = currentLength;
+                
+                // Optional: Add warning when approaching limit
+                if (currentLength > 140) {
+                    charCount.style.color = 'red';
+                } else {
+                    charCount.style.color = '';
+                }
+            });
+            
+            // Initialize counter
+            charCount.textContent = smallDescription.value.length;
+        }
         document.addEventListener('DOMContentLoaded', function() {
             // Get DOM elements
             const form = document.getElementById('add-product-form');
@@ -672,6 +737,7 @@
                         name: formData.get('name'),
                         price: parseFloat(formData.get('price') || 0),
                         description: formData.get('description'),
+                        smallDescription: formData.get('small-description') || '',
                         image: mainImage,
                         display_home: document.getElementById('display-on-home').checked,
                         home_position: document.getElementById('display-on-home').checked ? 

@@ -93,9 +93,11 @@
                         <tr>
                             <th width="120">Image</th>
                             <th>Name</th>
-                            <th width="120">Price</th>
-                            <th width="100">Stock</th>
-                            <th width="180">Actions</th>
+                            <th width="100">Price</th>
+                            <th width="80">Stock</th>
+                            <th width="120">Display on Home</th>
+                            <th width="100">Position</th>
+                            <th width="150">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="product-table-body" class="table-body">
@@ -291,7 +293,29 @@
                             <div>$${price}</div>
                         </td>
                         <td class="align-middle" data-label="Stock">
-                            <div>${product.stock || 0}</div>
+                            <div class="stock-status ${product.stock?.status === 'متاح' ? 'text-success' : 'text-danger'}" 
+                                 style="font-weight: 500;">
+                                ${product.stock?.status || 'غير متاح'}
+                            </div>
+                            <small class="text-muted">(${product.stock?.quantity || 0})</small>
+                        </td>
+                        <td class="align-middle" data-label="Display on Home">
+                            <div class="form-check form-switch d-flex justify-content-center">
+                                <input class="form-check-input display-home-toggle" type="checkbox" 
+                                       data-product-id="${product._id || product.id}" 
+                                       ${product.display_home ? 'checked' : ''}
+                                       style="width: 3em; height: 1.5em; cursor: pointer;">
+                            </div>
+                        </td>
+                        <td class="align-middle" data-label="Position">
+                            <input type="number" 
+                                   class="form-control form-control-sm position-input" 
+                                   data-product-id="${product._id || product.id}"
+                                   value="${product.display_home ? (product.home_position || 1) : 0}" 
+                                   min="1" 
+                                   style="width: 70px;"
+                                   ${!product.display_home ? 'disabled' : ''}
+                                   oninput="this.value = Math.max(1, parseInt(this.value) || 1)">
                         </td>
                         <td class="align-middle" data-label="Actions">
                             <div class="btn-group btn-group-sm" role="group">
@@ -315,6 +339,77 @@
                     const productId = e.target.closest('button').dataset.id;
                     const productName = e.target.closest('tr').querySelector('.product-name-cell').textContent;
                     showDeleteConfirmation(productId, productName);
+                });
+            });
+            
+            // Add event listeners for display_home toggle
+            document.querySelectorAll('.display-home-toggle').forEach(toggle => {
+                toggle.addEventListener('change', async (e) => {
+                    const productId = e.target.dataset.productId;
+                    const isChecked = e.target.checked;
+                    const positionInput = document.querySelector(`.position-input[data-product-id="${productId}"]`);
+                    
+                    // Show loading state
+                    const originalText = e.target.checked ? 'ON' : 'OFF';
+                    e.target.disabled = true;
+                    
+                    try {
+                        // Update the product
+                        await window.api.products.updateProduct(productId, {
+                            display_home: isChecked,
+                            home_position: isChecked ? (parseInt(positionInput?.value) || 1) : 0
+                        });
+                        
+                        // Update UI immediately for better UX
+                        if (positionInput) {
+                            positionInput.disabled = !isChecked;
+                            if (isChecked && (!positionInput.value || positionInput.value === '0')) {
+                                positionInput.value = '1';
+                            } else if (!isChecked) {
+                                positionInput.value = '0';
+                            }
+                        }
+                        
+                        // Refresh the product list to update the sort order
+                        await loadProducts();
+                    } catch (error) {
+                        console.error('Error updating product display status:', error);
+                        alert('Error updating product. Please try again.');
+                        e.target.checked = !isChecked; // Revert the toggle on error
+                    } finally {
+                        e.target.disabled = false;
+                    }
+                });
+            });
+            
+            // Add event listeners for position input changes
+            document.querySelectorAll('.position-input').forEach(input => {
+                input.addEventListener('change', async (e) => {
+                    const productId = e.target.dataset.productId;
+                    const position = Math.max(1, parseInt(e.target.value) || 1); // Ensure position is at least 1
+                    
+                    // Update the input value in case it was changed
+                    e.target.value = position;
+                    
+                    // Show loading state
+                    const originalValue = e.target.value;
+                    e.target.disabled = true;
+                    
+                    try {
+                        // Update the product
+                        await window.api.products.updateProduct(productId, {
+                            home_position: position
+                        });
+                        
+                        // Refresh the product list to update the sort order
+                        await loadProducts();
+                    } catch (error) {
+                        console.error('Error updating product position:', error);
+                        alert('Error updating product position. Please try again.');
+                        e.target.value = originalValue; // Revert the value on error
+                    } finally {
+                        e.target.disabled = false;
+                    }
                 });
             });
         }
@@ -357,8 +452,18 @@
                     console.log('Additional Images:', additionalImages);
                 });
                 
-                // Store products globally
-                window.productsList = products;
+                // Sort products by home_position (only for products with display_home: true)
+                const sortedProducts = [...products].sort((a, b) => {
+                    if (a.display_home && b.display_home) {
+                        return (a.home_position || 0) - (b.home_position || 0);
+                    }
+                    if (a.display_home) return -1;
+                    if (b.display_home) return 1;
+                    return 0;
+                });
+                
+                // Store sorted products globally
+                window.productsList = sortedProducts;
                 
                 if (products.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No products found. <a href="add-product.html" class="text-primary">Add your first product</a></td></tr>';

@@ -70,25 +70,23 @@ async function loadProductsIntoGrid(productGrid) {
   
     // Add products to grid
     products.forEach(product => {
-      
       const productCol = document.createElement('div');
       productCol.className = 'product-col';
       
-      // legacy generated HTML log removed
       productCol.innerHTML = `
         <div class="product-item">
           <div class="product-badge">
             <span>Exclusive</span>
           </div>
           <div class="image-holder">
-            <a href="product.html?id=${product.id}" class="product-link" data-product-id="${product.id}">
+            <a href="product.html?id=${product.id || product._id}" class="product-link" data-product-id="${product.id || product._id}">
               <img src="${product.image}" alt="${product.name}" class="img-fluid product-image">
             </a>
           </div>
           <div class="product-content">
             <div class="product-header">
               <h5 class="product-title">${product.name}</h5>
-              <p class="product-description">${product.description}</p>
+              ${product.smallDescription ? `<p class="product-description">${product.smallDescription}</p>` : '<p class="product-description text-muted">No description available</p>'}
             </div>
             
             <div class="product-footer">

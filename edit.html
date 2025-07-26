@@ -388,6 +388,13 @@
                                     <label for="product-name" class="form-label">Product Name</label>
                                     <input type="text" class="form-control" id="product-name" name="name" required>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="small-description" class="form-label">Small Description (for product cards)</label>
+                                    <textarea class="form-control" id="small-description" name="smallDescription" rows="2" maxlength="150" placeholder="A short description that will appear on product cards (max 150 characters)"></textarea>
+                                    <div class="form-text text-muted">
+                                        <span id="char-count">0</span>/150 characters
+                                    </div>
+                                </div>
                                 
                                 <div class="mb-3">
                                     <label for="product-price" class="form-label">Price (Dinar)</label>
@@ -404,6 +411,28 @@
                                 </div>
                                 
                                 
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="stock-quantity" class="form-label">Stock Quantity</label>
+                                        <input type="number" class="form-control" id="stock-quantity" name="stock" min="0" value="0">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Stock Status</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="stock-status" id="stock-available" value="متاح">
+                                            <label class="form-check-label text-success" for="stock-available">
+                                                متاح (Available)
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="stock-status" id="stock-unavailable" value="غير متاح" checked>
+                                            <label class="form-check-label text-danger" for="stock-unavailable">
+                                                غير متاح (Out of Stock)
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="checkbox" id="display-on-home" name="display_home">
                                     <label class="form-check-label" for="display-on-home">
@@ -502,8 +531,40 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Character counter for small description
+        const smallDescription = document.getElementById('small-description');
+        const charCount = document.getElementById('char-count');
+        
+        if (smallDescription && charCount) {
+            smallDescription.addEventListener('input', function() {
+                const currentLength = this.value.length;
+                charCount.textContent = currentLength;
+                
+                // Optional: Add warning when approaching limit
+                if (currentLength > 140) {
+                    charCount.style.color = 'red';
+                } else {
+                    charCount.style.color = '';
+                }
+            });
+            
+            // Initialize counter
+            charCount.textContent = smallDescription.value.length;
+        }
+    </script>
     <script src="js/api.js"></script>
     <script>
+        // Helper function to set form field values
+        function setValue(id, value) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.value = value !== undefined ? value : '';
+            } else {
+                console.warn(`Element with ID '${id}' not found`);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', async () => {
             // Get product ID from URL
             const urlParams = new URLSearchParams(window.location.search);
@@ -784,15 +845,20 @@
                         console.log('Found in products list:', !!product);
                     }
                     
-                    // If not found in the list, try to fetch it directly
+                    // If not found in the list, try to fetch it directly using the API
                     if (!product) {
                         console.log('Product not in list, fetching directly...');
                         try {
-                            product = await window.dbOperations.products.getProductById(productId);
+                            // Use the API method from api.js
+                            product = await window.api.products.getProductById(productId);
                             console.log('Fetched product:', product);
                         } catch (fetchError) {
-                            console.error('Error fetching product:', fetchError);
-                            throw new Error('Could not load product details. Please try again later.');
+                            console.error('Error fetching product:', {
+                                message: fetchError.message,
+                                stack: fetchError.stack,
+                                name: fetchError.name
+                            });
+                            throw new Error('Could not fetch product details. Please try again later.');
                         }
                     }
                     
@@ -802,28 +868,28 @@
                     
                     console.log('Product data to load:', product);
                     
-                    // Fill form with product data
-                    const form = document.getElementById('edit-product-form');
-                    if (!form) {
-                        throw new Error('Form element not found');
-                    }
-                    
-                    // Set form values
-                    const setValue = (id, value) => {
-                        const element = document.getElementById(id);
-                        if (element) {
-                            element.value = value !== undefined ? value : '';
-                        } else {
-                            console.warn(`Element with ID '${id}' not found`);
-                        }
-                    };
-                    
                     // Set basic fields
                     setValue('product-id', product._id || product.id || '');
                     setValue('product-name', product.name || '');
                     setValue('product-price', product.price || '');
                     setValue('product-description', product.description || '');
                     setValue('product-category', product.category || '');
+                    
+                    // Set small description if it exists
+                    const smallDescription = document.getElementById('small-description');
+                    const charCount = document.getElementById('char-count');
+                    console.log('Product data when loading:', {
+                        productId: product._id || product.id,
+                        hasSmallDescription: 'smallDescription' in product,
+                        smallDescriptionValue: product.smallDescription,
+                        productData: product
+                    });
+                    
+                    if (smallDescription && charCount) {
+                        smallDescription.value = product.smallDescription || '';
+                        charCount.textContent = smallDescription.value.length;
+                        console.log('Set small description field:', smallDescription.value);
+                    }
                     
                     // Handle image preview
                     const imagePreview = document.getElementById('image-preview');
@@ -854,18 +920,48 @@
                         formContainer.style.display = 'block';
                     }
                     
+                    // Handle stock settings
+                    const stockQuantity = document.getElementById('stock-quantity');
+                    const stockStatusAvailable = document.getElementById('stock-available');
+                    const stockStatusUnavailable = document.getElementById('stock-unavailable');
+                    
+                    if (stockQuantity) {
+                        stockQuantity.value = product.stock?.quantity || 0;
+                    }
+                    
+                    // Set the correct stock status based on the product data
+                    if (product.stock?.status) {
+                        // If the product has a stock status, use it
+                        if (product.stock.status === 'متاح') {
+                            stockStatusAvailable.checked = true;
+                        } else {
+                            stockStatusUnavailable.checked = true;
+                        }
+                    } else {
+                        // Default to unavailable if no status is set
+                        stockStatusUnavailable.checked = true;
+                    }
+                    
                     // Handle home display settings
                     const displayHome = document.getElementById('display-on-home');
                     const homePositionContainer = document.getElementById('home-position-container');
                     
-                    if (product.displayOnHome) {
+                    if (product.display_home) {
                         displayHome.checked = true;
                         homePositionContainer.style.display = 'block';
-                        setValue('home-position', product.homePosition || 0);
+                        setValue('home-position', product.home_position || 0);
                     } else {
                         displayHome.checked = false;
                         homePositionContainer.style.display = 'none';
                     }
+                    
+                    // Toggle home position field when display_home changes
+                    displayHome.addEventListener('change', function() {
+                        homePositionContainer.style.display = this.checked ? 'block' : 'none';
+                        if (!this.checked) {
+                            setValue('home-position', 0);
+                        }
+                    });
                     
                     return product;
                     
@@ -892,6 +988,7 @@
                     name: document.getElementById('product-name'),
                     price: document.getElementById('product-price'),
                     description: document.getElementById('product-description'),
+                    smallDescription: document.getElementById('small-description'),
                     image: document.getElementById('product-image'),
                     displayHome: document.getElementById('display-on-home'),
                     homePosition: document.getElementById('home-position'),
@@ -910,8 +1007,39 @@
                 
                 // Basic product data
                 productData.name = formElements.name.value;
+                if (formElements.smallDescription && formElements.smallDescription.value) {
+                    productData.smallDescription = formElements.smallDescription.value;
+                }
                 productData.price = parseFloat(formElements.price.value);
                 productData.description = formElements.description.value;
+                
+                // Handle stock data
+                const stockQuantityInput = document.getElementById('stock-quantity');
+                const stockStatusRadio = document.querySelector('input[name="stock-status"]:checked');
+                
+                // Default values
+                let stockQuantity = 0;
+                let stockStatus = 'غير متاح';
+                
+                // Parse stock quantity safely
+                if (stockQuantityInput && stockQuantityInput.value !== '') {
+                    const parsed = parseInt(stockQuantityInput.value, 10);
+                    stockQuantity = isNaN(parsed) ? 0 : Math.max(0, parsed); // Ensure non-negative
+                }
+                
+                // Get stock status if available
+                if (stockStatusRadio) {
+                    stockStatus = stockStatusRadio.value;
+                } else {
+                    // If no status selected but quantity > 0, default to 'متاح'
+                    stockStatus = stockQuantity > 0 ? 'متاح' : 'غير متاح';
+                }
+                
+                // Update the stock data
+                productData.stock = {
+                    quantity: stockQuantity,
+                    status: stockStatus
+                };
                 
                 // Additional images
                 if (additionalImages.length > 0) {
@@ -938,8 +1066,6 @@
                     }
                 }
                 
-                console.log('Submitting product data:', { productId, productData });
-                
                 try {
                     showLoading(true);
                     
@@ -963,31 +1089,22 @@
                     }
                     
                     // Update the product
-                    const updatedProduct = await window.dbOperations.products.updateProduct(
+                    await window.dbOperations.products.updateProduct(
                         productId.toString(),
                         productData
                     );
                     
+                    // Show success message
                     showAlert('Product updated successfully!', 'success');
+                    
+                    // Redirect to products list after a short delay
                     setTimeout(() => {
                         window.location.href = 'admin.html';
                     }, 1000);
                     
                 } catch (error) {
-                    console.error('Error updating product:', error);
-                    let errorMessage = 'Failed to update product';
-                    
-                    if (error.response) {
-                        // The request was made and the server responded with a status code
-                        // that falls out of the range of 2xx
-                        const responseData = await error.response.json().catch(() => ({}));
-                        errorMessage = responseData.message || errorMessage;
-                    } else if (error.request) {
-                        // The request was made but no response was received
-                        errorMessage = 'No response from server. Please try again.';
-                    }
-                    
-                    showAlert(`${errorMessage}: ${error.message || ''}`, 'danger');
+                    showError(error.message || 'Failed to update product');
+                } finally {
                     showLoading(false);
                 }
             });
