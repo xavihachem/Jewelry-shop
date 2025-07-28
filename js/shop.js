@@ -146,11 +146,14 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
     // Add pagination controls if there are multiple pages
     if (totalPages > 1) {
       const pagination = document.createElement('div');
-      pagination.className = 'pagination d-flex justify-content-center align-items-center gap-3 mt-4';
+      pagination.className = 'pagination d-flex justify-content-center align-items-center gap-1 gap-sm-2 mt-3 mt-sm-4';
+      pagination.style.fontSize = '0.9rem';
       
       // Previous button
       const prevBtn = document.createElement('button');
-      prevBtn.className = 'btn btn-outline-primary';
+      prevBtn.className = 'btn btn-sm btn-outline-gold px-1 px-sm-2 py-0 py-sm-1';
+      prevBtn.style.minWidth = '60px';
+      prevBtn.style.fontSize = '0.8rem';
       prevBtn.innerHTML = '&larr; Previous';
       prevBtn.disabled = shopCurrentPage === 1;
       prevBtn.addEventListener('click', () => loadProductsIntoGrid(productGrid, shopCurrentPage - 1));
@@ -162,7 +165,9 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
       // Always show first page
       if (shopCurrentPage > 3) {
         const firstPage = document.createElement('button');
-        firstPage.className = `btn ${shopCurrentPage === 1 ? 'btn-primary' : 'btn-outline-primary'}`;
+        firstPage.className = `btn btn-sm ${shopCurrentPage === 1 ? 'btn-gold text-dark' : 'btn-outline-gold'} px-1 px-sm-2 py-0 py-sm-1`;
+        firstPage.style.minWidth = '30px';
+        firstPage.style.fontSize = '0.8rem';
         firstPage.textContent = '1';
         firstPage.addEventListener('click', () => loadProductsIntoGrid(productGrid, 1));
         pageNumbers.appendChild(firstPage);
@@ -181,7 +186,9 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
       
       for (let i = startPage; i <= endPage; i++) {
         const pageBtn = document.createElement('button');
-        pageBtn.className = `btn ${i === shopCurrentPage ? 'btn-primary' : 'btn-outline-primary'}`;
+        pageBtn.className = `btn btn-sm ${i === shopCurrentPage ? 'btn-gold text-dark' : 'btn-outline-gold'} px-1 px-sm-2 py-0 py-sm-1`;
+        pageBtn.style.minWidth = '30px';
+        pageBtn.style.fontSize = '0.8rem';
         pageBtn.textContent = i;
         if (i !== shopCurrentPage) {
           pageBtn.addEventListener('click', () => loadProductsIntoGrid(productGrid, i));
@@ -199,7 +206,9 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
         }
         
         const lastPage = document.createElement('button');
-        lastPage.className = `btn ${shopCurrentPage === totalPages ? 'btn-primary' : 'btn-outline-primary'}`;
+        lastPage.className = `btn btn-sm ${shopCurrentPage === totalPages ? 'btn-gold text-dark' : 'btn-outline-gold'} px-1 px-sm-2 py-0 py-sm-1`;
+        lastPage.style.minWidth = '30px';
+        lastPage.style.fontSize = '0.8rem';
         lastPage.textContent = totalPages;
         lastPage.addEventListener('click', () => loadProductsIntoGrid(productGrid, totalPages));
         pageNumbers.appendChild(lastPage);
@@ -207,7 +216,9 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
       
       // Next button
       const nextBtn = document.createElement('button');
-      nextBtn.className = 'btn btn-outline-primary';
+      nextBtn.className = 'btn btn-sm btn-outline-gold px-1 px-sm-2 py-0 py-sm-1';
+      nextBtn.style.minWidth = '60px';
+      nextBtn.style.fontSize = '0.8rem';
       nextBtn.innerHTML = 'Next &rarr;';
       nextBtn.disabled = shopCurrentPage === totalPages;
       nextBtn.addEventListener('click', () => loadProductsIntoGrid(productGrid, shopCurrentPage + 1));
