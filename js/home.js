@@ -19,23 +19,42 @@ document.addEventListener('DOMContentLoaded', async function() {
 /**
  * Load featured products from database and display them in the featured products section
  */
-async function loadFeaturedProducts() {
+// --- Pagination State ---
+let currentPage = 1;
+const PRODUCTS_PER_PAGE = 14;
+let allProducts = [];
+
+async function loadFeaturedProducts(page = 1) {
   const featuredProductsRow = document.querySelector('.featured-products-section .row:not(:first-child)');
+  const paginationControls = document.getElementById('pagination-controls');
   if (!featuredProductsRow) return;
-  
-  // Clear existing products
+
+  // Only fetch from DB if not already loaded
+  if (!allProducts.length) {
+    allProducts = await window.dbOperations.products.getHomeProducts();
+  }
+
+  // Pagination logic
+  const totalPages = Math.ceil(allProducts.length / PRODUCTS_PER_PAGE);
+  if (page < 1) page = 1;
+  if (page > totalPages) page = totalPages;
+  currentPage = page;
+
+  // Clear existing products and controls
   featuredProductsRow.innerHTML = '';
-  
-  // Get featured products from database
-  const products = await window.dbOperations.products.getHomeProducts();
-  
-  if (products.length === 0) {
+  if (paginationControls) paginationControls.innerHTML = '';
+
+  if (allProducts.length === 0) {
     featuredProductsRow.innerHTML = '<div class="col-12 text-center"><p>No featured products found</p></div>';
     return;
   }
-  
-  // Add products to featured section
-  products.forEach((product, index) => {
+
+  // Slice products for current page
+  const startIdx = (currentPage - 1) * PRODUCTS_PER_PAGE;
+  const endIdx = startIdx + PRODUCTS_PER_PAGE;
+  const productsToShow = allProducts.slice(startIdx, endIdx);
+
+  productsToShow.forEach((product, index) => {
     const productCol = document.createElement('div');
     productCol.className = 'col-lg-4 col-md-6 mb-4';
     productCol.setAttribute('data-aos', 'fade-up');
@@ -62,15 +81,33 @@ async function loadFeaturedProducts() {
         </div>
       </div>
     `;
-    
     featuredProductsRow.appendChild(productCol);
   });
-  
+
+  // Render pagination controls if needed
+  if (paginationControls && totalPages > 1) {
+    let controlsHTML = '';
+    controlsHTML += `<button class="btn btn-outline-gold mx-1" ${currentPage === 1 ? 'disabled' : ''} id="pagination-prev">Prev</button>`;
+    controlsHTML += `<span class="mx-2">Page ${currentPage} of ${totalPages}</span>`;
+    controlsHTML += `<button class="btn btn-outline-gold mx-1" ${currentPage === totalPages ? 'disabled' : ''} id="pagination-next">Next</button>`;
+    paginationControls.innerHTML = controlsHTML;
+    document.getElementById('pagination-prev').onclick = () => loadFeaturedProducts(currentPage - 1);
+    document.getElementById('pagination-next').onclick = () => loadFeaturedProducts(currentPage + 1);
+  }
+
   // Re-initialize order buttons after loading products
   if (typeof replaceCartButtons === 'function') {
     replaceCartButtons();
   }
 }
+
+// Ensure initial load uses pagination
+// Patch: clear allProducts on reload
+window.reloadFeaturedProducts = function() {
+  allProducts = [];
+  loadFeaturedProducts(1);
+}
+
 
 /**
  * Initialize product modal functionality

@@ -443,60 +443,85 @@
           const deliveryFee = orderData.deliveryType === 'home' ? 10 : 0; // Example delivery fee
           const total = subtotal + deliveryFee;
           
-          // Prepare complete order data
+          // Prepare complete order data with correct field names
           const completeOrderData = {
-            ...orderData,
+            // Map form fields to database fields
+            customerName: orderData.fullName,
+            phoneNumber: orderData.phoneNumber,
+            city: orderData.city,
+            deliveryType: orderData.deliveryType,
+            deliveryAddress: orderData.deliveryAddress,
+            
+            // Add system-generated fields
             orderId: 'ORD-' + Date.now(),
-            timestamp: new Date().toISOString(),
             status: 'pending',
-            items: cartItems.map(item => {
-              // Ensure we have all necessary product details
-              const productDetails = {
-                id: item.id || 'N/A',
-                name: item.name || 'Unnamed Product',
-                price: parseFloat(item.price) || 0,
-                quantity: parseInt(item.quantity) || 1,
-                image: item.image || 'img/placeholder.jpg',
-                description: item.description || ''
-              };
-              
-              // If the image path is relative, make sure it's accessible
-              if (productDetails.image && !productDetails.image.startsWith('http') && 
-                  !productDetails.image.startsWith('/') && !productDetails.image.startsWith('data:')) {
-                productDetails.image = 'img/products/' + productDetails.image.split('/').pop();
-              }
-              
-              return productDetails;
-            }),
+            
+            // Map cart items
+            items: cartItems.map(item => ({
+              id: item.id || 'N/A',
+              name: item.name || 'Unnamed Product',
+              price: parseFloat(item.price) || 0,
+              quantity: parseInt(item.quantity) || 1,
+              image: (() => {
+                let img = item.image || 'img/placeholder.jpg';
+                // If the image path is relative, make sure it's accessible
+                if (img && !img.startsWith('http') && 
+                    !img.startsWith('/') && !img.startsWith('data:')) {
+                  return 'img/products/' + img.split('/').pop();
+                }
+                return img;
+              })(),
+              description: item.description || ''
+            })),
+            
+            // Calculate totals
             subtotal: subtotal,
             deliveryFee: deliveryFee,
-            total: total
+            total: total,
+            
+            // Add timestamp for reference (not part of the schema, will be ignored by Mongoose)
+            timestamp: new Date().toISOString()
           };
+          
+          console.log('Complete order data with mapped fields:', completeOrderData);
           
           console.log('Complete order data:', completeOrderData); // Debug log
           
           logOrderEvent('Preparing to submit order', { orderData: completeOrderData });
           
-          // Here you would typically send the data to your server
-          // For now, we'll store it in localStorage
-          const existingOrders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
-          existingOrders.push(completeOrderData);
-          localStorage.setItem('adminOrders', JSON.stringify(existingOrders));
+          // Send order to the backend
+          logOrderEvent('Sending order to backend API', { orderData: completeOrderData });
           
-          // Simulate API call
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          const response = await fetch('http://localhost:5000/api/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(completeOrderData)
+          });
+          
+          const result = await response.json();
+          
+          if (!response.ok) {
+            logOrderEvent('Order submission failed', { 
+              status: response.status,
+              error: result.message || 'Unknown error'
+            });
+            throw new Error(result.message || 'Failed to submit order');
+          }
           
           // Log successful submission
           logOrderEvent('Order submitted successfully', { 
             orderId: completeOrderData.orderId,
-            timestamp: completeOrderData.timestamp
+            timestamp: completeOrderData.timestamp,
+            response: result
           });
           
           // Clear cart after successful order
           localStorage.removeItem('cart');
           
-          // Show success message
-          alert('Thank you for your order! We will contact you soon.');
+          // Show success message with order ID
+          alert(`Thank you for your order! Your order ID is: ${completeOrderData.orderId}\nWe will contact you soon.`);
           logOrderEvent('Success message shown to user');
           
           // Reset form

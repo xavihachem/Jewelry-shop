@@ -38,38 +38,59 @@ async function loadProducts() {
     return;
   }
   
-  return loadProductsIntoGrid(productGrid);
+  return loadProductsIntoGrid(productGrid, 1);
 }
 
 /**
  * Helper function to load products into a grid element
  */
-async function loadProductsIntoGrid(productGrid) {
-  
+// --- Pagination State ---
+let shopCurrentPage = 1;
+const SHOP_PRODUCTS_PER_PAGE = 9; // Changed from 14 to 9 products per page
+let shopAllProducts = [];
+
+async function loadProductsIntoGrid(productGrid, page = 1) {
   // Clear existing products
   productGrid.innerHTML = '';
-  
+  // Add or find pagination controls
+  let paginationControls = document.getElementById('shop-pagination-controls');
+  if (!paginationControls) {
+    paginationControls = document.createElement('div');
+    paginationControls.id = 'shop-pagination-controls';
+    paginationControls.className = 'd-flex justify-content-center align-items-center mt-4';
+    productGrid.parentNode.appendChild(paginationControls);
+  } else {
+    paginationControls.innerHTML = '';
+  }
+
   try {
-    // Get products from API
-    const products = await window.api.products.getAllProducts();
-    
+    // Get products from API (cache for pagination)
+    if (!shopAllProducts.length) {
+      shopAllProducts = await window.api.products.getAllProducts();
+    }
+    const products = shopAllProducts;
     if (!products || products.length === 0) {
       productGrid.innerHTML = `
         <div class="col-12 text-center py-5">
           <p>No products found.</p>
         </div>
       `;
+      paginationControls.innerHTML = '';
       return;
     }
-    
-    if (!products || products.length === 0) {
-      
-      productGrid.innerHTML = '<div class="col-12 text-center"><p>No products found</p></div>';
-      return;
-    }
-  
+
+    // Pagination logic
+    const totalPages = Math.ceil(products.length / SHOP_PRODUCTS_PER_PAGE);
+    if (page < 1) page = 1;
+    if (page > totalPages) page = totalPages;
+    shopCurrentPage = page;
+    // Slice products for current page
+    const startIdx = (shopCurrentPage - 1) * SHOP_PRODUCTS_PER_PAGE;
+    const endIdx = startIdx + SHOP_PRODUCTS_PER_PAGE;
+    const productsToShow = products.slice(startIdx, endIdx);
+
     // Add products to grid
-    products.forEach(product => {
+    productsToShow.forEach(product => {
       const productCol = document.createElement('div');
       productCol.className = 'product-col';
       
@@ -120,6 +141,82 @@ async function loadProductsIntoGrid(productGrid) {
     // Re-initialize order buttons after loading products
     if (typeof replaceCartButtons === 'function') {
       replaceCartButtons();
+    }
+    
+    // Add pagination controls if there are multiple pages
+    if (totalPages > 1) {
+      const pagination = document.createElement('div');
+      pagination.className = 'pagination d-flex justify-content-center align-items-center gap-3 mt-4';
+      
+      // Previous button
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'btn btn-outline-primary';
+      prevBtn.innerHTML = '&larr; Previous';
+      prevBtn.disabled = shopCurrentPage === 1;
+      prevBtn.addEventListener('click', () => loadProductsIntoGrid(productGrid, shopCurrentPage - 1));
+      
+      // Page numbers
+      const pageNumbers = document.createElement('div');
+      pageNumbers.className = 'd-flex gap-2';
+      
+      // Always show first page
+      if (shopCurrentPage > 3) {
+        const firstPage = document.createElement('button');
+        firstPage.className = `btn ${shopCurrentPage === 1 ? 'btn-primary' : 'btn-outline-primary'}`;
+        firstPage.textContent = '1';
+        firstPage.addEventListener('click', () => loadProductsIntoGrid(productGrid, 1));
+        pageNumbers.appendChild(firstPage);
+        
+        if (shopCurrentPage > 4) {
+          const ellipsis1 = document.createElement('span');
+          ellipsis1.className = 'd-flex align-items-center';
+          ellipsis1.textContent = '...';
+          pageNumbers.appendChild(ellipsis1);
+        }
+      }
+      
+      // Show pages around current page
+      const startPage = Math.max(1, shopCurrentPage - 2);
+      const endPage = Math.min(totalPages, shopCurrentPage + 2);
+      
+      for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `btn ${i === shopCurrentPage ? 'btn-primary' : 'btn-outline-primary'}`;
+        pageBtn.textContent = i;
+        if (i !== shopCurrentPage) {
+          pageBtn.addEventListener('click', () => loadProductsIntoGrid(productGrid, i));
+        }
+        pageNumbers.appendChild(pageBtn);
+      }
+      
+      // Always show last page
+      if (shopCurrentPage < totalPages - 2) {
+        if (shopCurrentPage < totalPages - 3) {
+          const ellipsis2 = document.createElement('span');
+          ellipsis2.className = 'd-flex align-items-center';
+          ellipsis2.textContent = '...';
+          pageNumbers.appendChild(ellipsis2);
+        }
+        
+        const lastPage = document.createElement('button');
+        lastPage.className = `btn ${shopCurrentPage === totalPages ? 'btn-primary' : 'btn-outline-primary'}`;
+        lastPage.textContent = totalPages;
+        lastPage.addEventListener('click', () => loadProductsIntoGrid(productGrid, totalPages));
+        pageNumbers.appendChild(lastPage);
+      }
+      
+      // Next button
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'btn btn-outline-primary';
+      nextBtn.innerHTML = 'Next &rarr;';
+      nextBtn.disabled = shopCurrentPage === totalPages;
+      nextBtn.addEventListener('click', () => loadProductsIntoGrid(productGrid, shopCurrentPage + 1));
+      
+      // Append elements
+      pagination.appendChild(prevBtn);
+      pagination.appendChild(pageNumbers);
+      pagination.appendChild(nextBtn);
+      paginationControls.appendChild(pagination);
     }
     
     // Make product items clickable

@@ -95,44 +95,54 @@ function replaceCartButtons() {
     
     newButton.addEventListener('click', function(e) {
         e.preventDefault();
+        // Find product element
+        const productItem = this.closest('.product-item');
+        if (!productItem) return;
+        
+        // Extract product image
+        const productImageEl = productItem.querySelector('.product-image') || productItem.querySelector('img');
+        const productImage = productImageEl ? productImageEl.src : '';
+        
+        // Extract product title
+        let productTitle = '';
+        if (productItem.querySelector('.product-title a')) {
+            productTitle = productItem.querySelector('.product-title a').textContent.trim();
+        } else if (productItem.querySelector('.product-title')) {
+            productTitle = productItem.querySelector('.product-title').textContent.trim();
+        } else if (productItem.querySelector('h3')) {
+            productTitle = productItem.querySelector('h3').textContent.trim();
+        } else if (productItem.dataset.productTitle) {
+            productTitle = productItem.dataset.productTitle.trim();
+        }
+        
+        // Extract product price text and parse number
+        let priceText = '';
+        if (productItem.querySelector('.item-price')) {
+            priceText = productItem.querySelector('.item-price').textContent;
+        } else if (productItem.querySelector('.product-price')) {
+            priceText = productItem.querySelector('.product-price').textContent;
+        } else if (productItem.querySelector('.price')) {
+            priceText = productItem.querySelector('.price').textContent;
+        } else if (productItem.dataset.productPrice) {
+            priceText = productItem.dataset.productPrice;
+        }
+        const productPrice = parseFloat(priceText.replace(/[^0-9.-]+/g, '')) || 0;
+        
+        // Build cart item
+        const cartItem = {
+            id: productItem.dataset.productId || '',
+            name: productTitle,
+            price: productPrice,
+            quantity: 1,
+            image: productImage,
+            description: ''
+        };
+        
+        // Save single-item cart to localStorage
+        localStorage.setItem('cart', JSON.stringify([cartItem]));
+        
+        // Redirect to order page
         window.location.href = 'order.html';
-        return;
-      e.preventDefault();
-      
-      // Get product information from data attributes or parent elements
-      const productItem = this.closest('.product-item');
-      if (!productItem) return;
-      
-      // Get product image - first try product-image class, then any img
-      const productImageEl = productItem.querySelector('.product-image') || productItem.querySelector('img');
-      const productImage = productImageEl ? productImageEl.src : '';
-      
-      // Get product title - try multiple possible selectors
-      let productTitle = '';
-      if (productItem.querySelector('.product-title a')) {
-        productTitle = productItem.querySelector('.product-title a').textContent;
-      } else if (productItem.querySelector('.product-title')) {
-        productTitle = productItem.querySelector('.product-title').textContent;
-      } else if (productItem.querySelector('h3')) {
-        productTitle = productItem.querySelector('h3').textContent;
-      } else if (productItem.dataset.productTitle) {
-        productTitle = productItem.dataset.productTitle;
-      }
-      
-      // Get product price - try multiple possible selectors
-      let productPrice = '';
-      if (productItem.querySelector('.item-price')) {
-        productPrice = productItem.querySelector('.item-price').textContent;
-      } else if (productItem.querySelector('.product-price')) {
-        productPrice = productItem.querySelector('.product-price').textContent;
-      } else if (productItem.querySelector('.price')) {
-        productPrice = productItem.querySelector('.price').textContent;
-      } else if (productItem.dataset.productPrice) {
-        productPrice = productItem.dataset.productPrice;
-      }
-      
-      // Open order modal with product information
-      openOrderModal(productImage, productTitle, productPrice);
     });
   });
 }
@@ -183,55 +193,103 @@ function showOrderModalWithData(image, title, price) {
 /**
  * Submit the order
  */
-function submitOrder() {
+async function submitOrder() {
   // Get form values
   const name = document.getElementById('customerName').value;
   const city = document.getElementById('customerCity').value;
   const phone = document.getElementById('customerPhone').value;
+  const deliveryAddress = document.getElementById('deliveryAddress')?.value || '';
+  const deliveryType = document.querySelector('input[name="deliveryType"]:checked')?.value || 'home';
   
-  // Get product information
-  const product = window.currentOrderProduct;
+  // Get product information from localStorage cart
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
   
-  if (!product) {
-    console.error('No product information available');
+  if (!cart.length) {
+    showError('No products in cart');
     return;
   }
   
   // Create order object
   const order = {
-    name: name,
+    customerName: name,
     city: city,
-    phone: phone,
-    product: product.title,
-    price: product.price,
-    image: product.image,
-    date: new Date().toLocaleDateString(),
-    status: 'Pending'
+    phoneNumber: phone,
+    deliveryAddress: deliveryAddress,
+    deliveryType: deliveryType,
+    items: cart.map(item => ({
+      id: item.id || 'N/A',
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity || 1,
+      image: item.image,
+      description: item.description || ''
+    })),
+    status: 'pending',
+    subtotal: cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0),
+    deliveryFee: deliveryType === 'home' ? 10 : 0, // Example delivery fee
+    total: 0 // Will be calculated on the server
   };
   
-  // Save order to localStorage
-  saveOrder(order);
+  // Calculate total
+  order.total = order.subtotal + order.deliveryFee;
   
-  // Close the modal
-  const orderModal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
-  orderModal.hide();
-  
-  // Show success message
-  showOrderConfirmation();
+  try {
+    // Submit order to server
+    const response = await window.api.orders.addOrder(order);
+    console.log('Order submitted successfully:', response);
+    
+    // Clear cart
+    localStorage.removeItem('cart');
+    
+    // Close the modal
+    const orderModal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
+    if (orderModal) orderModal.hide();
+    
+    // Show success message
+    showOrderConfirmation();
+    
+    // Redirect to home page after a delay
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 3000);
+    
+  } catch (error) {
+    console.error('Error submitting order:', error);
+    showError(error.message || 'Failed to submit order. Please try again.');
+  }
 }
 
 /**
- * Save order to localStorage
+ * Show error message
  */
-function saveOrder(order) {
-  // Get existing orders from localStorage
-  let orders = JSON.parse(localStorage.getItem('orders')) || [];
+function showError(message) {
+  // Create error toast
+  const toastHTML = `
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            ${message}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+  `;
   
-  // Add new order
-  orders.push(order);
+  // Remove existing toast if present
+  const existingToast = document.querySelector('.position-fixed.bottom-0.end-0.p-3');
+  if (existingToast) {
+    existingToast.remove();
+  }
   
-  // Save to localStorage
-  localStorage.setItem('orders', JSON.stringify(orders));
+  // Append toast to body
+  document.body.insertAdjacentHTML('beforeend', toastHTML);
+  
+  // Show the toast
+  const toastElement = document.querySelector('.toast');
+  const toast = new bootstrap.Toast(toastElement, { delay: 5000 });
+  toast.show();
 }
 
 /**
@@ -248,6 +306,7 @@ function showOrderConfirmation() {
         </div>
         <div class="toast-body">
           Your order has been successfully placed! Thank you for shopping with us.
+          <div class="mt-2">You will be redirected to the home page shortly...</div>
         </div>
       </div>
     </div>
@@ -268,5 +327,6 @@ function showOrderConfirmation() {
   toast.show();
   
   // Reset form
-  document.getElementById('orderForm').reset();
+  const orderForm = document.getElementById('orderForm');
+  if (orderForm) orderForm.reset();
 }

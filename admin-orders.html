@@ -6,78 +6,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { padding: 20px; background-color: #f8f9fa; }
-        .loading { opacity: 0.6; pointer-events: none; }
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #858796;
+            --success-color: #1cc88a;
+            --light-bg: #f8f9fc;
+            --border-color: #e3e6f0;
+        }
         
-        /* Card styling */
+        body {
+            background-color: #f8f9fc;
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #5a5c69;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: #fff;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            padding: 0.75rem 1.5rem;
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #4e73df;
+        }
+        
+        .nav-link {
+            color: #5a5c69;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+        }
+        
+        /* Main Content */
+        .content-wrapper {
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
         .card {
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
             margin-bottom: 2rem;
         }
         
         .card-header {
-            background-color: #fff;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 1.25rem 1.5rem;
+            background-color: #f8f9fc;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.25rem;
+            font-weight: 700;
+            color: #4e73df;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .card-title {
-            color: #2c3e50;
-            font-weight: 600;
-            margin: 0;
-        }
-        
-        /* Table styles matching products table */
+        /* Table Styles */
         .table {
-            --bs-table-bg: transparent;
-            --bs-table-striped-bg: rgba(0, 0, 0, 0.02);
-            --bs-table-hover-bg: rgba(0, 0, 0, 0.03);
+            margin-bottom: 0;
+            font-size: 0.85rem;
             border-collapse: separate;
             border-spacing: 0;
-            margin-bottom: 1.5rem;
             background: #fff;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
         .table thead th {
-            background-color: #212529;
-            border-bottom: 2px solid #dee2e6;
-            font-weight: 600;
+            background-color: #f8f9fc;
+            color: #5a5c69;
+            font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            border-bottom: 1px solid var(--border-color);
             padding: 0.75rem 1rem;
-            vertical-align: middle;
-            color: #fff;
             white-space: nowrap;
         }
         
         .table tbody td {
             padding: 1rem;
             vertical-align: middle;
-            border-top: 1px solid #f0f0f0;
-            color: #212529;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .table-striped > tbody > tr:nth-of-type(odd) > * {
+            background-color: #fff;
+        }
+        
+        .table-striped > tbody > tr:nth-of-type(even) > * {
+            background-color: #f8f9fc;
         }
         
         .table tbody tr:hover {
-            background-color: #f8f9fa;
+            background-color: rgba(78, 115, 223, 0.05) !important;
         }
         
         /* Status badges */
         .status-badge {
             padding: 0.35em 0.65em;
-            font-size: 0.75em;
+            font-size: 0.7em;
             font-weight: 600;
-            line-height: 1;
+            line-height: 1.2;
             text-align: center;
             white-space: nowrap;
             vertical-align: baseline;
             border-radius: 0.25rem;
+            display: inline-block;
         }
         
         .status-pending {
@@ -93,6 +139,124 @@
         .status-cancelled {
             color: #721c24;
             background-color: #f8d7da;
+        }
+        
+        /* Buttons */
+        .btn {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s;
+        }
+        
+        .btn i {
+            margin-right: 0.25rem;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.7rem;
+        }
+        
+        /* Responsive - Mobile First Approach */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1rem 0.5rem;
+            }
+            
+            /* Hide regular table headers on mobile */
+            .table thead {
+                display: none;
+            }
+            
+            /* Make table rows stack as cards */
+            .table, .table tbody, .table tr, .table td {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 0;
+                border: none;
+            }
+            
+            /* Style each row as a card */
+            .table tr {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1.5rem;
+                background: #fff;
+                border: 1px solid #e0e0e0;
+                border-radius: 0.5rem;
+                overflow: hidden;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+            
+            /* Style each cell as a row with label and value */
+            .table td {
+                display: flex;
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid #f5f5f5;
+                min-height: 2.5rem;
+                align-items: center;
+                position: relative;
+            }
+            
+            /* Add label before each cell */
+            .table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #666;
+                font-size: 0.85rem;
+                width: 120px;
+                flex-shrink: 0;
+                margin-right: 1rem;
+            }
+            
+            /* Style the cell content */
+            .table td > *:not(script) {
+                flex: 1;
+                margin: 0;
+                text-align: right;
+                word-break: break-word;
+            }
+            
+            /* Special styling for action buttons */
+            .table td[data-label="Actions"] {
+                background-color: #f8f9fa;
+                padding: 1rem;
+                justify-content: flex-start;
+            }
+            
+            .table td[data-label="Actions"]::before {
+                display: none;
+            }
+            
+            .table td .btn {
+                min-width: 2.5rem;
+                height: 2.5rem;
+                padding: 0.5rem 1rem;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.9rem;
+            }
+            
+            .table td .btn i {
+                margin: 0;
+                font-size: 1.1rem;
+            }
+            
+            /* Ensure the view button text is always visible */
+            .d-none.d-md-inline {
+                display: inline !important;
+                margin-left: 0.5rem;
+            }
+            
+            /* Status badges */
+            .badge {
+                font-size: 0.85rem;
+                padding: 0.35em 0.65em;
+            }
         }
         
         /* Loading indicator */
@@ -181,69 +345,120 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="my-0">Orders Management</h1>
-            <div class="btn-group" role="group" aria-label="Navigation">
-                <a href="admin.html" class="btn btn-outline-primary me-2">
-                    <i class="bi bi-box-seam"></i> Products
-                </a>
-                <a href="index.html" class="btn btn-outline-secondary">
-                    <i class="bi bi-shop"></i> View Shop
-                </a>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-gem me-2"></i>Onyxia Admin
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index_new.html">View Site</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.html">
+                            <i class="bi bi-grid me-1"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="admin-orders.html">
+                            <i class="bi bi-cart-check me-1"></i> Orders
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="index.html" class="btn btn-outline-secondary btn-sm me-2">
+                        <i class="bi bi-shop"></i> View Shop
+                    </a>
+                    <button id="refresh-orders" class="btn btn-primary btn-sm">
+                        <i class="bi bi-arrow-clockwise"></i> Refresh
+                    </button>
+                </div>
             </div>
         </div>
-        
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="card-title mb-0">All Orders</h5>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-secondary btn-sm">
-                            <i class="bi bi-download"></i> Export
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary btn-sm">
-                            <i class="bi bi-funnel"></i> Filter
-                        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid content-wrapper">
+        <div class="card">
+            <div class="card-header">
+                <span><i class="bi bi-cart-check me-2"></i>Orders Management</span>
+                <div class="btn-group" role="group">
+                    <a href="admin.html" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Products
+                    </a>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title mb-0">All Orders</h5>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-download"></i> Export
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-funnel"></i> Filter
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="loading-indicator" class="text-center my-4 loading-indicator">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Loading orders...</p>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orders-table-body">
+                                    <!-- Orders will be loaded here -->
+                                    <tr>
+                                        <td colspan="6" class="no-orders text-center py-5 text-muted">
+                                            <i class="bi bi-inbox"></i>
+                                            <p class="mt-2 mb-0">No orders found</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center p-3 border-top">
+                            <div class="text-muted small">
+                                Showing <span id="showing-count">0</span> of <span id="total-count">0</span> orders
+                            </div>
+                            <nav aria-label="Orders pagination">
+                                <ul class="pagination pagination-sm mb-0" id="pagination">
+                                    <!-- Pagination will be loaded here -->
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
-                
-                <div id="loading-indicator" class="text-center my-4 loading-indicator">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p class="mt-2">Loading orders...</p>
-                </div>
-                
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark d-none d-md-table-header-group">
-                            <tr>
-                                <th width="120">Order ID</th>
-                                <th>Customer</th>
-                                <th width="150">Date</th>
-                                <th width="120">Amount</th>
-                                <th width="100">Status</th>
-                                <th width="150">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orders-table-body">
-                            <!-- Orders will be loaded here -->
-                            <tr>
-                                <td colspan="6" class="no-orders text-center py-5 text-muted">
-                                    <i class="bi bi-inbox"></i>
-                                    <p class="mt-2 mb-0">No orders found</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <!-- Pagination -->
-                <div id="pagination" class="mt-4"></div>
             </div>
         </div>
     </div>
+    
+    <footer class="text-center text-muted small py-3">
+        &copy; 2025 Kaira Jewelry. All rights reserved.
+    </footer>
 
     <!-- View Order Modal -->
     <div class="modal fade" id="viewOrderModal" tabindex="-1" aria-hidden="true">
@@ -413,9 +628,28 @@
     </div>
 
     <!-- Bootstrap JS and dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    
   <script>
+    // Function to get status badge class
+    function getStatusBadgeClass(status) {
+      if (!status) return 'bg-secondary';
+      
+      const statusMap = {
+        'pending': 'bg-warning',
+        'processing': 'bg-info',
+        'shipped': 'bg-primary',
+        'delivered': 'bg-success',
+        'cancelled': 'bg-danger',
+        'completed': 'bg-success',
+        'refunded': 'bg-dark',
+        'failed': 'bg-danger'
+      };
+      
+      return statusMap[status.toLowerCase()] || 'bg-secondary';
+    }
+    
     // Logging utility
     function logAdminEvent(message, data = {}) {
       const timestamp = new Date().toISOString();
@@ -462,92 +696,92 @@
       const ordersTable = document.getElementById('orders-table-body');
       
       try {
-        logAdminEvent('Starting to load orders');
+        logAdminEvent('Starting to load orders from backend');
         loadingIndicator.style.display = 'block';
         ordersTable.innerHTML = '<tr><td colspan="6" class="text-center py-5 text-muted">Loading orders...</td></tr>';
         
-        // Get orders from session storage
-        const orderLogs = JSON.parse(sessionStorage.getItem('orderLogs') || '[]');
-        logAdminEvent('Raw order logs from sessionStorage', { rawLogs: orderLogs });
+        // Fetch orders from backend API
+        const response = await fetch('http://localhost:5000/api/orders');
         
-        // Filter for successful orders
-        const successfulOrders = orderLogs.filter(log => {
-          const isSuccessful = log.message === 'Order submitted successfully' && log.orderId;
-          if (isSuccessful) {
-            logAdminEvent('Found successful order', { 
-              orderId: log.orderId,
-              timestamp: log.timestamp,
-              hasOrderData: !!log.orderData
-            });
-          }
-          return isSuccessful;
-        });
+        if (!response.ok) {
+          throw new Error(`Failed to fetch orders: ${response.status} ${response.statusText}`);
+        }
         
-        logAdminEvent('Orders retrieved', { 
-          totalLogs: orderLogs.length,
-          successfulOrders: successfulOrders.length,
-          orderIds: successfulOrders.map(o => o.orderId)
+        const result = await response.json();
+        
+        if (!result.success) {
+          throw new Error(result.message || 'Failed to load orders');
+        }
+        
+        const orders = result.data || [];
+        
+        logAdminEvent('Orders retrieved from backend', { 
+          orderCount: orders.length,
+          orderIds: orders.map(o => o.orderId)
         });
         
         // Clear the table
         ordersTable.innerHTML = '';
         
-        if (successfulOrders.length === 0) {
+        if (orders.length === 0) {
           ordersTable.innerHTML = `
             <tr>
-              <td colspan="6" class="text-center py-5 text-muted">
+              <td colspan="7" class="text-center py-5 text-muted">
                 <i class="bi bi-inbox"></i>
                 <p class="mt-2 mb-0">No orders found</p>
-                <p class="small">Total logs in session: ${orderLogs.length}</p>
               </td>
             </tr>`;
           return;
         }
         
-        // Process and display each order
-        successfulOrders.forEach(order => {
-          try {
-            const orderRow = document.createElement('tr');
-            
-            // Create and append table cells
-            const cells = [
-              { value: order.orderId },
-              { value: order.orderData?.fullName || 'N/A' },
-              { value: new Date(order.timestamp).toLocaleString() },
-              { value: `${order.orderData?.total || '0.00'} TND` },
-              { 
-                value: '<span class="badge bg-warning">Pending</span>',
-                isHtml: true 
-              },
-              {
-                value: `
-                  <a href="admin-order-view.html?id=${order.orderId}" class="btn btn-sm btn-outline-primary">
-                    <i class="bi bi-eye"></i> View
-                  </a>
-                `,
-                isHtml: true
-              }
-            ];
-            
-            cells.forEach(cellData => {
-              const cell = document.createElement('td');
-              if (cellData.isHtml) {
-                cell.innerHTML = cellData.value;
-              } else {
-                cell.textContent = cellData.value;
-              }
-              orderRow.appendChild(cell);
-            });
-            
-            ordersTable.appendChild(orderRow);
-            
-          } catch (error) {
-            logAdminEvent('Error processing order', {
-              orderId: order.orderId,
-              error: error.message,
-              stack: error.stack
-            });
-          }
+        // Render each order in the table
+        orders.forEach(order => {
+          const orderDate = order.createdAt ? new Date(order.createdAt) : new Date();
+          const formattedDate = orderDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td data-label="Order ID">
+              <div>${order.orderId || 'N/A'}</div>
+            </td>
+            <td data-label="Date">
+              <div>${formattedDate}</div>
+            </td>
+            <td data-label="Customer">
+              <div>${order.customerName || 'N/A'}</div>
+            </td>
+            <td data-label="City">
+              <div>${order.city || 'N/A'}</div>
+            </td>
+            <td data-label="Total">
+              <div>${order.total ? `$${order.total.toFixed(2)}` : 'N/A'}</div>
+            </td>
+            <td data-label="Status">
+              <div>
+                <span class="badge ${getStatusBadgeClass(order.status || 'pending')}">
+                  ${(order.status || 'pending').charAt(0).toUpperCase() + (order.status || 'pending').slice(1)}
+                </span>
+              </div>
+            </td>
+            <td data-label="Actions">
+              <div class="d-flex justify-content-end">
+                <a href="admin-order-view.html?id=${order.orderId || ''}" 
+                   class="btn btn-sm btn-outline-primary" 
+                   title="View Order ${order.orderId || ''}"
+                   aria-label="View order ${order.orderId || ''}">
+                  <i class="bi bi-eye" aria-hidden="true"></i>
+                  <span class="ms-1">View</span>
+                </a>
+              </div>
+            </td>
+          `;
+          ordersTable.appendChild(row);
         });
         
         // Function to format currency
@@ -564,32 +798,31 @@
           if (!order) return;
           
           // Set basic order info
-          document.getElementById('customerName').textContent = order.orderData?.fullName || 'N/A';
-          document.getElementById('customerEmail').textContent = order.orderData?.email || 'N/A';
-          document.getElementById('customerPhone').textContent = order.orderData?.phoneNumber || 'N/A';
+          document.getElementById('customerName').textContent = order.customerName || 'N/A';
+          document.getElementById('customerPhone').textContent = order.phoneNumber || 'N/A';
           
           // Set shipping address
-          const shippingText = order.orderData?.deliveryType === 'home' 
-            ? `${order.orderData?.deliveryAddress || 'No address provided'}, ${order.orderData?.city || ''}`
+          const shippingText = order.deliveryType === 'home' 
+            ? `${order.deliveryAddress || 'No address provided'}, ${order.city || ''}`
             : 'In-store pickup';
           document.getElementById('shippingDetails').textContent = shippingText;
           
           // Set order items
           const orderItemsContainer = document.getElementById('orderItems');
-          if (order.orderData?.items?.length > 0) {
-            orderItemsContainer.innerHTML = order.orderData.items.map(item => `
+          if (order.items?.length > 0) {
+            orderItemsContainer.innerHTML = order.items.map(item => `
               <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
                 <div class="d-flex align-items-center">
                   <img src="${item.image || 'img/placeholder.jpg'}" alt="${item.name}" 
                        class="img-thumbnail me-3" style="width: 60px; height: 60px; object-fit: cover;">
                   <div>
-                    <h6 class="mb-0">${item.name}</h6>
+                    <h6 class="mb-0">${item.name || 'Unnamed Product'}</h6>
                     <small class="text-muted">Qty: ${item.quantity || 1}</small>
                   </div>
                 </div>
                 <div class="text-end">
-                  <div class="fw-medium">${formatCurrency(item.price)}</div>
-                  ${item.quantity > 1 ? `<small class="text-muted">${formatCurrency(item.price * item.quantity)} total</small>` : ''}
+                  <div class="fw-medium">${formatCurrency(item.price || 0)}</div>
+                  ${item.quantity > 1 ? `<small class="text-muted">${formatCurrency((item.price || 0) * (item.quantity || 1))} total</small>` : ''}
                 </div>
               </div>
             `).join('');
@@ -602,9 +835,9 @@
           }
           
           // Set order totals
-          const subtotal = order.orderData?.subtotal || order.orderData?.total || 0;
-          const shipping = order.orderData?.shipping || 0;
-          const total = order.orderData?.total || subtotal + shipping;
+          const subtotal = order.subtotal || 0;
+          const shipping = order.deliveryFee || 0;
+          const total = order.total || subtotal + shipping;
           
           document.getElementById('orderSubtotal').textContent = formatCurrency(subtotal);
           document.getElementById('orderShipping').textContent = formatCurrency(shipping);
@@ -616,6 +849,12 @@
             statusSelect.value = order.status || 'pending';
           }
           
+          // Store order ID for updates
+          const updateButton = document.getElementById('updateStatusBtn');
+          if (updateButton) {
+            updateButton.setAttribute('data-order-id', order.orderId || '');
+          }
+          
           // Show the modal
           const modal = new bootstrap.Modal(document.getElementById('viewOrderModal'));
           modal.show();
@@ -623,51 +862,90 @@
 
         // Add event listeners to view buttons
         document.querySelectorAll('.view-order').forEach(button => {
-          button.addEventListener('click', function(e) {
+          button.addEventListener('click', async function(e) {
             e.preventDefault();
             const orderId = this.getAttribute('data-order-id');
             logAdminEvent('View order clicked', { orderId });
             
-            // Find the order in our successful orders
-            const order = successfulOrders.find(o => o.orderId === orderId);
-            if (order) {
-              showOrderDetails(order);
-            } else {
-              alert(`Order ${orderId} not found`);
+            try {
+              // Fetch the specific order details
+              const response = await fetch(`http://localhost:5000/api/orders/${orderId}`);
+              if (!response.ok) {
+                throw new Error(`Failed to fetch order: ${response.status} ${response.statusText}`);
+              }
+              
+              const result = await response.json();
+              if (!result.success) {
+                throw new Error(result.message || 'Failed to load order details');
+              }
+              
+              showOrderDetails(result.data);
+            } catch (error) {
+              logAdminEvent('Error loading order details', { error: error.message });
+              alert(`Error loading order details: ${error.message}`);
             }
           });
         });
         
         // Handle status update
-        document.getElementById('updateStatusBtn')?.addEventListener('click', function() {
+        document.getElementById('updateStatusBtn')?.addEventListener('click', async function() {
           const statusSelect = document.getElementById('orderStatus');
-          if (statusSelect) {
-            const newStatus = statusSelect.value;
-            // Here you would typically update the order status via an API call
-            logAdminEvent('Order status update requested', { 
-              status: newStatus,
-              // Add order ID and other relevant data
+          const orderId = this.getAttribute('data-order-id');
+          
+          if (!statusSelect || !orderId) {
+            alert('Order ID not found. Please refresh the page and try again.');
+            return;
+          }
+          
+          const newStatus = statusSelect.value;
+          
+          try {
+            logAdminEvent('Updating order status', { orderId, newStatus });
+            
+            const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ status: newStatus })
             });
             
-            // Show success message
-            alert(`Order status updated to: ${newStatus}`);
+            if (!response.ok) {
+              throw new Error(`Failed to update order: ${response.status} ${response.statusText}`);
+            }
+            
+            const result = await response.json();
+            if (!result.success) {
+              throw new Error(result.message || 'Failed to update order status');
+            }
+            
+            // Show success message and refresh the orders list
+            alert(`Order #${orderId} status updated to: ${newStatus}`);
+            loadOrders();
+            
+            // Close the modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('viewOrderModal'));
+            if (modal) {
+              modal.hide();
+            }
+            
+          } catch (error) {
+            logAdminEvent('Error updating order status', { error: error.message });
+            alert(`Error updating order status: ${error.message}`);
           }
         });
         
       } catch (error) {
-        logAdminEvent('Error loading orders', { 
-          error: error.message,
-          stack: error.stack 
-        });
+        logAdminEvent('Error loading orders', { error: error.message, stack: error.stack });
         
         ordersTable.innerHTML = `
           <tr>
-            <td colspan="6" class="text-center py-5 text-danger">
-              <i class="bi bi-exclamation-triangle-fill"></i>
+            <td colspan="7" class="text-center py-5 text-danger">
+              <i class="bi bi-exclamation-triangle"></i>
               <p class="mt-2 mb-0">Error loading orders</p>
-              <p class="small">${error.message}</p>
-              <button class="btn btn-sm btn-outline-secondary mt-2" onclick="console.log(JSON.parse(sessionStorage.getItem('orderLogs') || '[]'))">
-                View Raw Order Data
+              <p class="small text-muted">${error.message}</p>
+              <button onclick="loadOrders()" class="btn btn-sm btn-outline-primary mt-2">
+                <i class="bi bi-arrow-clockwise"></i> Try Again
               </button>
             </td>
           </tr>`;

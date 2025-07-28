@@ -1,10 +1,106 @@
 /* Luxurious Product Cards for Jewelry Shop */
 
+/* Prevent horizontal scrolling */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Import Harry Potter Font */
+@import url('https://fonts.cdnfonts.com/css/harry-potter');
+
+/* Banner Section */
+#banner {
+  padding-top: 150px;
+  padding-bottom: 40px;
+  position: relative;
+  z-index: 2;
+  margin-top: 20px;
+}
+
+.banner-title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.banner-logo {
+  width: 250px; /* Reduced from 400px */
+  height: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+  filter: sepia(1) hue-rotate(10deg) saturate(5) brightness(1.2) contrast(1.2) drop-shadow(0 0 16px #ffd700);
+  position: relative;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.banner-title {
+  font-family: 'Marcellus', serif;
+  font-size: 4rem;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+.banner-title .shop-text {
+  color: #d4af37; /* Golden color */
+  font-weight: 300;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  margin-left: 10px;
+}
+
+@media (max-width: 992px) {
+  .banner-title {
+    font-size: 3.5rem;
+  }
+  
+  .banner-logo {
+    width: 220px; /* Slightly smaller on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  #banner {
+    padding-top: 120px;
+    padding-bottom: 30px;
+    margin-top: 15px;
+  }
+  
+  .banner-title {
+    font-size: 2.5rem;
+  }
+  
+  .banner-logo {
+    width: 180px; /* Smaller on mobile */
+  }
+  
+  .banner-title-container {
+    gap: 10px;
+  }
+}
+
 /* Shop Products Section */
 .shop-products-section {
   z-index: 2;
-  margin-top: 80px;
+  margin-top: 100px; /* Increased from 80px to 100px */
   position: relative;
+  padding: 0 15px; /* Add horizontal padding */
+  box-sizing: border-box; /* Ensure padding is included in width */
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Product Grid Layout */
@@ -19,21 +115,25 @@
 #shop-products .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 15px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent any potential overflow */
 }
 
 /* Product Grid Layout */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
-  padding: 30px 20px;
+  padding: 20px 0;
   margin: 0 auto;
   position: relative;
   z-index: 2;
-  max-width: 1600px;
+  max-width: 100%;
   width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* Product Column */
@@ -231,6 +331,8 @@
   background: linear-gradient(to bottom, transparent, rgba(15, 15, 15, 0.9));
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   box-sizing: border-box;
 }
 
@@ -248,6 +350,8 @@
   color: #c5a47e;
   margin-right: 4px;
   font-weight: 400;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .item-price {
@@ -780,7 +884,10 @@
 }
 
 .product-item.loading {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%);
-  background-size: 1000px 100%;
-  animation: shimmer 1.5s infinite linear;
+  background: linear-gradient(135deg, rgba(197, 164, 126, 0.9) 0%, rgba(197, 164, 126, 0.8) 50%, rgba(197, 164, 126, 0.9) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shine 3s linear infinite;
 }

@@ -6,13 +6,40 @@
 const API_URL = 'http://localhost:5000/api';
 
 // Helper function to handle API responses
-async function handleResponse(response) {
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Something went wrong');
+const handleResponse = async (response) => {
+  // First, clone the response to be able to read it multiple times
+  const responseClone = response.clone();
+  
+  try {
+    const data = await responseClone.json();
+    
+    if (!response.ok) {
+      console.error('API Error Response:', {
+        status: response.status,
+        statusText: response.statusText,
+        url: response.url,
+        error: data
+      });
+      
+      const error = new Error(data.message || 'API request failed');
+      error.status = response.status;
+      error.data = data;
+      throw error;
+    }
+    
+    return data;
+  } catch (jsonError) {
+    // If JSON parsing fails, try to get the response as text
+    try {
+      const text = await response.text();
+      console.error('Failed to parse JSON response. Response text:', text);
+      throw new Error(`Invalid JSON response: ${text.substring(0, 100)}...`);
+    } catch (textError) {
+      console.error('Failed to read response as text:', textError);
+      throw new Error('Failed to process API response');
+    }
   }
-  return response.json();
-}
+};
 
 // Product operations
 const productApi = {
@@ -119,9 +146,46 @@ const productApi = {
 
   // Get products for home page (display_home = true)
   getHomeProducts: async () => {
-    const products = await this.getAllProducts();
-    return products.filter(p => p.display_home)
-                  .sort((a, b) => a.home_position - b.home_position);
+    // Add a small delay to prevent rapid consecutive requests
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+    
+    try {
+      console.log('Fetching featured products from /products/home');
+      const response = await fetch(`${API_URL}/products/home`);
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.warn(`API returned ${response.status} for /products/home:`, errorData);
+        throw new Error(errorData.message || `API request failed with status ${response.status}`);
+      }
+      
+      const data = await handleResponse(response);
+      console.log('Successfully fetched featured products:', data);
+      return data;
+    } catch (error) {
+      console.warn('Using fallback method to load featured products. Error:', error.message);
+      
+      // Add a small delay before fallback to prevent thundering herd
+      await delay(300);
+      
+      // Fallback to filtering all products if the /home endpoint fails
+      try {
+        console.log('Fetching all products as fallback');
+        const response = await fetch(`${API_URL}/products`);
+        const allProducts = await handleResponse(response);
+        
+        const featuredProducts = allProducts
+          .filter(p => p.display_home)
+          .sort((a, b) => (a.home_position || 0) - (b.home_position || 0));
+          
+        console.log(`Filtered ${featuredProducts.length} featured products from ${allProducts.length} total products`);
+        return featuredProducts;
+      } catch (fallbackError) {
+        console.error('Fallback in getHomeProducts failed:', fallbackError);
+        // Return empty array instead of throwing to prevent breaking the UI
+        return [];
+      }
+    }
   }
 };
 

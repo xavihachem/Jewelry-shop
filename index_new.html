@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXIA - Exquisite Jewelry Collection</title>
+    <meta name="description" content="Discover our exclusive collection of luxury jewelry. Handcrafted pieces with timeless elegance.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Marcellus&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style_new.css">
+    <link rel="stylesheet" href="css/shop-custom.css">
+    <link rel="stylesheet" href="css/glass-effects.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="js/custom.js" as="script">
+    <link rel="preload" href="js/home_new.js" as="script">
+</head>
+<body class="homepage">
+    <!-- Network Canvas Background -->
+    <canvas id="network-canvas"></canvas>
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index_new.html">
+          <img src="img/logo.png" alt="ONYXIA Logo" class="navbar-logo me-2">
+          <span class="d-none d-md-inline">ONYXIA</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" 
+          aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="index_new.html" title="Home">
+                <i class="bi bi-house-door d-lg-none me-2"></i>Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="shop.html" title="Shop">
+                <i class="bi bi-shop d-lg-none me-2"></i>Shop
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin.html" title="Admin Panel">
+                <i class="bi bi-shield-lock d-lg-none me-2"></i>Admin
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Offcanvas Menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" href="index_new.html">
+              <i class="bi bi-house-door me-2"></i>Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="shop.html">
+              <i class="bi bi-shop me-2"></i>Shop
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="admin.html">
+              <i class="bi bi-shield-lock me-2"></i>Admin
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container h-100">
+            <div class="row h-100 justify-content-center align-items-center">
+                <div class="col-12 text-center">
+                    <!-- Hero Logo -->
+                    <div class="hero-logo-container mb-4">
+                        <img src="img/logo.png" alt="ONYXIA" class="hero-logo mb-3">
+                        <div class="logo-subtitle text-uppercase text-gold letter-spacing-2 mt-3">
+                            <span class="animate-words">
+                                <span class="word">Timeless</span>
+                                <span class="word">Elegant</span>
+                                <span class="word">Luxurious</span>
+                                <span class="word">Exquisite</span>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="lead mb-5 max-w-600 mx-auto">Where exceptional craftsmanship meets contemporary design.<br>Each piece tells a story of passion and precision.</p>
+                    <a href="shop.html" class="btn btn-gold btn-lg" title="Discover our collection">
+                        <i class="bi bi-arrow-right-circle me-2"></i>Discover the Collection
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Grid -->
+    <main class="container-fluid px-4 px-md-5 my-5">
+        <h2 class="text-center mb-5">Featured Products</h2>
+        <div id="product-grid">
+            <!-- Products will be loaded here by JavaScript -->
+        </div>
+        <div id="pagination-controls" class="d-flex justify-content-center align-items-center mt-4"></div>
+        <div id="loading-indicator" class="text-center mt-5 d-none">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- View All Collections Button -->
+    <section class="py-5">
+        <div class="container text-center">
+            <a href="shop.html" class="btn btn-outline-gold" title="View all products">
+                View All Collections <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer-section glass-footer">
+        <div class="container">
+            <div class="footer-content pt-5 pb-5 text-center">
+                <div class="footer-logo mb-4">
+                    <a href="index_new.html" class="navbar-brand" title="LUXURY Home">
+                        <span class="fw-bold">ONYXIA</span>
+                        <span class="text-gold">.</span>
+                    </a>
+                </div>
+                <ul class="social-list list-unstyled d-flex justify-content-center mb-4">
+                    <li><a href="#" class="social-link" title="Facebook"><i class="bi bi-facebook"></i></a></li>
+                    <li><a href="#" class="social-link" title="Instagram"><i class="bi bi-instagram"></i></a></li>
+                    <li><a href="#" class="social-link" title="Twitter"><i class="bi bi-twitter"></i></a></li>
+                    <li><a href="#" class="social-link" title="Pinterest"><i class="bi bi-pinterest"></i></a></li>
+                </ul>
+                <div class="footer-text">
+                    <p>© 2025 LUXURY. All Rights Reserved.</p>
+                    <p>Designed with <i class="bi bi-heart-fill text-gold"></i> by Cascade</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/home_new.js"></script>
+    
+    <!-- Initialize Bootstrap components -->
+    <script>
+      // Enable Bootstrap tooltips and popovers
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+  
+      var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+      var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl);
+      });
+    </script>
+</body>
+</html>

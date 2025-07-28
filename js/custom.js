@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
   document.body.classList.add('page-loaded');
   
   // Handle internal links for smooth page transitions
-  document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"], a[href^="index"], a[href^="shop"], a[href^="admin"]').forEach(link => {
+  // Only apply to main desktop navigation links, not the offcanvas menu links
+  document.querySelectorAll('.navbar-collapse .nav-link').forEach(link => {
     link.addEventListener('click', function(e) {
       if (this.href.includes(window.location.hostname) || this.href.startsWith('/') || this.href.startsWith('./') || this.href.startsWith('../')) {
         e.preventDefault();
@@ -18,9 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
   
-  console.log('[custom.js] DOMContentLoaded fired');
   const modalElem = document.getElementById('productModal');
-  console.log('[custom.js] Modal element:', modalElem);
   if (modalElem) {
 
     const modalProductImage = document.getElementById('modalProductImage');
@@ -87,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Network Animation
   const canvas = document.getElementById('network-canvas');
-  console.log('[custom.js] Network canvas:', canvas);
   if (canvas) {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
@@ -104,22 +102,47 @@ document.addEventListener('DOMContentLoaded', function () {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.speedY = Math.random() * 0.5 - 0.25;
-        this.color = '#c5a47e'; // Gold color for the theme
-        this.opacity = Math.random() * 0.5 + 0.1;
+        this.size = Math.random() * 3 + 1.5; // Larger particles
+        this.speedX = (Math.random() - 0.5) * 0.8; // Slightly faster movement
+        this.speedY = (Math.random() - 0.5) * 0.8;
+        this.color = getComputedStyle(document.documentElement).getPropertyValue('--primary-gold').trim() || '#c5a47e';
+        this.opacity = Math.random() * 0.7 + 0.3; // More visible
+        this.baseSize = this.size;
+        this.targetSize = this.size * 1.5;
+        this.pulseSpeed = Math.random() * 0.02 + 0.01;
+        this.pulseDir = 1;
       }
 
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
 
+        // Bounce off edges
         if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
         if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+        // Pulsing effect
+        if (this.size > this.targetSize) this.pulseDir = -1;
+        if (this.size < this.baseSize) this.pulseDir = 1;
+        this.size += this.pulseSpeed * this.pulseDir;
       }
 
       draw() {
+        // Glow effect
+        const gradient = ctx.createRadialGradient(
+          this.x, this.y, 0,
+          this.x, this.y, this.size * 2
+        );
+        gradient.addColorStop(0, this.color);
+        gradient.addColorStop(1, 'rgba(197, 164, 126, 0)');
+        
+        ctx.fillStyle = gradient;
+        ctx.globalAlpha = this.opacity * 0.8;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Core particle
         ctx.fillStyle = this.color;
         ctx.globalAlpha = this.opacity;
         ctx.beginPath();
@@ -144,21 +167,47 @@ document.addEventListener('DOMContentLoaded', function () {
         p.draw();
       });
 
-      ctx.strokeStyle = '#c5a47e';
-      ctx.lineWidth = 0.2;
-
+      // Enhanced connection lines
+      const connectionDistance = 200; // Increased connection range
+      const maxLineWidth = 1.5;
+      const minLineOpacity = 0.3;
+      
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
-            ctx.globalAlpha = 1 - (distance / 150);
+          if (distance < connectionDistance) {
+            // Calculate line properties based on distance
+            const distanceRatio = 1 - (distance / connectionDistance);
+            const lineWidth = maxLineWidth * distanceRatio * distanceRatio; // Quadratic falloff
+            const lineOpacity = minLineOpacity + (1 - minLineOpacity) * distanceRatio;
+            
+            // Create gradient for the line
+            const gradient = ctx.createLinearGradient(
+              particles[i].x, particles[i].y,
+              particles[j].x, particles[j].y
+            );
+            gradient.addColorStop(0, particles[i].color);
+            gradient.addColorStop(1, particles[j].color);
+            
+            // Draw the connection line
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = lineWidth;
+            ctx.globalAlpha = lineOpacity * 0.9; // Slightly transparent
+            
+            // Draw a subtle glow
+            ctx.shadowBlur = 5 * distanceRatio;
+            ctx.shadowColor = particles[i].color;
+            
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
+            
+            // Reset shadow for next frame
+            ctx.shadowBlur = 0;
           }
         }
       }
