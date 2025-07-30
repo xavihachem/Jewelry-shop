@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Product - Kaira</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/style_new.css">
+  <style>
+    :root {
+      --primary-bg: #0a0a0a;
+      --card-bg: #1a1a1a;
+      --primary-gold: #d4af37;
+      --secondary-gold: #f1c40f;
+      --text-light: #f8f9fa;
+      --text-muted: #adb5bd;
+      --border-color: #2a2a2a;
+    }
+    
+    body {
+      background-color: var(--primary-bg);
+      color: var(--text-light);
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .order-container { 
+      max-width: 1200px; 
+      margin: 2rem auto; 
+      padding: 0 1.5rem; 
+    }
+    
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      margin-bottom: 2rem;
+    }
+    
+    h1 {
+      color: var(--primary-gold);
+      font-family: 'Marcellus', serif;
+      margin-bottom: 1.5rem;
+    }
+    
+    .product-image { 
+      width: 100%; 
+      height: auto; 
+      border-radius: 8px;
+    }
+    
+    .product-title { 
+      font-family: 'Marcellus', serif; 
+      color: var(--primary-gold);
+      font-size: 1.8rem;
+    }
+    
+    .product-price { 
+      font-size: 1.75rem; 
+      color: var(--secondary-gold);
+      font-weight: 600;
+    }
+    
+    .form-label {
+      color: var(--text-light);
+    }
+    
+    .form-control, .form-select { 
+      background-color: rgba(255, 255, 255, 0.05); 
+      border: 1px solid var(--border-color); 
+      color: var(--text-light);
+    }
+    
+    .form-control:focus, .form-select:focus { 
+      background-color: rgba(255, 255, 255, 0.08); 
+      border-color: var(--primary-gold);
+      box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.15);
+      color: var(--text-light);
+    }
+    
+    /* Style for dropdown options */
+    .form-select option {
+      color: #000;
+      background-color: #fff;
+    }
+    
+    .btn-primary { 
+      background-color: var(--primary-gold); 
+      border-color: var(--primary-gold); 
+      color: #000;
+      font-weight: 600;
+    }
+    
+    .btn-primary:hover { 
+      background-color: var(--secondary-gold); 
+      border-color: var(--secondary-gold);
+    }
+    
+    .btn-outline-light {
+      border-color: var(--border-color);
+      color: var(--text-light);
+    }
+    
+    .btn-outline-light:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: var(--primary-gold);
+      color: var(--primary-gold);
+    }
+    .text-gold {
+      color: var(--primary-gold) !important;
+    }
+    
+    .order-summary-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .order-summary-item:last-child {
+      border-bottom: none;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-gold), #f1c40f);
+      border: none;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    
+    .form-control, .form-select {
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      transform: translateY(-1px);
+    }
+    
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+    }
+    
+    /* Custom radio button styles */
+    .form-check-input {
+      width: 1.2em;
+      height: 1.2em;
+      margin-top: 0.15em;
+      background-color: var(--card-bg);
+      border: 2px solid var(--primary-gold);
+      cursor: pointer;
+    }
+    
+    .form-check-input:checked {
+      background-color: var(--primary-gold);
+      border-color: var(--primary-gold);
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23000'/%3e%3c/svg%3e");
+    }
+    
+    .form-check-input:focus {
+      box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+      border-color: var(--primary-gold);
+    }
+    
+    .form-check-label {
+      color: var(--text-light);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    
+    .form-check-inline {
+      margin-right: 1.5rem;
+    }
+    
+    .form-check-input:checked + .form-check-label {
+      color: var(--primary-gold);
+      background-color: rgba(212, 175, 55, 0.1);
+    }
+    
+    .form-check-label i {
+      margin-right: 0.5rem;
+      color: var(--primary-gold);
+      font-size: 1.2rem;
+    }
+    
+    .delivery-option {
+      flex: 1;
+      min-width: 180px;
+    }
+    
+    .delivery-option .form-check-label {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .delivery-option .form-check-input:checked + .form-check-label {
+      border-color: var(--primary-gold);
+      background-color: rgba(212, 175, 55, 0.1);
+      box-shadow: 0 0 0 1px var(--primary-gold);
+    }
+    
+    .delivery-option .form-check-input {
+      position: absolute;
+      opacity: 0;
+    }
+    
+    .delivery-option .form-check-label:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    .delivery-option .form-check-label span {
+      font-weight: 500;
+    }
+    
+    @media (min-width: 992px) {
+      .position-lg-sticky {
+        position: sticky !important;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="homepage">
+  <div class="container py-5">
+    <div class="row position-relative">
+      <div class="col-lg-8">
+        <a href="shop.html" class="d-inline-flex align-items-center mb-4 text-decoration-none text-muted">
+          <i class="bi bi-arrow-left me-2"></i> Back to Shop
+        </a>
+        
+        <h1 class="mb-4">Complete Your Order</h1>
+        
+        <div class="card bg-dark border-secondary mb-4">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-md-4">
+                <img id="productImage" src="" class="img-fluid" alt="Product Image">
+              </div>
+              <div class="col-md-8">
+                <h2 id="displayProduct" class="product-title">Product Name</h2>
+                <div id="displayPrice" class="product-price">0.00 TND</div>
+                <p id="productDescription">Product description will appear here.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card border-0" style="background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);">
+          <div class="card-body p-4">
+            <h3 class="text-gold mb-4">
+              <i class="bi bi-truck me-2"></i>Shipping Information
+            </h3>
+            
+            <form id="orderForm">
+              <input type="hidden" id="productId" name="productId">
+              <input type="hidden" id="productName" name="productName">
+              <input type="hidden" id="productPrice" name="productPrice">
+              
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="Your full address" required>
+              </div>
+              
+              <div class="mb-4">
+                <label class="form-label d-block mb-3">Delivery Method</label>
+                <div class="d-flex flex-wrap gap-3">
+                  <div class="form-check delivery-option">
+                    <input class="form-check-input" type="radio" name="deliveryMethod" id="deliveryDesktop" value="desktop" checked>
+                    <label class="form-check-label" for="deliveryDesktop">
+                      <i class="bi bi-pc-display"></i>
+                      <span>Deliver to Desktop</span>
+                    </label>
+                  </div>
+                  <div class="form-check delivery-option">
+                    <input class="form-check-input" type="radio" name="deliveryMethod" id="deliveryHome" value="home">
+                    <label class="form-check-label" for="deliveryHome">
+                      <i class="bi bi-house-door"></i>
+                      <span>Deliver to Home</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <select class="form-select" id="city" name="city" aria-label="Select your city" required>
+                  <option value="">-- Select City --</option>
+                  <!-- Cities will be populated by JavaScript -->
+                </select>
+                <input type="hidden" id="shippingFee" name="shippingFee" value="0">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 position-lg-sticky" style="top: 2rem; align-self: flex-start;">
+        <div class="card border-0 mb-4" style="background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);">
+          <div class="card-body p-4">
+            <h3 class="text-gold mb-4">
+              <i class="bi bi-cart-check me-2"></i>Order Summary
+            </h3>
+            <div class="order-summary-item d-flex justify-content-between py-2">
+              <span class="text-light">Subtotal</span>
+              <span id="subtotal" class="fw-semibold text-light">0.00 DZD</span>
+            </div>
+            <div class="order-summary-item d-flex justify-content-between py-2">
+              <span class="text-light">Shipping</span>
+              <span id="shippingFeeDisplay" class="text-light">0.00 TND</span>
+            </div>
+            <hr class="my-3 border-secondary">
+            <div class="d-flex justify-content-between align-items-center py-2">
+              <h5 class="mb-0 text-light">Total</h5>
+              <h4 id="total" class="text-gold mb-0 fw-bold">0.00 TND</h4>
+            </div>
+            <div class="mt-4">
+              <button type="submit" form="orderForm" class="btn btn-primary w-100 py-3 fw-bold">
+                Place Order <i class="bi bi-arrow-right ms-2"></i>
+              </button>
+              <div class="text-center mt-3">
+                <a href="shop.html" class="btn btn-outline-light w-100">
+                  <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+                </a>
+              </div>
+            </div>
+            <div class="mt-3 text-center">
+              <small class="text-light">
+                <i class="bi bi-lock-fill me-1"></i> Secure Payment
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Global variables to store product and city data
+    let productPrice = 0;
+    let cities = [];
+    let selectedCity = null;
+    let selectedDeliveryMethod = 'desktop';
+
+    // Function to update the order total
+    function updateOrderTotal() {
+      const subtotal = parseFloat(productPrice);
+      const shippingFee = selectedCity ? 
+        (selectedDeliveryMethod === 'desktop' ? selectedCity.desktopFee : selectedCity.houseFee) : 0;
+      
+      const total = subtotal + shippingFee;
+      
+      // Update the UI
+      document.getElementById('shippingFeeDisplay').textContent = `${shippingFee.toFixed(2)} DZD`;
+      document.getElementById('total').textContent = `${total.toFixed(2)} DZD`;
+      
+      // Update hidden field for form submission
+      document.getElementById('shippingFee').value = shippingFee;
+    }
+
+    // Function to load cities from the backend
+    async function loadCities() {
+      try {
+        const response = await fetch('http://localhost:5001/api/cities');
+        if (!response.ok) {
+          throw new Error('Failed to load cities');
+        }
+        
+        cities = await response.json();
+        const citySelect = document.getElementById('city');
+        
+        // Clear existing options except the first one
+        while (citySelect.options.length > 1) {
+          citySelect.remove(1);
+        }
+        
+        // Add cities to the dropdown
+        cities.forEach(city => {
+          const option = document.createElement('option');
+          option.value = city._id;
+          option.textContent = city.name;
+          citySelect.appendChild(option);
+        });
+        
+      } catch (error) {
+        console.error('Error loading cities:', error);
+        showError('Failed to load cities. Please try again later.');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Load cities
+      await loadCities();
+      
+      // Get product ID from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('id');
+      
+      if (!productId) {
+        showError('No product specified');
+        return;
+      }
+      
+      // Show loading state
+      document.getElementById('displayProduct').textContent = 'Loading product...';
+      document.getElementById('displayPrice').textContent = '...';
+      
+      try {
+        // Fetch product details from API
+        const response = await fetch(`http://localhost:5001/api/products/${productId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch product');
+        }
+        
+        const product = await response.json();
+        
+        // Update the UI with product details
+        document.getElementById('productId').value = product.id || product._id;
+        document.getElementById('productName').value = product.name;
+        document.getElementById('productPrice').value = product.price * 1300; // Convert to DZD if needed
+        
+        document.getElementById('displayProduct').textContent = product.name;
+        productPrice = product.price * 1300;
+        const price = productPrice.toFixed(2);
+        document.getElementById('displayPrice').textContent = `${price} DZD`;
+        document.getElementById('subtotal').textContent = `${price} DZD`;
+        
+        if (product.image) {
+          document.getElementById('productImage').src = product.image;
+        } else {
+          // Set a default placeholder image if no image is provided
+          document.getElementById('productImage').src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9IiMzMzMiPjxyZWN0IHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzIyMiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM3Nzc3NzkiPk5vIEltYWdlIEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4=';
+        }
+        
+        // Update product description if available
+        // Add event listeners for city and delivery method changes
+        document.getElementById('city').addEventListener('change', function() {
+          const cityId = this.value;
+          selectedCity = cities.find(city => city._id === cityId);
+          updateOrderTotal();
+        });
+        
+        // Add event listeners for delivery method changes
+        document.querySelectorAll('input[name="deliveryMethod"]').forEach(radio => {
+          radio.addEventListener('change', function() {
+            selectedDeliveryMethod = this.value;
+            updateOrderTotal();
+          });
+        });
+        
+        // Initialize order total
+        updateOrderTotal();
+        
+        if (product.description) {
+          document.getElementById('productDescription').textContent = product.description;
+        }
+        
+      } catch (error) {
+        console.error('Error loading product:', error);
+        showError('Failed to load product details. Please try again.');
+      }
+      
+      // Handle form submission
+      document.getElementById('orderForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = {
+          productId: document.getElementById('productId').value,
+          firstName: document.querySelector('input[name="firstName"]').value,
+          lastName: document.querySelector('input[name="lastName"]').value,
+          email: document.querySelector('input[name="email"]').value,
+          phone: document.querySelector('input[name="phone"]').value,
+          address: document.querySelector('input[name="address"]').value,
+          city: document.querySelector('select[name="city"]').value,
+          postalCode: document.querySelector('input[name="postalCode"]').value,
+          notes: document.querySelector('textarea[name="notes"]').value
+        };
+        
+        try {
+          const response = await fetch('http://localhost:5001/api/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+          });
+          
+          if (!response.ok) {
+            throw new Error('Failed to submit order');
+          }
+          
+          const result = await response.json();
+          alert('Order submitted successfully!');
+          // Optionally redirect to a thank you page
+          // window.location.href = 'thank-you.html';
+          
+        } catch (error) {
+          console.error('Error submitting order:', error);
+          alert('Failed to submit order. Please try again.');
+        }
+      });
+    });
+    
+    function showError(message) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'alert alert-danger';
+      errorDiv.textContent = message;
+      
+      const container = document.querySelector('.order-container');
+      container.insertBefore(errorDiv, container.firstChild);
+    }
+  </script>
+</body>
+</html>

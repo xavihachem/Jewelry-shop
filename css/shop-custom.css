@@ -414,7 +414,8 @@ html, body {
 }
 
 /* Order Now Button */
-.order-now-btn {
+.order-now-btn,
+.order-now-link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -439,7 +440,8 @@ html, body {
   margin-top: 8px;
 }
 
-.order-now-btn::before {
+.order-now-btn::before,
+.order-now-link::before {
   content: '';
   position: absolute;
   top: 0;
@@ -452,13 +454,15 @@ html, body {
   z-index: -1;
 }
 
-.order-now-btn:hover {
+.order-now-btn:hover,
+.order-now-link:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(197, 164, 126, 0.4);
   color: #000;
 }
 
-.order-now-btn:hover::before {
+.order-now-btn:hover::before,
+.order-now-link:hover::before {
   opacity: 1;
 }
 
@@ -477,7 +481,8 @@ html, body {
   height: 20px;
 }
 
-.order-now-btn:hover .btn-icon {
+.order-now-btn:hover .btn-icon,
+.order-now-link:hover .btn-icon {
   transform: translateX(3px);
 }
 
@@ -612,7 +617,8 @@ html, body {
     font-size: 1.4rem;
   }
   
-  .order-now-btn {
+  .order-now-btn,
+  .order-now-link {
     padding: 8px 16px;
     font-size: 0.8rem;
   }
@@ -684,7 +690,8 @@ html, body {
     font-size: 0.9rem;
   }
   
-  .order-now-btn {
+  .order-now-btn,
+  .order-now-link {
     padding: 9px 18px;
   }
 }
@@ -697,7 +704,8 @@ html, body {
     gap: 12px;
   }
   
-  .order-now-btn {
+  .order-now-btn,
+  .order-now-link {
     width: 100%;
     justify-content: center;
   }

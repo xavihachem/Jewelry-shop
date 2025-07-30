@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Delivery Cities - Admin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #858796;
+            --success-color: #1cc88a;
+            --light-bg: #f8f9fc;
+            --border-color: #e3e6f0;
+        }
+        
+        body {
+            background-color: #f8f9fc;
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #5a5c69;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: #fff;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            padding: 0.75rem 1.5rem;
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #4e73df;
+        }
+        
+        .nav-link {
+            color: #5a5c69;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+        }
+        
+        /* Main Content */
+        .content-wrapper {
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            background-color: #f8f9fc;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.25rem;
+            font-weight: 700;
+            color: #4e73df;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Table Styles */
+        .table {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+        
+        .table thead th {
+            background-color: #f8f9fc;
+            color: #5a5c69;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+        }
+        
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .table-striped > tbody > tr:nth-of-type(odd) > * {
+            background-color: #fff;
+        }
+        
+        /* Price Input */
+        .price-input {
+            max-width: 120px;
+            text-align: right;
+        }
+        
+        /* Buttons */
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 0.2rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1rem 0.5rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-gem me-2"></i>Onyxia Admin
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.html">
+                            <i class="bi bi-grid me-1"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-orders.html">
+                            <i class="bi bi-cart-check me-1"></i> Orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="cities.html">
+                            <i class="bi bi-geo-alt me-1"></i> Cities
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="index_new.html" class="btn btn-outline-secondary btn-sm me-2">
+                        <i class="bi bi-shop"></i> View Shop
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid content-wrapper">
+        <div class="card">
+            <div class="card-header">
+                <span><i class="bi bi-geo-alt me-2"></i>Delivery Cities Management</span>
+                <button class="btn btn-primary btn-sm" id="saveChangesBtn">
+                    <i class="bi bi-save me-1"></i> Save Changes
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>City Name</th>
+                                <th>Desktop Fee (DA)</th>
+                                <th>House Fee (DA)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="citiesTableBody">
+                            <!-- Cities will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <!-- Success Toast -->
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-check-circle me-2"></i>
+                    <span id="toastMessage">Changes saved successfully!</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        
+        <!-- Error Toast -->
+        <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <span id="errorToastMessage">An error occurred. Please try again.</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // API base URL
+        const API_BASE_URL = 'http://localhost:5001/api';
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Initialize toast
+                const toastEl = document.getElementById('successToast');
+                window.toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+                
+                // Load cities from the API
+                await loadCities();
+                
+                // Add event listener for save button
+                document.getElementById('saveChangesBtn').addEventListener('click', saveChanges);
+                
+            } catch (error) {
+                console.error('Error initializing page:', error);
+                showError('Failed to load cities. Please try again.');
+            }
+        });
+
+        // Load cities from the API
+        async function loadCities() {
+            try {
+                showLoading(true);
+                
+                const response = await fetch(`${API_BASE_URL}/cities`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const cities = await response.json();
+                renderCities(cities);
+                
+            } catch (error) {
+                console.error('Error loading cities:', error);
+                showError('Failed to load cities. Please refresh the page.');
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        // Render cities in the table
+        function renderCities(cities) {
+            const tbody = document.getElementById('citiesTableBody');
+            tbody.innerHTML = '';
+            
+            cities.forEach((city, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${city.name}</td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <input type="number" 
+                                   class="form-control form-control-sm price-input desktop-fee" 
+                                   data-city-id="${city._id}"
+                                   name="desktopFee"
+                                   value="${city.desktopFee || 0}" 
+                                   min="0" 
+                                   step="100"
+                                   placeholder="0">
+                            <span class="input-group-text">DA</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <input type="number" 
+                                   class="form-control form-control-sm price-input house-fee" 
+                                   data-city-id="${city._id}"
+                                   name="houseFee"
+                                   value="${city.houseFee || 0}" 
+                                   min="0" 
+                                   step="100"
+                                   placeholder="0">
+                            <span class="input-group-text">DA</span>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Save delivery fees to the API
+        async function saveChanges() {
+            try {
+                showLoading(true);
+                
+                // Collect all city updates
+                const updates = [];
+                const rows = document.querySelectorAll('#citiesTableBody tr');
+                
+                rows.forEach(row => {
+                    const cityId = row.querySelector('[data-city-id]').dataset.cityId;
+                    const desktopFee = row.querySelector('[name="desktopFee"]').value.trim();
+                    const houseFee = row.querySelector('[name="houseFee"]').value.trim();
+                    
+                    updates.push({
+                        _id: cityId,
+                        desktopFee: desktopFee ? parseInt(desktopFee, 10) : 0,
+                        houseFee: houseFee ? parseInt(houseFee, 10) : 0
+                    });
+                });
+                
+                // Send updates to the server
+                const response = await fetch(`${API_BASE_URL}/cities`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ updates })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                // Show success message
+                document.getElementById('toastMessage').textContent = 'Fees updated successfully!';
+                window.toast.show();
+                
+                // Refresh the cities list
+                await loadCities();
+                
+            } catch (error) {
+                console.error('Error saving fees:', error);
+                showError('Failed to save fees. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        // Show loading state
+        function showLoading(isLoading) {
+            const saveBtn = document.getElementById('saveChangesBtn');
+            if (isLoading) {
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Saving...';
+            } else {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="bi bi-save me-1"></i> Save Changes';
+            }
+        }
+        
+        // Show error message
+        function showError(message) {
+            const toastEl = document.getElementById('errorToast');
+            const toastMessage = document.getElementById('errorToastMessage');
+            
+            if (toastEl && toastMessage) {
+                toastMessage.textContent = message;
+                const toast = new bootstrap.Toast(toastEl, { delay: 5000 });
+                toast.show();
+            } else {
+                alert(message);
+            }
+        }
+    </script>
+</body>
+</html>

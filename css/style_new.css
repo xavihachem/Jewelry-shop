@@ -1,3 +1,18 @@
+/* ===== Order Now Link Styles ===== */
+.order-now-link {
+  cursor: pointer !important;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.order-now-link:hover {
+  text-decoration: none !important;
+  opacity: 0.9;
+}
+
 /* ===== Footer Styles ===== */
 .footer-section {
   position: relative;

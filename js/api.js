@@ -3,7 +3,7 @@
  * Handles all communication with the backend server
  */
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:5001/api';
 
 // Helper function to handle API responses
 const handleResponse = async (response) => {

@@ -116,11 +116,7 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
                 <span class="item-price">${(parseFloat(product.price) * 1300).toLocaleString('en-US')}</span>
               </div>
               
-              <button type="button" class="order-now-btn add-to-cart" 
-                data-product-image="${product.image}"
-                data-product-title="${product.name}" 
-                data-product-description="${product.description}"
-                data-product-price="${parseFloat(product.price) * 1300}">
+              <a href="order-index.html?id=${product.id || product._id}" class="order-now-btn order-now-link">
                 <span class="btn-text">Order Now</span>
                 <span class="btn-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -129,7 +125,7 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
                     <path d="M16 10a4 4 0 0 1-8 0"></path>
                   </svg>
                 </span>
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -139,8 +135,26 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
     });
     
     // Re-initialize order buttons after loading products
+    // But exclude our order-now links to prevent interference
     if (typeof replaceCartButtons === 'function') {
+      // Temporarily add a class to our order-now links to exclude them
+      document.querySelectorAll('.order-now-link').forEach(link => {
+        link.classList.add('is-order-now-link');
+      });
+      
+      // Run the replace function
       replaceCartButtons();
+      
+      // Restore our order-now links
+      document.querySelectorAll('.is-order-now-link').forEach(link => {
+        link.classList.remove('is-order-now-link');
+        // Make sure the href is preserved
+        const href = link.getAttribute('data-original-href');
+        if (href) {
+          link.href = href;
+          link.removeAttribute('data-original-href');
+        }
+      });
     }
     
     // Add pagination controls if there are multiple pages

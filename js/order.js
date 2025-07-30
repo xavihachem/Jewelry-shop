@@ -82,7 +82,8 @@ function createOrderModal() {
  * Replace "Add to Cart" buttons with "Order Now" buttons
  */
 function replaceCartButtons() {
-  const cartButtons = document.querySelectorAll('.add-to-cart');
+  // Select only add-to-cart buttons that aren't order-now-links
+  const cartButtons = document.querySelectorAll('.add-to-cart:not(.order-now-link)');
   
   cartButtons.forEach(button => {
     // Change button text to "Order Now"
