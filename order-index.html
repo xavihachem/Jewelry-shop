@@ -494,19 +494,61 @@
       document.getElementById('orderForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        // Get form values
+        const form = e.target;
+        const citySelect = document.getElementById('city');
+        const selectedCityName = citySelect.options[citySelect.selectedIndex]?.text || '';
+        const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked')?.value || '';
+        const subtotal = parseFloat(document.getElementById('subtotal').textContent) || 0;
+        const shippingFee = parseFloat(document.getElementById('shippingFee').value) || 0;
+        const total = subtotal + shippingFee;
+        const productImage = document.getElementById('productImage').src;
+        const productName = document.getElementById('displayProduct').textContent;
+        
         const formData = {
+          // Customer Information
+          firstName: form.querySelector('input[name="firstName"]').value,
+          lastName: form.querySelector('input[name="lastName"]').value,
+          phone: form.querySelector('input[name="phone"]').value,
+          address: form.querySelector('input[name="address"]').value,
+          
+          // Location Information
+          city: selectedCityName, // Store city name instead of ID
+          
+          // Order Details
+          deliveryMethod: deliveryMethod,
+          subtotal: subtotal,
+          shippingFee: shippingFee,
+          total: total,
+          
+          // Product Information
           productId: document.getElementById('productId').value,
-          firstName: document.querySelector('input[name="firstName"]').value,
-          lastName: document.querySelector('input[name="lastName"]').value,
-          email: document.querySelector('input[name="email"]').value,
-          phone: document.querySelector('input[name="phone"]').value,
-          address: document.querySelector('input[name="address"]').value,
-          city: document.querySelector('select[name="city"]').value,
-          postalCode: document.querySelector('input[name="postalCode"]').value,
-          notes: document.querySelector('textarea[name="notes"]').value
+          productName: productName,
+          productImage: productImage,
+          
+          // Additional Information
+          status: 'pending', // Default status
+          orderDate: new Date().toISOString(),
+          
+          // Optional Fields
+          notes: form.querySelector('textarea[name="notes"]')?.value || ''
         };
         
+        console.log('Submitting order:', formData); // For debugging
+        
+        // Declare variables in the function scope
+        let submitBtn;
+        let originalBtnText;
+        
         try {
+          // Show loading state
+          submitBtn = form.querySelector('button[type="submit"]');
+          if (submitBtn) {
+            originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Placing Order...';
+          }
+          
           const response = await fetch('http://localhost:5001/api/orders', {
             method: 'POST',
             headers: {
@@ -516,17 +558,27 @@
           });
           
           if (!response.ok) {
-            throw new Error('Failed to submit order');
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || 'Failed to submit order');
           }
           
           const result = await response.json();
-          alert('Order submitted successfully!');
-          // Optionally redirect to a thank you page
-          // window.location.href = 'thank-you.html';
+          
+          // Show success message
+          alert('Order submitted successfully! Your order ID: ' + (result.orderId || 'N/A'));
+          
+          // Optionally redirect to a thank you page with order details
+          // window.location.href = `thank-you.html?orderId=${result.orderId || ''}`;
           
         } catch (error) {
           console.error('Error submitting order:', error);
-          alert('Failed to submit order. Please try again.');
+          alert(`Error: ${error.message || 'Failed to submit order. Please try again.'}`);
+        } finally {
+          // Reset button state if button was found
+          if (submitBtn && originalBtnText) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+          }
         }
       });
     });
