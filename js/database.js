@@ -472,15 +472,57 @@ const orderOperations = {
   
   // Delete an order
   deleteOrder: async function(id) {
+    console.log(`[Database] Starting order deletion for ID: ${id}`);
+    
+    if (!id) {
+      console.error('[Database] Error: No order ID provided for deletion');
+      return false;
+    }
+    
     await initDatabase();
-    if (!db) return false;
+    if (!db) {
+      console.error('[Database] Error: Database not initialized');
+      return false;
+    }
     
     try {
+      // First, get the order details for logging
+      const orderResult = db.exec('SELECT * FROM orders WHERE id = ?', [id]);
+      const order = orderResult.length > 0 && orderResult[0].values.length > 0 ? orderResult[0] : null;
+      
+      if (order) {
+        console.log(`[Database] Found order to delete:`, {
+          id: order.values[0][0],
+          customerName: order.values[0][1], // Adjust indices based on your schema
+          email: order.values[0][2],
+          total: order.values[0][3]
+        });
+      } else {
+        console.warn(`[Database] Order with ID ${id} not found`);
+      }
+      
+      // Delete the order
+      console.log(`[Database] Executing DELETE query for order ${id}`);
       db.run('DELETE FROM orders WHERE id = ?', [id]);
+      
+      // Also delete related order items if they exist in a separate table
+      try {
+        db.run('DELETE FROM order_items WHERE order_id = ?', [id]);
+        console.log(`[Database] Deleted related order items for order ${id}`);
+      } catch (itemsError) {
+        // Ignore if order_items table doesn't exist or other errors
+        console.log('[Database] No order items to delete or error deleting items:', itemsError.message);
+      }
+      
+      // Save the database
+      console.log(`[Database] Saving database after deleting order ${id}`);
       saveDatabase();
+      
+      console.log(`[Database] Successfully deleted order ${id}`);
       return true;
+      
     } catch (error) {
-      console.error('Error deleting order:', error);
+      console.error(`[Database] Error deleting order ${id}:`, error);
       return false;
     }
   }

@@ -270,6 +270,27 @@
             opacity: 0.5;
         }
         
+        /* Fix dropdown menu positioning */
+        .table-responsive {
+            position: relative;
+        }
+        
+        .dropdown-menu {
+            position: absolute !important;
+            z-index: 1050;
+            max-height: 200px;
+            overflow-y: auto;
+            top: 100% !important;
+            left: auto !important;
+            right: 0;
+            margin-top: 0.125rem;
+        }
+        
+        /* Make sure dropdown isn't cut off by table cell */
+        td {
+            position: relative;
+        }
+        
         /* Responsive table */
         @media (max-width: 991.98px) {
             .table-responsive {
@@ -371,7 +392,7 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="index.html" class="btn btn-outline-secondary btn-sm me-2">
+                    <a href="index_new.html" class="btn btn-outline-secondary btn-sm me-2">
                         <i class="bi bi-shop"></i> View Shop
                     </a>
                     <button id="refresh-orders" class="btn btn-primary btn-sm">
@@ -420,11 +441,13 @@
                                 <thead>
                                     <tr>
                                         <th>Order ID</th>
-                                        <th>Customer</th>
                                         <th>Date</th>
-                                        <th>Amount</th>
+                                        <th>Customer</th>
+                                        <th>City</th>
+                                        <th>Delivery</th>
+                                        <th>Total</th>
                                         <th>Status</th>
-                                        <th>Actions</th>
+                                        <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="orders-table-body">
@@ -459,6 +482,29 @@
     <footer class="text-center text-muted small py-3">
         &copy; 2025 Kaira Jewelry. All rights reserved.
     </footer>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteOrderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Confirm Deletion</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this order? This action cannot be undone.</p>
+                    <p class="mb-0"><strong>Order ID:</strong> <span id="deleteOrderId"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <span class="btn-text">Delete Order</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- View Order Modal -->
     <div class="modal fade" id="viewOrderModal" tabindex="-1" aria-hidden="true">
@@ -669,9 +715,276 @@
       return logEntry;
     }
 
+    // Handle order deletion
+    async function deleteOrder(orderId) {
+      console.log(`[Client] Starting order deletion for ID: ${orderId}`);
+      
+      if (!orderId) {
+        const errorMsg = 'No order ID provided for deletion';
+        console.error('[Client] ' + errorMsg);
+        showAlert(errorMsg, 'danger');
+        return;
+      }
+
+      const deleteBtn = document.getElementById('confirmDeleteBtn');
+      const spinner = deleteBtn.querySelector('.spinner-border');
+      const btnText = deleteBtn.querySelector('.btn-text');
+      
+      try {
+        // Show loading state
+        console.log('[Client] Showing loading state for delete button');
+        deleteBtn.disabled = true;
+        spinner.classList.remove('d-none');
+        btnText.textContent = 'Deleting...';
+        
+        // Log before making the API call
+        console.log(`[Client] Sending DELETE request to /api/orders/${orderId}`);
+        
+        // Call API to delete order
+        const startTime = performance.now();
+        const response = await fetch(`http://localhost:5001/api/orders/${orderId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          credentials: 'same-origin'
+        });
+        const endTime = performance.now();
+        
+        console.log(`[Client] Received response in ${(endTime - startTime).toFixed(2)}ms`, {
+          status: response.status,
+          statusText: response.statusText,
+          url: response.url
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`[Client] Delete request failed: ${response.status} ${response.statusText}`, errorText);
+          throw new Error(`Failed to delete order: ${response.status} ${response.statusText}`);
+        }
+        
+        const result = await response.json();
+        console.log('[Client] Delete response data:', result);
+        
+        if (!result.success) {
+          const errorMsg = result.message || 'Failed to delete order';
+          console.error(`[Client] API reported failure: ${errorMsg}`);
+          throw new Error(errorMsg);
+        }
+        
+        // Show success message
+        const successMsg = `Order #${orderId} deleted successfully!`;
+        console.log(`[Client] ${successMsg}`);
+        showAlert(successMsg, 'success');
+        
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('deleteOrderModal'));
+        if (modal) {
+          console.log('[Client] Closing delete confirmation modal');
+          modal.hide();
+        }
+        
+        // Reload orders
+        console.log('[Client] Reloading orders list');
+        await loadOrders();
+        
+      } catch (error) {
+        console.error('[Client] Error in deleteOrder:', error);
+        const errorMsg = `Failed to delete order: ${error.message}`;
+        console.error('[Client] ' + errorMsg);
+        showAlert(errorMsg, 'danger');
+      } finally {
+        // Reset button state
+        console.log('[Client] Resetting delete button state');
+        deleteBtn.disabled = false;
+        spinner.classList.add('d-none');
+        btnText.textContent = 'Delete Order';
+      }
+    }
+    
+    // Show alert message
+    function showAlert(message, type = 'info') {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 end-0 m-3`;
+      alertDiv.role = 'alert';
+      alertDiv.style.zIndex = '9999';
+      alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      
+      document.body.appendChild(alertDiv);
+      
+      // Auto dismiss after 5 seconds
+      setTimeout(() => {
+        const bsAlert = new bootstrap.Alert(alertDiv);
+        bsAlert.close();
+      }, 5000);
+    }
+
+    // Update order status
+    async function updateOrderStatus(orderId, newStatus) {
+      const startTime = performance.now();
+      const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+      
+      try {
+        console.group(`[${new Date().toISOString()}] Updating Order Status`);
+        console.log('Request ID:', requestId);
+        console.log('Order ID:', orderId);
+        console.log('New Status:', newStatus);
+        console.log('Initiating API request...');
+        
+        logAdminEvent('Initiating status update', { 
+          requestId, 
+          orderId, 
+          newStatus,
+          timestamp: new Date().toISOString()
+        });
+        
+        const response = await fetch(`http://localhost:5001/api/orders/${orderId}/status`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Request-ID': requestId,
+            'X-Client-Timestamp': new Date().toISOString()
+          },
+          body: JSON.stringify({ 
+            status: newStatus,
+            clientInfo: {
+              userAgent: navigator.userAgent,
+              timestamp: new Date().toISOString()
+            }
+          })
+        });
+        
+        const responseTime = Math.round(performance.now() - startTime);
+        console.log(`API Response (${response.status}) in ${responseTime}ms`);
+        
+        const result = await response.json().catch(e => ({
+          success: false,
+          message: 'Failed to parse JSON response',
+          error: e.message
+        }));
+        
+        console.log('Response Data:', result);
+        
+        if (!response.ok) {
+          const errorMsg = result.message || 'Failed to update order status';
+          console.error('API Error:', errorMsg);
+          throw new Error(errorMsg);
+        }
+        
+        if (!result.success) {
+          const errorMsg = result.message || 'Failed to update order status';
+          console.error('API Error:', errorMsg);
+          throw new Error(errorMsg);
+        }
+        
+        // Update the status badge in the UI
+        const statusBadge = document.querySelector(`tr[data-order-id="${orderId}"] .status-badge`);
+        if (statusBadge) {
+          const oldStatus = statusBadge.textContent.trim();
+          statusBadge.className = `badge ${getStatusBadgeClass(newStatus)} status-badge`;
+          statusBadge.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+          
+          console.log('UI Updated:', {
+            orderId,
+            oldStatus,
+            newStatus,
+            element: statusBadge
+          });
+        }
+        
+        const successMsg = `Order status updated to ${newStatus}`;
+        console.log('Success:', successMsg);
+        showAlert(successMsg, 'success');
+        
+        logAdminEvent('Status update successful', { 
+          requestId,
+          orderId, 
+          newStatus,
+          responseTime: `${responseTime}ms`,
+          timestamp: new Date().toISOString()
+        });
+        
+      } catch (error) {
+        const errorTime = Math.round(performance.now() - startTime);
+        console.error('Error Details:', {
+          name: error.name,
+          message: error.message,
+          stack: error.stack,
+          timeElapsed: `${errorTime}ms`
+        });
+        
+        const errorMsg = `Error updating status: ${error.message}`;
+        console.error(errorMsg);
+        showAlert(errorMsg, 'danger');
+        
+        logAdminEvent('Status update failed', { 
+          requestId,
+          orderId,
+          newStatus,
+          error: error.message,
+          timeElapsed: `${errorTime}ms`,
+          timestamp: new Date().toISOString()
+        });
+        
+      } finally {
+        console.groupEnd();
+        console.log(''); // Add empty line for better readability
+      }
+    }
+
     // Initialize when page loads
     document.addEventListener('DOMContentLoaded', function() {
       logAdminEvent('Admin Orders page loaded');
+      
+      // Add click handler for status updates
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('status-update')) {
+          e.preventDefault();
+          const orderId = e.target.dataset.orderId;
+          const newStatus = e.target.dataset.status;
+          
+          if (orderId && newStatus) {
+            console.log(`Status change initiated for order ${orderId} to ${newStatus}`);
+            console.log('Event details:', {
+              target: e.target,
+              timestamp: new Date().toISOString(),
+              currentStatus: e.target.closest('tr').querySelector('.status-badge')?.textContent?.trim()
+            });
+            
+            updateOrderStatus(orderId, newStatus);
+          } else {
+            console.error('Missing orderId or newStatus in click handler', {
+              orderId,
+              newStatus,
+              element: e.target
+            });
+          }
+        }
+      });
+      
+      // Handle delete button clicks
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.delete-order')) {
+          const button = e.target.closest('.delete-order');
+          const orderId = button.getAttribute('data-order-id');
+          
+          if (orderId) {
+            document.getElementById('deleteOrderId').textContent = `#${orderId}`;
+            
+            // Store the order ID in the confirm button
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            confirmBtn.onclick = () => deleteOrder(orderId);
+            
+            // Show the modal
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteOrderModal'));
+            deleteModal.show();
+          }
+        }
+      });
       
       // Log initial state
       logAdminEvent('Initial state', {
@@ -698,10 +1011,10 @@
       try {
         logAdminEvent('Starting to load orders from backend');
         loadingIndicator.style.display = 'block';
-        ordersTable.innerHTML = '<tr><td colspan="6" class="text-center py-5 text-muted">Loading orders...</td></tr>';
+        ordersTable.innerHTML = '<tr><td colspan="7" class="text-center py-5 text-muted">Loading orders...</td></tr>';
         
         // Fetch orders from backend API
-        const response = await fetch('http://localhost:5000/api/orders');
+        const response = await fetch('http://localhost:5001/api/orders');
         
         if (!response.ok) {
           throw new Error(`Failed to fetch orders: ${response.status} ${response.statusText}`);
@@ -736,7 +1049,7 @@
         
         // Render each order in the table
         orders.forEach(order => {
-          const orderDate = order.createdAt ? new Date(order.createdAt) : new Date();
+          const orderDate = order.orderDate ? new Date(order.orderDate) : new Date();
           const formattedDate = orderDate.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'short',
@@ -745,39 +1058,53 @@
             minute: '2-digit'
           });
           
+          const customerName = `${order.firstName || ''} ${order.lastName || ''}`.trim() || 'N/A';
+          const totalAmount = order.total ? `${order.total.toFixed(2)} DZD` : 'N/A';
+          
           const row = document.createElement('tr');
           row.innerHTML = `
             <td data-label="Order ID">
-              <div>${order.orderId || 'N/A'}</div>
+              <div>#${order.orderId || 'N/A'}</div>
             </td>
             <td data-label="Date">
               <div>${formattedDate}</div>
             </td>
             <td data-label="Customer">
-              <div>${order.customerName || 'N/A'}</div>
+              <div>${customerName}</div>
+              <small class="text-muted">${order.phone || ''}</small>
             </td>
             <td data-label="City">
               <div>${order.city || 'N/A'}</div>
             </td>
+            <td data-label="Delivery">
+              <div>${order.deliveryMethod === 'home' ? 'Home Delivery' : 'Store Pickup'}</div>
+            </td>
             <td data-label="Total">
-              <div>${order.total ? `$${order.total.toFixed(2)}` : 'N/A'}</div>
+              <div>${totalAmount}</div>
             </td>
             <td data-label="Status">
               <div>
-                <span class="badge ${getStatusBadgeClass(order.status || 'pending')}">
+                <span class="badge ${getStatusBadgeClass(order.status || 'pending')} status-badge">
                   ${(order.status || 'pending').charAt(0).toUpperCase() + (order.status || 'pending').slice(1)}
                 </span>
               </div>
             </td>
-            <td data-label="Actions">
-              <div class="d-flex justify-content-end">
-                <a href="admin-order-view.html?id=${order.orderId || ''}" 
+            <td data-label="Actions" data-order-id="${order.orderId || order._id || ''}">
+              <div class="d-flex justify-content-end gap-2">
+                <a href="admin-order-view.html?orderId=${order.orderId || order._id || ''}" 
                    class="btn btn-sm btn-outline-primary" 
                    title="View Order ${order.orderId || ''}"
                    aria-label="View order ${order.orderId || ''}">
                   <i class="bi bi-eye" aria-hidden="true"></i>
-                  <span class="ms-1">View</span>
+                  <span class="ms-1 d-none d-md-inline">View</span>
                 </a>
+                <button class="btn btn-sm btn-outline-danger delete-order" 
+                        data-order-id="${order.orderId || order._id || ''}"
+                        title="Delete Order"
+                        aria-label="Delete order ${order.orderId || ''}">
+                  <i class="bi bi-trash" aria-hidden="true"></i>
+                  <span class="ms-1 d-none d-md-inline">Delete</span>
+                </button>
               </div>
             </td>
           `;
@@ -869,7 +1196,7 @@
             
             try {
               // Fetch the specific order details
-              const response = await fetch(`http://localhost:5000/api/orders/${orderId}`);
+              const response = await fetch(`http://localhost:5001/api/orders/${orderId}`);
               if (!response.ok) {
                 throw new Error(`Failed to fetch order: ${response.status} ${response.statusText}`);
               }
@@ -902,7 +1229,7 @@
           try {
             logAdminEvent('Updating order status', { orderId, newStatus });
             
-            const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+            const response = await fetch(`http://localhost:5001/api/orders/${orderId}`, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',

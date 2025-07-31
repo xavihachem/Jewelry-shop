@@ -8,6 +8,133 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
+    /* Majestic Golden Button */
+    .order-now-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 28px;
+      font-family: 'Marcellus', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #1a1a1a;
+      background: linear-gradient(135deg, #d4af37 0%, #f9e0a0 50%, #d4af37 100%);
+      border: none;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      z-index: 1;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .order-now-btn .btn-text {
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    .order-now-btn .btn-icon {
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .order-now-btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #f9e0a0 0%, #d4af37 50%, #f9e0a0 100%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1;
+    }
+
+    .order-now-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+      color: #000;
+    }
+
+    .order-now-btn:hover:before {
+      opacity: 1;
+    }
+
+    .order-now-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .order-now-btn:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.5);
+    }
+
+    /* Add a subtle glow effect */
+    @keyframes goldenGlow {
+      0% { box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+      100% { box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+    }
+
+    .order-now-btn:hover .btn-icon {
+      animation: bounce 0.5s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(3px); }
+    }
+
+    /* Sub-images gallery */
+    .sub-images-gallery {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      overflow-x: auto;
+      padding: 10px 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-gold) var(--darker-bg);
+    }
+    
+    .sub-image {
+      width: 80px;
+      height: 80px;
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .sub-image:hover {
+      border-color: var(--primary-gold);
+      transform: translateY(-3px);
+    }
+    
+    .sub-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .sub-image.active {
+      border-color: var(--primary-gold);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+    
     /* Dark Golden Jewelry Theme */
     :root {
       --primary-gold: #d4af37;
@@ -210,11 +337,16 @@
     /* Back to shop link */
     header a {
       color: var(--text-muted);
-      transition: color 0.3s ease;
+      transition: all 0.3s ease;
       font-size: 1rem;
-      padding: 0.75rem 0;
+      text-decoration: none;
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      letter-spacing: 0.5px;
       display: inline-flex;
       align-items: center;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
     }
     
     header a:hover {
@@ -437,14 +569,39 @@
         <div class="product-image-container">
           <img id="productImage" src="" alt="Loading product..." class="img-fluid">
         </div>
+        <div id="subImagesGallery" class="sub-images-gallery">
+          <!-- Sub-images will be added here by JavaScript -->
+        </div>
       </div>
       <div class="col-lg-6 product-info">
         <h1 id="productTitle">Loading...</h1>
         <p id="productDescription">Loading product details...</p>
+        
+        <!-- Stock Status -->
+        <div class="stock-status mb-4 p-3 rounded" style="background-color: rgba(26, 26, 26, 0.7); border-left: 4px solid var(--primary-gold);">
+          <div class="d-flex align-items-center mb-2">
+            <i class="bi bi-box-seam me-2 text-gold"></i>
+            <span class="fw-medium text-light">Availability: </span>
+            <span id="productAvailability" class="ms-2 fw-bold">Checking...</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <i class="bi bi-grid-3x3 me-2 text-gold"></i>
+            <span class="fw-medium text-light">In Stock: </span>
+            <span id="productStock" class="ms-2 fw-bold">-</span>
+          </div>
+        </div>
+        
         <div class="d-flex flex-column align-items-center w-100">
-          <p id="productPrice" class="fs-3 fw-bold my-4 text-center w-100"></p>
-          <a href="order.html" id="orderNowBtn" class="btn btn-gold btn-lg py-3 px-5 d-inline-flex align-items-center" style="min-width: 200px;">
-            <i class="bi bi-bag-check me-2"></i>Order Now
+          <p id="productPrice" class="fs-3 fw-bold my-3 text-center w-100"></p>
+          <a href="#" id="orderNowBtn" class="order-now-btn order-now-link">
+            <span class="btn-text">Order Now</span>
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+            </span>
           </a>
         </div>
       </div>
@@ -464,6 +621,7 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/database.js"></script>
+  <script src="js/order.js"></script>
   <script>
     // Update the price display in the Add to Cart button
     function updatePriceDisplay() {
@@ -591,6 +749,36 @@
         productTitle.textContent = product.name || 'Product';
       }
       
+      // Update stock status
+      const productAvailability = document.getElementById('productAvailability');
+      const productStock = document.getElementById('productStock');
+      
+      if (productAvailability && productStock) {
+        const isAvailable = product.availability !== undefined ? product.availability : true;
+        const stockQuantity = product.quantity || 0;
+        
+        // Set availability status
+        if (isAvailable && stockQuantity > 0) {
+          productAvailability.textContent = 'In Stock';
+          productAvailability.className = 'ms-2 fw-bold text-success';
+          productStock.textContent = stockQuantity;
+          productStock.className = 'ms-2 fw-bold text-success';
+        } else {
+          productAvailability.textContent = 'Out of Stock';
+          productAvailability.className = 'ms-2 fw-bold text-danger';
+          productStock.textContent = '0';
+          productStock.className = 'ms-2 fw-bold text-danger';
+          
+          // Disable order button if out of stock
+          const orderBtn = document.getElementById('orderNowBtn');
+          if (orderBtn) {
+            orderBtn.classList.add('disabled');
+            orderBtn.style.opacity = '0.6';
+            orderBtn.style.cursor = 'not-allowed';
+          }
+        }
+      }
+      
       // Update product price
       const productPrice = document.getElementById('productPrice');
       if (productPrice) {
@@ -621,6 +809,26 @@
         }
       }
       
+      // Update sub-images gallery
+      const subImagesGallery = document.getElementById('subImagesGallery');
+      if (subImagesGallery) {
+        subImagesGallery.innerHTML = ''; // Clear existing images
+        
+        // Add main image as first in the gallery if it exists
+        if (product.image) {
+          const mainImgElement = createSubImageElement(product.image, product.name || 'Product', true);
+          subImagesGallery.appendChild(mainImgElement);
+        }
+        
+        // Add additional images if they exist
+        if (product.additionalImages && product.additionalImages.length > 0) {
+          product.additionalImages.forEach((img, index) => {
+            const imgElement = createSubImageElement(img, `${product.name || 'Product'} - ${index + 1}`);
+            subImagesGallery.appendChild(imgElement);
+          });
+        }
+      }
+      
       // Update page title
       const pageTitle = (product.name || 'Product') + ' - Kaira';
       document.title = pageTitle;
@@ -639,8 +847,38 @@
       
       // Update price
       document.getElementById('productPrice').textContent = formatPrice(product.price);
+    }
+    
+    // Helper function to create sub-image element
+    function createSubImageElement(src, alt, isActive = false) {
+      const container = document.createElement('div');
+      container.className = `sub-image ${isActive ? 'active' : ''}`;
+      container.title = 'Click to view';
       
-
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = alt;
+      img.onerror = function() {
+        this.src = 'images/placeholder.jpg';
+        this.alt = 'Image not available';
+      };
+      
+      // Add click event to switch main image
+      container.addEventListener('click', function() {
+        // Update main image
+        const mainImage = document.getElementById('productImage');
+        if (mainImage) {
+          mainImage.src = src;
+          mainImage.alt = alt;
+        }
+        
+        // Update active state
+        document.querySelectorAll('.sub-image').forEach(el => el.classList.remove('active'));
+        this.classList.add('active');
+      });
+      
+      container.appendChild(img);
+      return container;
     }
     
     // Show error message
@@ -663,14 +901,47 @@
     }
     
     // Initialize the page when DOM is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-      initializePage().catch(error => {
+    document.addEventListener('DOMContentLoaded', async function() {
+      try {
+        // Initialize API
+        await window.api.init();
+        
+        // Initialize the page
+        await initializePage();
+        
+        // Handle order now button click
+        const orderNowBtn = document.getElementById('orderNowBtn');
+        if (orderNowBtn) {
+          orderNowBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = new URLSearchParams(window.location.search).get('id');
+            if (productId) {
+              // Redirect to order page with product ID
+              window.location.href = `order-index.html?id=${productId}`;
+            } else {
+              // Fallback to storing in session storage if no ID is available
+              const productImage = document.getElementById('productImage')?.src || '';
+              const productTitle = document.getElementById('productTitle')?.textContent || 'Product';
+              const productPrice = document.getElementById('productPrice')?.textContent || '';
+              
+              const product = {
+                image: productImage,
+                name: productTitle,
+                price: productPrice,
+                quantity: 1
+              };
+              sessionStorage.setItem('currentProduct', JSON.stringify(product));
+              window.location.href = 'order-index.html';
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Initialization error:', error);
         showError('An unexpected error occurred. Please try again later.');
         hideLoading();
-      });
+      }
     });
   </script>
-  <!-- Include required JavaScript files -->
   <script src="js/api.js"></script>
   <script>
     // Initialize the API
