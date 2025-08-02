@@ -132,6 +132,11 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
       `;
       
       productGrid.appendChild(productCol);
+      // Translate 'Order Now' text for Arabic view
+      if (sessionStorage.getItem('language') === 'ar') {
+        const btnText = productCol.querySelector('.btn-text');
+        if (btnText) btnText.textContent = 'أطلب الآن';
+      }
     });
     
     // Re-initialize order buttons after loading products

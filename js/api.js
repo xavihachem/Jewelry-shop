@@ -226,10 +226,20 @@ const orderApi = {
   }
 };
 
+// Language operations
+const languageApi = {
+  // Get all language entries (translations)
+  getAllLanguages: async () => {
+    const response = await fetch(`${API_URL}/languages`);
+    return handleResponse(response);
+  }
+};
+
 // Export API methods
 window.api = {
   products: productApi,
   orders: orderApi,
+  languages: languageApi,
   
   // Initialize API (for backward compatibility)
   init: async () => {

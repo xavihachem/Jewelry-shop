@@ -5,11 +5,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Detail - Kaira</title>
+  <!-- Translations -->
+  <script src="js/translations.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
     /* Majestic Golden Button */
     .order-now-btn {
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -442,6 +445,55 @@
       box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
     }
     
+    /* Force LTR for form elements in RTL mode */
+    [dir="rtl"] .ltr-form,
+    [dir="rtl"] .ltr-form * {
+      direction: ltr !important;
+      text-align: left !important;
+    }
+    
+    /* Ensure form inputs and buttons maintain LTR */
+    [dir="rtl"] .ltr-form input,
+    [dir="rtl"] .ltr-form textarea,
+    [dir="rtl"] .ltr-form select,
+    [dir="rtl"] .ltr-form button {
+      direction: ltr !important;
+      text-align: left !important;
+    }
+    
+    /* Fix for number input spinners */
+    [dir="rtl"] .ltr-form input[type="number"] {
+      text-align: right !important;
+      padding-right: 40px !important;
+    }
+    
+    /* Back button wrapper - forces left alignment in both LTR and RTL */
+    .back-button-wrapper {
+      text-align: left;
+      margin: 0.5rem 0;
+      direction: ltr !important; /* Force LTR for the button container */
+      display: inline-block; /* Make it only as wide as its content */
+    }
+    
+    /* Ensure the button stays on the left in RTL */
+    [dir="rtl"] .back-button-wrapper {
+      text-align: left;
+      float: left;
+      margin-right: 0;
+      margin-left: 0;
+    }
+    
+    /* Keep the arrow pointing left in both LTR and RTL */
+    [dir="rtl"] .back-button-wrapper .bi-arrow-left-short {
+      transform: none;
+    }
+    
+    /* Ensure the button itself maintains LTR layout */
+    .back-button-wrapper .btn {
+      direction: ltr;
+      text-align: left;
+    }
+    
     .btn-hover-gold {
       position: relative;
       z-index: 1;
@@ -551,13 +603,15 @@
 <body class="homepage">
   <header class="py-2">
     <div class="container">
-      <div class="d-flex align-items-center">
-        <div class="ms-lg-3 mt-2 mt-lg-0">
-          <a href="shop.html" class="btn btn-outline-gold btn-hover-gold px-4 py-2 d-flex align-items-center">
-            <i class="bi bi-arrow-left-short fs-5 me-2"></i>
-            <span>Back to Shop</span>
-            <div class="btn-glow"></div>
-          </a>
+      <div class="row">
+        <div class="col-12">
+          <div class="back-button-wrapper">
+            <a href="shop.html" class="btn btn-outline-gold btn-hover-gold px-4 py-2 d-inline-flex align-items-center">
+              <i class="bi bi-arrow-left-short fs-5 me-2"></i>
+              <span data-i18n-key="product.back_to_shop">Back to Shop</span>
+              <div class="btn-glow"></div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -567,26 +621,25 @@
     <div class="row justify-content-center">
       <div class="col-lg-6 mb-5 mb-lg-0">
         <div class="product-image-container">
-          <img id="productImage" src="" alt="Loading product..." class="img-fluid">
+          <img id="productImage" src="" data-i18n-key="product.loading" alt="Loading product..." class="img-fluid">
         </div>
         <div id="subImagesGallery" class="sub-images-gallery">
           <!-- Sub-images will be added here by JavaScript -->
         </div>
       </div>
-      <div class="col-lg-6 product-info">
-        <h1 id="productTitle">Loading...</h1>
-        <p id="productDescription">Loading product details...</p>
+      <div class="col-lg-6 product-info ltr-form">
+        <h1 id="productTitle" data-i18n-key="product.loading">Loading...</h1>
+        <p id="productDescription" data-i18n-key="product.loading_details">Loading product details...</p>
         
         <!-- Stock Status -->
         <div class="stock-status mb-4 p-3 rounded" style="background-color: rgba(26, 26, 26, 0.7); border-left: 4px solid var(--primary-gold);">
           <div class="d-flex align-items-center mb-2">
             <i class="bi bi-box-seam me-2 text-gold"></i>
-            <span class="fw-medium text-light">Availability: </span>
-            <span id="productAvailability" class="ms-2 fw-bold">Checking...</span>
+            <p class="mb-1"><strong data-i18n-key="product.availability">Availability:</strong> <span id="productAvailability" class="text-success" data-i18n-key="product.in_stock">In Stock</span></p>
           </div>
           <div class="d-flex align-items-center">
             <i class="bi bi-grid-3x3 me-2 text-gold"></i>
-            <span class="fw-medium text-light">In Stock: </span>
+            <span class="fw-medium text-light" data-i18n-key="product.in_stock">In Stock: </span>
             <span id="productStock" class="ms-2 fw-bold">-</span>
           </div>
         </div>
@@ -594,7 +647,7 @@
         <div class="d-flex flex-column align-items-center w-100">
           <p id="productPrice" class="fs-3 fw-bold my-3 text-center w-100"></p>
           <a href="#" id="orderNowBtn" class="order-now-btn order-now-link">
-            <span class="btn-text">Order Now</span>
+            <span class="btn-text" data-i18n-key="product.order_now">Order Now</span>
             <span class="btn-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -749,13 +802,21 @@
         productTitle.textContent = product.name || 'Product';
       }
       
+      // Debug: Log the entire product object to see its structure
+      console.log('Product data:', product);
+      
       // Update stock status
       const productAvailability = document.getElementById('productAvailability');
       const productStock = document.getElementById('productStock');
       
       if (productAvailability && productStock) {
-        const isAvailable = product.availability !== undefined ? product.availability : true;
-        const stockQuantity = product.quantity || 0;
+        // Extract stock information
+        const stockInfo = product.stock || {};
+        const stockStatus = (stockInfo.status || '').toLowerCase();
+        const isAvailable = stockStatus === 'متاح' || stockStatus === 'available' || stockStatus === 'in stock';
+        const stockQuantity = parseInt(stockInfo.quantity) || 0;
+        
+        console.log('Stock status - Status:', stockStatus, 'Available:', isAvailable, 'Quantity:', stockQuantity);
         
         // Set availability status
         if (isAvailable && stockQuantity > 0) {
@@ -881,24 +942,127 @@
       return container;
     }
     
-    // Show error message
+    // Show error message with translation support
     function showError(message) {
+      // Get current language
+      const lang = sessionStorage.getItem('language') || 'en';
+      const dict = (window.translations && window.translations[lang]) || {};
+      
+      // Get translated message or fallback to original
+      const translatedMessage = dict[message] || message;
+      console.error('Error:', translatedMessage);
+      
       const productInfo = document.querySelector('.product-info');
       if (productInfo) {
-        productInfo.innerHTML = `
+        // Create a temporary container to hold our HTML
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = `
           <div class="alert alert-warning">
-            <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-            <a href="shop.html" class="btn btn-outline-gold btn-hover-gold px-4 py-2 d-flex align-items-center">
+            <a href="shop.html" class="btn btn-outline-gold btn-hover-gold px-4 py-2 d-flex align-items-center mb-3">
               <i class="bi bi-arrow-left-short fs-5 me-2"></i>
-              <span>Back to Shop</span>
+              <span data-i18n-key="product.back_to_shop">Back to Shop</span>
               <div class="btn-glow"></div>
             </a>
-          </li>
-          <p>${message}</p>
+            <p class="mb-0">${translatedMessage}</p>
           </div>
         `;
+        
+        // Replace the content
+        productInfo.innerHTML = '';
+        productInfo.appendChild(tempDiv.firstElementChild);
+        
+        // Make sure to re-apply translations to any new elements
+        if (window.translatePage) {
+          window.translatePage();
+        }
+      } else {
+        console.error('Could not find .product-info element to show error:', translatedMessage);
       }
     }
+    
+    // Global function to translate the page
+    window.translatePage = function() {
+      // Get current language
+      const lang = sessionStorage.getItem('language') || 'en';
+      console.log('🌐 Translating page to:', lang);
+      
+      // Get translations
+      const dict = window.translations && window.translations[lang];
+      if (!dict) {
+        console.error('❌ No translations found for language:', lang);
+        return;
+      }
+      
+      // Set document direction for RTL languages
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      
+      // Translate all elements with data-i18n-key
+      let translatedCount = 0;
+      document.querySelectorAll('[data-i18n-key]').forEach(el => {
+        const key = el.getAttribute('data-i18n-key');
+        if (dict[key]) {
+          const newText = dict[key];
+          if (el.textContent !== newText) {
+            console.log(`   🔄 ${key}: "${el.textContent}" → "${newText}"`);
+            el.textContent = newText;
+          }
+          translatedCount++;
+        } else {
+          console.warn(`   ⚠️ No translation found for key: ${key}`);
+        }
+      });
+      
+      console.log(`✅ Translated ${translatedCount} elements`);
+      return translatedCount;
+    };
+    
+    // i18n logic for product page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Log current language from session storage
+      const lang = sessionStorage.getItem('language') || 'en';
+      console.log('🌐 Current language from sessionStorage:', lang);
+      console.log('🔑 sessionStorage content:', JSON.stringify(sessionStorage, null, 2));
+      
+      // Make sure translations are loaded
+      if (!window.translations) {
+        console.error('❌ translations.js not loaded!');
+        return;
+      }
+      
+      // Log available translations
+      console.log('📚 Available translations:', Object.keys(window.translations));
+      
+      // Translate the page
+      window.translatePage();
+      
+      // Set up language change listener
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'language') {
+          console.log('🌍 Language changed to:', e.newValue);
+          window.translatePage();
+        }
+      });
+      // Log translation completion
+      console.log('🏁 Translation process completed');
+      console.log('🔍 Elements with translation keys:', document.querySelectorAll('[data-i18n-key]').length);
+      
+      // Log session storage for debugging
+      console.log('📋 Session Storage:', {
+        language: sessionStorage.getItem('language'),
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent
+      });
+      
+      // Set up language change listener
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'language') {
+          console.log('🌍 Language changed to:', e.newValue);
+          location.reload();
+        }
+      });
+      
+      // Optionally translate other product fields if keys are added
+    });
     
     // Initialize the page when DOM is loaded
     document.addEventListener('DOMContentLoaded', async function() {
@@ -942,6 +1106,7 @@
       }
     });
   </script>
+  <!-- Custom Scripts -->
   <script src="js/api.js"></script>
   <script>
     // Initialize the API

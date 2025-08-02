@@ -15,6 +15,9 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     
+    <!-- Flag Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.6/css/flag-icons.min.css">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +31,106 @@
     <!-- Preload critical resources -->
     <link rel="preload" href="js/custom.js" as="script">
     <link rel="preload" href="js/home_new.js" as="script">
+    
+    <style>
+      /* Navbar container - allow dropdowns to overflow */
+      .navbar {
+        position: relative;
+        z-index: 2000 !important;
+        overflow: visible !important;
+      }
+      
+      /* Navbar container - ensure it doesn't clip children */
+      .navbar > .container {
+        position: static;
+      }
+      
+      /* Language dropdown menu */
+      .dropdown-menu[aria-labelledby="languageDropdown"] {
+        position: absolute !important;
+        right: 0;
+        left: auto;
+        z-index: 2001 !important;
+        margin-top: 0;
+        background: rgba(20, 20, 20, 0.95);
+        border: 1px solid rgba(212, 175, 55, 0.5);
+        border-radius: 8px;
+        padding: 0.5rem 0;
+        min-width: 180px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+      
+      /* Dropdown items */
+      .dropdown-item {
+        color: #e0e0e0;
+        padding: 0.5rem 1.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+      
+      .dropdown-item:hover, .dropdown-item:focus {
+        background: rgba(212, 175, 55, 0.2);
+        color: #fff;
+      }
+      
+      .dropdown-item.active {
+        background: rgba(212, 175, 55, 0.3);
+        color: #fff;
+      }
+      
+      /* Flag styling */
+      .fi {
+        width: 20px;
+        height: 15px;
+        border-radius: 2px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      
+      /* Mobile offcanvas menu */
+      .offcanvas {
+        z-index: 2002 !important;
+      }
+      
+      /* Ensure dropdown toggle is above other elements when menu is open */
+      .nav-item.dropdown.show .nav-link.dropdown-toggle {
+        color: #d4af37 !important;
+      }
+      
+      .nav-item.dropdown.show .nav-link.dropdown-toggle::after {
+        transform: translateY(-1px);
+        border-top-color: #d4af37;
+      }
+      
+      /* Adjust hero section z-index to be below navbar */
+      .hero-section {
+        position: relative;
+        z-index: 1000;
+      }
+      
+      /* Ensure dropdown can extend beyond navbar */
+      .navbar-collapse {
+        overflow: visible !important;
+      }
+      
+      /* Fix for mobile dropdown */
+      .dropdown-menu[aria-labelledby="offcanvasLanguageDropdown"] {
+        position: static !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        padding-left: 1rem;
+      }
+      
+      /* Language toggle button */
+      #languageDropdown {
+        color: #fff;
+        transition: color 0.3s ease;
+      }
+      
+      #languageDropdown:hover {
+        color: #d4af37;
+      }
+    </style>
 </head>
 <body class="homepage">
     <!-- Network Canvas Background -->
@@ -50,18 +153,38 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link active" href="index_new.html" title="Home">
-                <i class="bi bi-house-door d-lg-none me-2"></i>Home
+                <i class="bi bi-house-door d-lg-none me-2"></i><span data-i18n-key="nav.home">Home</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="shop.html" title="Shop">
-                <i class="bi bi-shop d-lg-none me-2"></i>Shop
+                <i class="bi bi-shop d-lg-none me-2"></i><span data-i18n-key="nav.shop">Shop</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="admin.html" title="Admin Panel">
-                <i class="bi bi-shield-lock d-lg-none me-2"></i>Admin
+                <i class="bi bi-shield-lock d-lg-none me-2"></i><span data-i18n-key="nav.admin">Admin</span>
               </a>
+            </li>
+            <li class="nav-item dropdown ms-lg-3">
+              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-translate me-1"></i>
+                <span class="d-none d-lg-inline">English</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                <li>
+                  <a class="dropdown-item d-flex align-items-center justify-content-between active" href="#" data-lang="en">
+                    English
+                    <span class="fi fi-gb ms-2"></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center justify-content-between" href="#" data-lang="ar">
+                    <span class="flex-grow-1">العربية</span>
+                    <span class="fi fi-dz ms-3"></span>
+                  </a>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -71,14 +194,14 @@
     <!-- Offcanvas Menu -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel" data-i18n-key="nav.menu">Menu</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
             <a class="nav-link active" href="index_new.html">
-              <i class="bi bi-house-door me-2"></i>Home
+              <i class="bi bi-house-door me-2"></i><span data-i18n-key="nav.home">Home</span>
             </a>
           </li>
           <li class="nav-item">
@@ -88,8 +211,27 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="admin.html">
-              <i class="bi bi-shield-lock me-2"></i>Admin
+              <i class="bi bi-shield-lock me-2"></i><span data-i18n-key="nav.admin">Admin</span>
             </a>
+          </li>
+          <li class="nav-item dropdown mt-3 mt-lg-0">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="offcanvasLanguageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate me-2"></i>Language
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="offcanvasLanguageDropdown">
+              <li>
+                <a class="dropdown-item d-flex align-items-center justify-content-between active" href="#" data-lang="en">
+                  English
+                  <span class="fi fi-gb ms-2"></span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center justify-content-between" href="#" data-lang="ar">
+                  <span class="flex-grow-1">العربية</span>
+                  <span class="fi fi-dz ms-3"></span>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -112,9 +254,12 @@
                             </span>
                         </div>
                     </div>
-                    <p class="lead mb-5 max-w-600 mx-auto">Where exceptional craftsmanship meets contemporary design.<br>Each piece tells a story of passion and precision.</p>
+                    <p class="lead mb-5 max-w-600 mx-auto">
+  <span data-i18n-key="hero.tagline">Where exceptional craftsmanship meets contemporary design.</span><br>
+  <span data-i18n-key="hero.tagline2">Each piece tells a story of passion and precision.</span>
+</p>
                     <a href="shop.html" class="btn btn-gold btn-lg" title="Discover our collection">
-                        <i class="bi bi-arrow-right-circle me-2"></i>Discover the Collection
+                        <i class="bi bi-arrow-right-circle me-2"></i><span data-i18n-key="hero.cta">Discover the Collection</span>
                     </a>
                 </div>
             </div>
@@ -123,14 +268,14 @@
 
     <!-- Product Grid -->
     <main class="container-fluid px-4 px-md-5 my-5">
-        <h2 class="text-center mb-5">Featured Products</h2>
+        <h2 class="text-center mb-5" data-i18n-key="products.heading">Featured Products</h2>
         <div id="product-grid">
             <!-- Products will be loaded here by JavaScript -->
         </div>
         <div id="pagination-controls" class="d-flex justify-content-center align-items-center mt-4"></div>
         <div id="loading-indicator" class="text-center mt-5 d-none">
             <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden" data-i18n-key="loading">Loading...</span>
             </div>
         </div>
     </main>
@@ -139,7 +284,7 @@
     <section class="py-5">
         <div class="container text-center">
             <a href="shop.html" class="btn btn-outline-gold" title="View all products">
-                View All Collections <i class="bi bi-arrow-right ms-2"></i>
+                <span data-i18n-key="collections.cta">View All Collections</span> <i class="bi bi-arrow-right ms-2"></i>
             </a>
         </div>
     </section>
@@ -161,8 +306,8 @@
                     <li><a href="#" class="social-link" title="Pinterest"><i class="bi bi-pinterest"></i></a></li>
                 </ul>
                 <div class="footer-text">
-                    <p>© 2025 LUXURY. All Rights Reserved.</p>
-                    <p>Designed with <i class="bi bi-heart-fill text-gold"></i> by Cascade</p>
+                    <p data-i18n-key="footer.copy">© 2025 LUXURY. All Rights Reserved.</p>
+                    <p data-i18n-key="footer.design">Designed with <i class="bi bi-heart-fill text-gold"></i> by Cascade</p>
                 </div>
             </div>
         </div>
@@ -173,8 +318,27 @@
     
     <!-- Custom Scripts -->
     <script src="js/api.js"></script>
+    <script src="js/translations.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/home_new.js"></script>
+    <script>
+      // i18n logic: swap text based on session language
+      document.addEventListener('DOMContentLoaded', function () {
+        const lang = sessionStorage.getItem('language') || 'en';
+        const dict = (window.translations && window.translations[lang]) ? window.translations[lang] : {};
+        document.querySelectorAll('[data-i18n-key]').forEach(el => {
+          const key = el.getAttribute('data-i18n-key');
+          if (dict[key]) {
+            // If the element contains HTML (like the heart icon), preserve it
+            if (el.innerHTML.includes('<i')) {
+              el.innerHTML = dict[key].replace('❤️', '<i class="bi bi-heart-fill text-gold"></i>');
+            } else {
+              el.textContent = dict[key];
+            }
+          }
+        });
+      });
+    </script>
     
     <!-- Initialize Bootstrap components -->
     <script>

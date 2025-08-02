@@ -50,17 +50,17 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="index_new.html" title="Home">
-                <i class="bi bi-house-door d-lg-none me-2"></i>Home
+                <i class="bi bi-house-door d-lg-none me-2"></i><span data-i18n-key="nav.home">Home</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="shop.html" title="Shop">
-                <i class="bi bi-shop d-lg-none me-2"></i>Shop
+                <i class="bi bi-shop d-lg-none me-2"></i><span data-i18n-key="nav.shop">Shop</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="admin.html" title="Admin Panel">
-                <i class="bi bi-shield-lock d-lg-none me-2"></i>Admin
+                <i class="bi bi-shield-lock d-lg-none me-2"></i><span data-i18n-key="nav.admin">Admin</span>
               </a>
             </li>
           </ul>
@@ -77,24 +77,24 @@
   <!-- Offcanvas Menu -->
   <div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas" aria-labelledby="offcanvasNavbarLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+      <h5 class="offcanvas-title" id="offcanvasNavbarLabel" data-i18n-key="nav.menu">Menu</h5>
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
         <li class="nav-item">
           <a class="nav-link" href="index_new.html">
-            <i class="bi bi-house-door me-2"></i>Home
+            <i class="bi bi-house-door me-2"></i><span data-i18n-key="nav.home">Home</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="shop.html">
-            <i class="bi bi-shop me-2"></i>Shop
+            <i class="bi bi-shop me-2"></i><span data-i18n-key="nav.shop">Shop</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="admin.html">
-            <i class="bi bi-shield-lock me-2"></i>Admin
+            <i class="bi bi-shield-lock me-2"></i><span data-i18n-key="nav.admin">Admin</span>
           </a>
         </li>
       </ul>
@@ -151,8 +151,29 @@
   
   <!-- Custom Scripts -->
   <script src="js/api.js"></script>
+  <script src="js/translations.js"></script>
   <script src="js/custom.js"></script>
   <script src="js/shop.js"></script>
+  <script>
+    // i18n logic: swap text based on session language
+    document.addEventListener('DOMContentLoaded', function () {
+      const lang = sessionStorage.getItem('language') || 'en';
+      const dict = (window.translations && window.translations[lang]) ? window.translations[lang] : {};
+      document.querySelectorAll('[data-i18n-key]').forEach(el => {
+        const key = el.getAttribute('data-i18n-key');
+        if (dict[key]) {
+          el.textContent = dict[key];
+        }
+      });
+      // Translate product cart buttons if present
+      document.querySelectorAll('.order-now-btn').forEach(btn => {
+        const textSpan = btn.querySelector('.btn-text');
+        if (textSpan) {
+          textSpan.textContent = lang === 'ar' ? 'أطلب الآن' : 'Order Now';
+        }
+      });
+    });
+  </script>
   <script src="js/order.js"></script>
   
   <!-- Initialize Bootstrap components -->

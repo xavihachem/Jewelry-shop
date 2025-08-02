@@ -258,4 +258,55 @@ document.addEventListener('DOMContentLoaded', function () {
       preloader.parentNode && preloader.parentNode.removeChild(preloader);
     }, 700);
   }
+
+    // Initialize language toggle from sessionStorage
+  (function() {
+    const savedLang = sessionStorage.getItem('language');
+    if (savedLang) {
+      const ddToggle = document.getElementById('languageDropdown');
+      if (ddToggle) {
+        const span = ddToggle.querySelector('span');
+        if (span) {
+          span.textContent = savedLang === 'en' ? 'English' : 'العربية';
+        }
+      }
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        if (el.getAttribute('data-lang') === savedLang) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+    }
+  })();
+
+  // Function to update language and refresh the page
+  function updateLanguage(lang) {
+    sessionStorage.setItem('language', lang);
+    // Update dropdown toggle text
+    const ddToggle = document.getElementById('languageDropdown');
+    if (ddToggle) {
+      const span = ddToggle.querySelector('span');
+      if (span) {
+        span.textContent = lang === 'en' ? 'English' : 'العربية';
+      }
+    }
+    // Close dropdown if Bootstrap Dropdown instance exists
+    if (typeof bootstrap !== 'undefined' && ddToggle) {
+      const ddInstance = bootstrap.Dropdown.getInstance(ddToggle);
+      if (ddInstance) ddInstance.hide();
+    }
+    // Force a page refresh to apply translations
+    window.location.reload();
+  }
+
+  // Language selection handling
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      const lang = this.getAttribute('data-lang');
+      updateLanguage(lang);
+    });
+  });
+
 });
