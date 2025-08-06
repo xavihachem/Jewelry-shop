@@ -358,11 +358,12 @@
             try {
                 // Fetch order details from backend API using orderId
                 console.log('Fetching order details from API...');
-                // First try to find by orderId (string ID from URL)
+                // Fetch order by orderId
+                console.log(`Fetching order with ID: ${orderId}`);
                 let response = await fetch(`http://localhost:5001/api/orders/order/${orderId}`);
                 
-                // If not found, try finding by _id
-                if (response.status === 404) {
+                // If not found by orderId, try finding by _id
+                if (!response.ok) {
                     console.log('Order not found by orderId, trying with _id...');
                     response = await fetch(`http://localhost:5001/api/orders/${orderId}`);
                 }
@@ -375,11 +376,12 @@
                     throw new Error(`Failed to fetch order: ${response.status} ${response.statusText}`);
                 }
                 
-                if (!result.success || !result.data) {
+                if (!result.success) {
                     throw new Error(result.message || 'Failed to load order details - Invalid response format');
                 }
                 
-                const order = result.data;
+                // The order data is in result.data
+                const order = result.data || result; // Handle both {success: true, data: {...}} and direct order object
 
                 // Format date
                 const formatDate = (dateString) => {
@@ -445,80 +447,152 @@
                     ? (order.address || 'No address provided')
                     : 'Store Pickup';
 
-                // Update order items
+                // Get order items list element
                 const orderItemsList = document.getElementById('orderItemsList');
-                // Create a single item array if the order has product details at root level
-                const orderItems = order.productId ? [{
-                    productId: order.productId,
-                    name: order.productName,
-                    image: order.productImage,
-                    price: order.subtotal,
-                    quantity: 1 // Assuming quantity is 1 for single product orders
-                }] : [];
                 
-                if (orderItems.length > 0) {
-                    orderItemsList.innerHTML = orderItems.map(item => {
-                        // The product data is in the item object
-                        const product = item;
-                        
-                        // Get image path - handle different image formats and paths
-                        let imagePath = '';
-                        if (product.image) {
-                            // Handle base64 images (they start with 'data:image')
-                            if (product.image.startsWith('data:image')) {
-                                imagePath = product.image;
-                            }
-                            // Handle full URLs
-                            else if (product.image.startsWith('http') || 
-                                    product.image.startsWith('/') ||
-                                    product.image.startsWith('blob:')) {
-                                imagePath = product.image;
-                            } 
-                            // Handle relative paths
-                            else if (product.image.includes('img/')) {
-                                imagePath = '../' + product.image;
-                            }
-                            else if (product.image.includes('uploads/')) {
-                                imagePath = '/' + product.image; // Absolute path to uploads
-                            }
-                            else {
-                                imagePath = '../img/' + product.image;
-                            }
-                        } else {
-                            imagePath = '../img/placeholder.jpg';
+                // Use the items array from the order or create an empty array
+                const orderItems = Array.isArray(order.items) ? order.items : 
+                    (order.productId ? [{
+                        productId: order.productId,
+                        name: order.productName,
+                        image: order.productImage || 'img/logo.png',
+                        price: order.price || order.subtotal,
+                        quantity: order.quantity || 1
+                    }] : []);
+                
+                // Function to fetch product details including images
+                async function fetchProductDetails(productId) {
+                    try {
+                        const response = await fetch(`http://localhost:5001/api/products/${productId}`);
+                        if (!response.ok) {
+                            console.error(`Failed to fetch product ${productId}:`, response.status);
+                            return { image: 'img/placeholder.jpg' }; // Return default image on error
                         }
+                        const result = await response.json();
+                        return result.data || result; // Return the product data
+                    } catch (error) {
+                        console.error(`Error fetching product ${productId}:`, error);
+                        return { image: 'img/placeholder.jpg' }; // Return default image on error
+                    }
+                }
+                
+                // Function to get image URL from source
+                function getImageUrl(imageSource) {
+                    if (!imageSource) return '../img/placeholder.jpg';
+                    
+                    // Handle base64 images
+                    if (imageSource.startsWith('data:image')) {
+                        return imageSource;
+                    }
+                    // Handle full URLs
+                    if (imageSource.startsWith('http') || 
+                        imageSource.startsWith('/') ||
+                        imageSource.startsWith('blob:')) {
+                        return imageSource;
+                    }
+                    // Handle relative paths
+                    if (imageSource.includes('img/')) {
+                        return '../' + imageSource;
+                    }
+                    if (imageSource.includes('uploads/')) {
+                        return '/uploads/' + imageSource.split('uploads/').pop();
+                    }
+                    return '../img/' + imageSource;
+                }
+                
+                // Process order items and fetch product details
+                async function processOrderItems() {
+                    showLoading();
+                    try {
+                        // Fetch product details for all items
+                        const itemsWithDetails = await Promise.all(
+                            orderItems.map(async (item) => {
+                                if (!item.productId) {
+                                    return { 
+                                        ...item, 
+                                        productDetails: { 
+                                            image: getImageUrl(item.image) 
+                                        } 
+                                    };
+                                }
+                                
+                                try {
+                                    const productDetails = await fetchProductDetails(item.productId);
+                                    return {
+                                        ...item,
+                                        productDetails: productDetails || { 
+                                            image: getImageUrl(item.image) 
+                                        }
+                                    };
+                                } catch (error) {
+                                    console.error(`Error processing item ${item.productId}:`, error);
+                                    return {
+                                        ...item,
+                                        productDetails: { 
+                                            image: getImageUrl(item.image) 
+                                        }
+                                    };
+                                }
+                            })
+                        );
                         
-                        // Get product name - handle different possible fields
+                        // Render the items with product details
+                        renderOrderItems(itemsWithDetails);
+                    } catch (error) {
+                        console.error('Error processing order items:', error);
+                        // Fallback to basic rendering if there's an error
+                        renderOrderItems(orderItems.map(item => ({
+                            ...item,
+                            productDetails: { 
+                                image: getImageUrl(item.image) 
+                            }
+                        })));
+                    } finally {
+                        hideLoading();
+                    }
+                }
+                
+                // Function to render order items with product details
+                function renderOrderItems(items) {
+                    orderItemsList.innerHTML = items.map(item => {
+                        const product = item;
+                        const productDetails = item.productDetails || {};
+                        const imageUrl = productDetails.image || product.image || 'img/placeholder.jpg';
+                        const imagePath = getImageUrl(imageUrl);
                         const productName = product.name || product.productName || 'Unnamed Product';
                         const quantity = parseInt(product.quantity) || 1;
                         const price = parseFloat(product.price) || 0;
                         const total = quantity * price;
                         
-                        // No variations in the current order structure
-                        const variationsHtml = '';
-                        
                         return `
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-start">
-                                    <div class="flex-shrink-0 me-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; border: 1px solid #eee;">
-                                        <img src="${imagePath}" 
-                                             alt="${productName}" 
-                                             class="img-fluid h-100 w-100" 
-                                             style="object-fit: contain; background: #fff;"
-                                             onerror="this.onerror=null; this.src='../img/placeholder.jpg';">
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-start">
+                                        <div class="flex-shrink-0 me-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; border: 1px solid #eee;">
+                                            <img src="${imagePath}" 
+                                                 alt="${productName}" 
+                                                 class="img-fluid h-100 w-100" 
+                                                 style="object-fit: contain; background: #fff;"
+                                                 onerror="this.onerror=null; this.src='../img/placeholder.jpg';">
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">${productName}</h6>
+                                            <div class="small text-muted">ID: ${product.productId || 'N/A'}</div>
+                                            ${product.notes ? `<div class="text-info small mt-1"><i class="bi bi-info-circle"></i> ${product.notes}</div>` : ''}
+                                        </div>
                                     </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="mb-1">${productName}</h6>
-                                        ${order.notes ? `<div class="text-info small mt-1"><i class="bi bi-info-circle"></i> ${order.notes}</div>` : ''}
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">${formatCurrency(price || 0)}</td>
-                            <td class="align-middle text-center">${quantity || 1}</td>
-                            <td class="align-middle fw-bold text-end">${formatCurrency(price || 0)}</td>
-                        </tr>`;
+                                </td>
+                                <td class="align-middle">${formatCurrency(price)}</td>
+                                <td class="align-middle text-center">${quantity}</td>
+                                <td class="align-middle fw-bold text-end">${formatCurrency(total)}</td>
+                            </tr>
+                        `;
                     }).join('');
+                }
+                
+                // Start processing order items
+                if (orderItems.length > 0) {
+                    processOrderItems();
                 } else {
                     orderItemsList.innerHTML = `
                         <tr>

@@ -3,11 +3,352 @@
  * Loads products from API and handles product display
  */
 
-document.addEventListener('DOMContentLoaded', async function() {
-  // Initialize API
-  await window.api.init();
+// Function to update currency display based on language
+function updateCurrencyDisplay() {
+  const isArabic = document.documentElement.lang === 'ar' || document.documentElement.dir === 'rtl';
+  const currencyElements = document.querySelectorAll('.price-currency');
   
-  // Load products from API and wait for completion
+  currencyElements.forEach(el => {
+    if (isArabic) {
+      el.textContent = el.getAttribute('data-ar');
+    } else {
+      el.textContent = el.getAttribute('data-en');
+    }
+  });
+}
+
+// Main initialization function
+async function initializeShop() {
+  try {
+    // Initialize API if it exists
+    if (window.api && typeof window.api.init === 'function') {
+      await window.api.init();
+    }
+    
+    // Set up language change observer
+    const observer = new MutationObserver(updateCurrencyDisplay);
+    observer.observe(document.documentElement, { 
+      attributes: true,
+      attributeFilter: ['lang', 'dir']
+    });
+    
+    // Load products
+    const productGrid = document.querySelector('.product-grid');
+    if (productGrid) {
+      try {
+        // Check if we have mock data for testing
+        if (typeof window.api === 'undefined' || typeof window.api.products === 'undefined') {
+          console.warn('API not available, loading mock data');
+          await loadMockProducts(productGrid);
+        } else {
+          await loadProductsIntoGrid(productGrid);
+        }
+      } catch (error) {
+        console.error('Error loading products:', error);
+        productGrid.innerHTML = `
+          <div class="col-12 text-center py-5">
+            <div class="alert alert-warning">
+              Unable to load products. Please try again later.
+            </div>
+          </div>
+        `;
+      }
+    }
+    
+    // Update cart count
+    updateCartCountFromStorage();
+  } catch (error) {
+    console.error('Error initializing shop:', error);
+    // Show error message to user
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'alert alert-danger m-3';
+    errorDiv.textContent = 'Error loading products. Please refresh the page or try again later.';
+    document.querySelector('main').prepend(errorDiv);
+  }
+}
+
+// Function to update cart count from localStorage
+function updateCartCount(count) {
+  const cartCountElements = document.querySelectorAll('.cart-count-badge');
+  cartCountElements.forEach(el => {
+    el.style.display = count > 0 ? 'inline-flex' : 'none';
+  });
+  console.log('Cart count updated to:', count);
+}
+
+// Function to update cart count from localStorage
+function updateCartCountFromStorage() {
+  try {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+    updateCartCount(totalItems);
+    
+    // Update all cart count badges on the page
+    document.querySelectorAll('.cart-count-badge').forEach(badge => {
+      badge.textContent = totalItems > 0 ? totalItems : '';
+    });
+    
+    return totalItems;
+  } catch (error) {
+    console.error('Error updating cart count:', error);
+    return 0;
+  }
+}
+
+// Update cart count when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  // Update cart count on page load
+  updateCartCountFromStorage();
+  
+  // Also update when the cart changes (useful if multiple tabs are open)
+  window.addEventListener('storage', function(event) {
+    if (event.key === 'cart') {
+      updateCartCountFromStorage();
+    }
+  });
+});
+
+// Initialize when DOM is fully loaded
+document.addEventListener('DOMContentLoaded', initializeShop);
+
+// Initial currency display
+updateCurrencyDisplay();
+
+// Function to handle adding items to cart with detailed debugging
+function addToCart(button) {
+  console.group('=== Add to Cart Debug ===');
+  console.time('addToCart Execution Time');
+  
+  // Store original button state for restoration
+  const originalHTML = button.innerHTML;
+  const originalClasses = button.className;
+  
+  try {
+    // 1. Initial validation
+    if (!button) {
+      throw new Error('Add to Cart button is null or undefined');
+    }
+    console.log('🔄 [1/9] Add to cart button clicked');
+    console.debug('Button element:', button);
+    
+    // 2. Update button to loading state
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Adding...';
+    button.classList.remove('btn-outline-gold');
+    button.classList.add('btn-secondary');
+    console.log('⏳ [2/9] Button state updated to loading');
+    
+    // 3. Get product details
+    const card = button.closest('.product-card-new') || button.closest('.product-card');
+    console.debug('Found product card:', card);
+    
+    // 4. Extract product data with fallbacks
+    const productId = button.getAttribute('data-product-id') || 
+                     (card ? card.getAttribute('data-product-id') : null) || 
+                     `temp_${Date.now()}`;
+    
+    const productName = (card ? card.querySelector('.product-title-new, .product-title')?.textContent.trim() : null) || 
+                       button.getAttribute('data-product-name') ||
+                       'Unnamed Product';
+    
+    const priceText = (card ? card.querySelector('.item-price')?.textContent.trim() : null) ||
+                     button.getAttribute('data-product-price') ||
+                     '0';
+    const productPrice = parseFloat(priceText.replace(/[^0-9.,]/g, '').replace(',', '.')) || 0;
+    
+    // Get the full image path
+    let productImage = '';
+    
+    // Try to get from card first
+    const imageElement = card ? card.querySelector('.product-image-new, .product-image') : null;
+    if (imageElement && imageElement.src) {
+      productImage = imageElement.src;
+    } 
+    // Then try data attribute
+    else if (button.getAttribute('data-product-image')) {
+      productImage = button.getAttribute('data-product-image');
+    }
+    // Fallback to logo
+    else {
+      productImage = 'img/logo.png';
+    }
+    
+    // Store the full image path
+    const productImageRef = productImage;
+    
+    console.log('📦 [3/9] Product details retrieved:', {
+      productId,
+      productName,
+      productPrice,
+      productImage: productImageRef,
+      'Valid Price': !isNaN(productPrice) && productPrice > 0,
+      'Has Image': !!productImage && !productImage.includes('placeholder')
+    });
+    
+    // 5. Validate product data
+    if (!productId || !productName || isNaN(productPrice) || productPrice <= 0) {
+      throw new Error(`Invalid product data - ID: ${productId}, Name: ${productName}, Price: ${productPrice}`);
+    }
+    
+    // 6. Get or initialize cart
+    console.log('🛒 [4/9] Retrieving cart from localStorage...');
+    let cart = [];
+    try {
+      const cartData = localStorage.getItem('cart');
+      cart = cartData ? JSON.parse(cartData) : [];
+      console.log('📋 Current cart items:', cart.length);
+      if (cart.length > 0) {
+        console.table(cart);
+      }
+    } catch (e) {
+      console.error('❌ Error parsing cart from localStorage:', e);
+      cart = []; // Reset cart if corrupted
+    }
+    
+    // 7. Check if product exists in cart
+    const existingItemIndex = cart.findIndex(item => item.id === productId);
+    console.log(`🔍 [5/9] Product ${productId} exists in cart: ${existingItemIndex > -1 ? 'Yes' : 'No'}`);
+    
+    // 8. Update cart
+    if (existingItemIndex > -1) {
+      cart[existingItemIndex].quantity = (cart[existingItemIndex].quantity || 1) + 1;
+      cart[existingItemIndex].lastUpdated = new Date().toISOString();
+      console.log(`➕ [6/9] Increased quantity for ${productName} to ${cart[existingItemIndex].quantity}`);
+    } else {
+      const newItem = {
+        id: productId,
+        name: productName,
+        price: productPrice,
+        image: productImageRef, // Store only reference, not base64
+        quantity: 1,
+        addedAt: new Date().toISOString(),
+        lastUpdated: new Date().toISOString()
+      };
+      cart.push(newItem);
+      console.log('🆕 [6/9] Added new item to cart:', newItem);
+    }
+    
+    // 9. Save to localStorage with quota management
+    console.log('💾 [7/9] Saving cart to localStorage...');
+    try {
+      // Check if we're approaching the quota
+      const cartString = JSON.stringify(cart);
+      const quotaBytes = 5 * 1024 * 1024; // 5MB (most browsers allow 5-10MB)
+      
+      if (cartString.length > quotaBytes * 0.9) { // 90% of quota
+        // If we're close to quota, remove oldest items until we're at 50%
+        console.warn('⚠️ Approaching localStorage quota, cleaning up old items');
+        cart.sort((a, b) => new Date(b.lastUpdated) - new Date(a.lastUpdated));
+        while (cart.length > 0 && JSON.stringify(cart).length > quotaBytes * 0.5) {
+          const removed = cart.pop();
+          console.log(`🗑️ Removed old item to free space: ${removed.name}`);
+        }
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      console.log('✅ Cart saved successfully');
+      console.table(cart);
+      
+      // 10. Update UI
+      const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+      updateCartCount(totalItems);
+      console.log(`🔄 [8/9] Cart count updated to: ${totalItems} items`);
+      
+      // 11. Show success feedback
+      button.innerHTML = '<i class="bi bi-check-circle me-2"></i>Added!';
+      button.classList.remove('btn-secondary');
+      button.classList.add('btn-success');
+      
+      // 12. Show toast notification
+      if (window.showToast) {
+        showToast('✅ Added to Cart', `${productName} was added to your cart`, 'success');
+      } else {
+        console.log('ℹ️ Toast notification system not available');
+      }
+      console.log('🎉 [9/9] Success notification shown');
+      
+      // 13. Reset button after delay
+      setTimeout(() => {
+        button.innerHTML = originalHTML;
+        button.className = originalClasses;
+        button.disabled = false;
+      }, 2000);
+      
+    } catch (error) {
+      console.error('❌ Error saving to localStorage:', error);
+      
+      if (error.name === 'QuotaExceededError') {
+        // If we hit the quota, clear the cart and try again with just this item
+        console.error('⚠️ localStorage quota exceeded, clearing cart and trying again');
+        localStorage.removeItem('cart');
+        
+        // Try again with just this one item
+        const newItem = {
+          id: productId,
+          name: productName,
+          price: productPrice,
+          image: productImageRef,
+          quantity: 1,
+          addedAt: new Date().toISOString(),
+          lastUpdated: new Date().toISOString()
+        };
+        
+        try {
+          localStorage.setItem('cart', JSON.stringify([newItem]));
+          updateCartCount(1);
+          showToast('⚠️ Cart Reset', 'Your cart was full and has been reset with the new item', 'warning');
+        } catch (e) {
+          throw new Error('Unable to save even a single item to cart. Please clear your browser storage.');
+        }
+      } else {
+        throw new Error('Failed to save cart to storage: ' + error.message);
+      }
+    }
+    
+  } catch (error) {
+    console.error('❌ [ERROR] in addToCart:', error);
+    
+    // Show error state
+    button.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>Error';
+    button.classList.remove('btn-secondary', 'btn-outline-gold');
+    button.classList.add('btn-danger');
+    
+    // Show error toast if available
+    if (window.showToast) {
+      showToast('❌ Error', error.message || 'Failed to add to cart', 'danger');
+    } else {
+      alert('Error: ' + (error.message || 'Failed to add to cart'));
+    }
+    
+    // Reset button after delay
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.className = originalClasses;
+      button.disabled = false;
+    }, 3000);
+    
+  } finally {
+    console.timeEnd('addToCart Execution Time');
+    console.groupEnd();
+  }
+}
+
+// Event delegation for add to cart buttons
+document.addEventListener('click', function(e) {
+  try {
+    const addToCartBtn = e.target.closest('.add-to-cart-btn');
+    if (addToCartBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      addToCart(addToCartBtn);
+    }
+  } catch (error) {
+    console.error('Error in add to cart click handler:', error);
+  }
+});
+
+// Load products from API and wait for completion
+(async function() {
   try {
     const loaded = await loadProducts();
     console.log('[shop.js] loadProducts completed:', loaded);
@@ -95,39 +436,30 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
       productCol.className = 'product-col';
       
       productCol.innerHTML = `
-        <div class="product-item">
-          <div class="product-badge">
-            <span>Exclusive</span>
-          </div>
-          <div class="image-holder">
-            <a href="product.html?id=${product.id || product._id}" class="product-link" data-product-id="${product.id || product._id}">
-              <img src="${product.image}" alt="${product.name}" class="img-fluid product-image">
-            </a>
-          </div>
-          <div class="product-content">
-            <div class="product-header">
-              <h5 class="product-title">${product.name}</h5>
-              ${product.smallDescription ? `<p class="product-description">${product.smallDescription}</p>` : '<p class="product-description text-muted">No description available</p>'}
+        <div class="product-card-new">
+          <a href="product.html?id=${product.id || product._id}" class="product-link-new" data-product-id="${product.id || product._id}">
+            <div class="product-image-new-wrapper">
+              <img src="${product.image}" alt="${product.name}" class="product-image-new img-fluid">
             </div>
-            
-            <div class="product-footer">
-              <div class="price-container">
-                <span class="price-currency">د.ع</span>
-                <span class="item-price">${(parseFloat(product.price) * 1300).toLocaleString('en-US')}</span>
+            <div class="product-info-new">
+              <h5 class="product-title-new">${product.name}</h5>
+              <p class="product-description-new">${product.smallDescription || 'Classic elegance for every occasion.'}</p>
+              <div class="product-price-new">
+                <span class="item-price">${parseFloat(product.price).toLocaleString('en-US')}</span>
+                <span class="price-currency" data-en="DZD" data-ar="د.ج">DZD</span>
               </div>
-              
-              <a href="order-index.html?id=${product.id || product._id}" class="order-now-btn order-now-link">
-                <span class="btn-text">Order Now</span>
+              <button class="add-to-cart-btn" data-product-id="${product.id || product._id}" data-i18n-key="add_to_cart">
                 <span class="btn-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <path d="M16 10a4 4 0 0 1-8 0"></path>
                   </svg>
                 </span>
-              </a>
+                <span class="btn-text" data-i18n-key="add_to_cart">Add to Cart</span>
+              </button>
             </div>
-          </div>
+          </a>
         </div>
       `;
       
@@ -139,28 +471,7 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
       }
     });
     
-    // Re-initialize order buttons after loading products
-    // But exclude our order-now links to prevent interference
-    if (typeof replaceCartButtons === 'function') {
-      // Temporarily add a class to our order-now links to exclude them
-      document.querySelectorAll('.order-now-link').forEach(link => {
-        link.classList.add('is-order-now-link');
-      });
-      
-      // Run the replace function
-      replaceCartButtons();
-      
-      // Restore our order-now links
-      document.querySelectorAll('.is-order-now-link').forEach(link => {
-        link.classList.remove('is-order-now-link');
-        // Make sure the href is preserved
-        const href = link.getAttribute('data-original-href');
-        if (href) {
-          link.href = href;
-          link.removeAttribute('data-original-href');
-        }
-      });
-    }
+    // Removed order now button initialization as it's no longer needed
     
     // Add pagination controls if there are multiple pages
     if (totalPages > 1) {
@@ -367,4 +678,118 @@ function initProductModal() {
       modalElem.classList.add('active');
     }
   });
+}
+
+// Initialize the product modal when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof initProductModal === 'function') {
+    try {
+      initProductModal();
+    } catch (error) {
+      console.error('Error initializing product modal:', error);
+    }
+  }
+});
+
+// Load mock products if API is not available
+async function loadMockProducts(productGrid) {
+  console.log('Loading mock products...');
+  
+  // Mock products data
+  const mockProducts = [
+    {
+      id: '1',
+      name: 'Diamond Ring',
+      price: '25000',
+      image: 'https://via.placeholder.com/300x300?text=Diamond+Ring',
+      smallDescription: 'Elegant diamond ring for special occasions.'
+    },
+    {
+      id: '2',
+      name: 'Gold Necklace',
+      price: '18000',
+      image: 'https://via.placeholder.com/300x300?text=Gold+Necklace',
+      smallDescription: 'Beautiful gold necklace for any outfit.'
+    },
+    {
+      id: '3',
+      name: 'Silver Bracelet',
+      price: '12000',
+      image: 'https://via.placeholder.com/300x300?text=Silver+Bracelet',
+      smallDescription: 'Stylish silver bracelet for daily wear.'
+    },
+    {
+      id: '4',
+      name: 'Pearl Earrings',
+      price: '15000',
+      image: 'https://via.placeholder.com/300x300?text=Pearl+Earrings',
+      smallDescription: 'Classic pearl earrings for a timeless look.'
+    },
+    {
+      id: '5',
+      name: 'Sapphire Pendant',
+      price: '22000',
+      image: 'https://via.placeholder.com/300x300?text=Sapphire+Pendant',
+      smallDescription: 'Stunning sapphire pendant for special occasions.'
+    },
+    {
+      id: '6',
+      name: 'Ruby Ring',
+      price: '28000',
+      image: 'https://via.placeholder.com/300x300?text=Ruby+Ring',
+      smallDescription: 'Exquisite ruby ring for a bold statement.'
+    }
+  ];
+
+  // Clear existing content
+  productGrid.innerHTML = '';
+
+  // Add products to grid
+  mockProducts.forEach(product => {
+    const productCol = document.createElement('div');
+    productCol.className = 'col-md-4 col-sm-6 mb-4';
+    
+    productCol.innerHTML = `
+      <div class="product-card-new">
+        <a href="product.html?id=${product.id}" class="product-link-new" data-product-id="${product.id}">
+          <div class="product-image-new-wrapper">
+            <img src="${product.image}" alt="${product.name}" class="product-image-new img-fluid">
+          </div>
+          <div class="product-info-new">
+            <h5 class="product-title-new">${product.name}</h5>
+            <p class="product-description-new">${product.smallDescription}</p>
+            <div class="product-price-new">
+              <span class="item-price">${parseInt(product.price).toLocaleString('en-US')}</span>
+              <span class="price-currency" data-en="DZD" data-ar="د.ج">DZD</span>
+            </div>
+            <button class="add-to-cart-btn" data-product-id="${product.id}" data-i18n-key="add_to_cart">
+              <span class="btn-icon">
+                <i class="bi bi-cart-plus"></i>
+              </span>
+              <span class="btn-text" data-i18n-key="add_to_cart">Add to Cart</span>
+            </button>
+          </div>
+        </a>
+      </div>
+    `;
+    
+    productGrid.appendChild(productCol);
+  });
+  
+  // Update currency display
+  updateCurrencyDisplay();
+  
+  console.log('Mock products loaded successfully');
+}
+
+// Export functions for testing or other modules
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    updateCurrencyDisplay,
+    updateCartCount,
+    addToCart,
+    loadProducts,
+    loadProductsIntoGrid,
+    initProductModal
+  };
 }

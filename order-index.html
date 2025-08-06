@@ -253,6 +253,93 @@
       font-size: 1.2rem;
     }
     
+    .place-order-btn {
+      background: linear-gradient(135deg, #d4af37 0%, #f1c40f 50%, #d4af37 100%);
+      background-size: 200% auto;
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      color: #1a1a1a;
+      border-radius: 50px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.2);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      padding: 12px 30px;
+      font-size: 0.9rem;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+    }
+    
+    .place-order-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: 0.6s;
+    }
+    
+    .place-order-btn:hover {
+      background-position: right center;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(212, 175, 55, 0.3);
+      color: #000;
+      letter-spacing: 1.5px;
+    }
+    
+    .place-order-btn:hover::before {
+      left: 100%;
+    }
+    
+    .place-order-btn:active {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 25px rgba(212, 175, 55, 0.4);
+    }
+    
+    .place-order-btn i {
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      display: inline-block;
+      margin-right: 8px;
+    }
+    
+    .place-order-btn:hover i {
+      transform: translateX(5px) scale(1.1);
+    }
+    
+    .place-order-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      bottom: -50%;
+      left: -50%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 20%,
+        rgba(255, 255, 255, 0.1) 80%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotateZ(60deg) translate(-5em, 7.5em);
+      opacity: 0;
+      transition: all 0.7s ease-in-out;
+      z-index: 2;
+    }
+    
+    .place-order-btn:hover::after {
+      opacity: 1;
+      transform: rotateZ(60deg) translate(10em, -7.5em);
+    }
+    
     .delivery-option {
       flex: 1;
       min-width: 180px;
@@ -292,6 +379,7 @@
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/order.css">
 </head>
 <body class="homepage">
   <div class="container py-5">
@@ -303,22 +391,16 @@
         
         <h1 class="mb-4">Complete Your Order</h1>
         
-        <div class="card bg-dark border-secondary mb-4">
-          <div class="card-body">
-            <div class="row align-items-center">
-              <div class="col-md-4">
-                <img id="productImage" src="" class="img-fluid" alt="Product Image">
-              </div>
-              <div class="col-md-8">
-                <h2 id="displayProduct" class="product-title">Product Name</h2>
-                <div id="displayPrice" class="product-price">0.00 TND</div>
-                <p id="productDescription">Product description will appear here.</p>
-              </div>
+        <div class="card border-0 mb-4 card-gradient-bg">
+          <div class="card-body p-4">
+            <h3 class="text-gold mb-4">Your Items</h3>
+            <div id="orderItemsContainer">
+              <!-- Cart items will be dynamically inserted here by JavaScript -->
             </div>
           </div>
         </div>
         
-        <div class="card border-0" style="background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);">
+        <div class="card border-0 card-gradient-bg">
           <div class="card-body p-4">
             <h3 class="text-gold mb-4">
               <i class="bi bi-truck me-2"></i>Shipping Information
@@ -383,8 +465,8 @@
         </div>
       </div>
       
-      <div class="col-lg-4 position-lg-sticky" style="top: 2rem; align-self: flex-start;">
-        <div class="card border-0 mb-4" style="background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);">
+      <div class="col-lg-4 position-lg-sticky order-summary-card">
+        <div class="card border-0 mb-4 card-gradient-bg">
           <div class="card-body p-4">
             <h3 class="text-gold mb-4">
               <i class="bi bi-cart-check me-2"></i>Order Summary
@@ -403,14 +485,12 @@
               <h4 id="total" class="text-gold mb-0 fw-bold">0.00 TND</h4>
             </div>
             <div class="mt-4">
-              <button type="submit" form="orderForm" class="btn btn-primary w-100 py-3 fw-bold">
-                Place Order <i class="bi bi-arrow-right ms-2"></i>
+              <button class="place-order-btn w-100 py-3 fw-bold mb-4">
+                <i class="bi bi-bag-check"></i> Place Order
               </button>
-              <div class="text-center mt-3">
-                <a href="shop.html" class="btn btn-outline-light w-100">
-                  <i class="bi bi-arrow-left me-2"></i>Continue Shopping
-                </a>
-              </div>
+              <a href="shop.html" class="btn btn-outline-light w-100">
+                <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+              </a>
             </div>
             <div class="mt-3 text-center">
               <small class="text-light">
@@ -423,62 +503,63 @@
     </div>
   </div>
 
-  <!-- Success Modal -->
-  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%); border: 1px solid #d4af37;">
-        <div class="modal-header border-0">
-          <h5 class="modal-title text-gold" id="successModalLabel">
-            <i class="bi bi-check-circle-fill text-success me-2"></i> Order Placed Successfully!
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-center p-4">
-          <div class="mb-4">
-            <div class="success-animation mb-3">
-              <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-              </svg>
-            </div>
-            <h3 class="text-gold mb-3">Thank You For Your Order!</h3>
-            <p class="text-light">Your order has been received and is being processed.</p>
-            <div class="order-details p-3 mt-4 mb-3" style="background: rgba(212, 175, 55, 0.1); border-left: 3px solid var(--primary-gold);">
-              <p class="mb-2"><strong>Order ID:</strong> <span id="successOrderId" class="text-gold"></span></p>
-              <p class="mb-0">We'll send you a confirmation email shortly.</p>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer border-0 justify-content-center">
-          <a href="index_new.html" class="btn btn-primary" style="background: linear-gradient(135deg, var(--primary-gold), #f1c40f); border: none; min-width: 200px;">
-            <i class="bi bi-house-door me-2"></i>Back to Home
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Global variables to store product and city data
-    let productPrice = 0;
+    // Global variables
+    let orderSummary = {};
     let cities = [];
     let selectedCity = null;
     let selectedDeliveryMethod = 'desktop';
 
+    // Function to display order items
+    function displayOrderItems() {
+      const container = document.getElementById('orderItemsContainer');
+      if (!container || !orderSummary.items) {
+        return;
+      }
+      container.innerHTML = ''; // Clear previous content
+
+      orderSummary.items.forEach(item => {
+        // Use a placeholder image since we don't store the actual image data
+        const itemHTML = `
+          <div class="row align-items-center mb-3">
+            <div class="col-2 d-flex align-items-center">
+              <div class="order-item-image-container bg-light rounded d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; overflow: hidden;">
+                <img src="${item.image}" 
+                     alt="${item.name}" 
+                     class="img-fluid" 
+                     style="max-height: 100%; max-width: 100%; object-fit: contain;"
+                     onerror="this.onerror=null; this.src='img/logo.png'">
+              </div>
+            </div>
+            <div class="col-6">
+              <h6 class="mb-1 text-truncate" style="max-width: 90%;" title="${item.name}">${item.name}</h6>
+              <small class="text-muted">Quantity: ${item.quantity}</small>
+            </div>
+            <div class="col-4 text-end">
+              <span class="fw-semibold">${(item.price * item.quantity).toFixed(2)} DZD</span>
+              <div class="text-muted small">${parseFloat(item.price).toFixed(2)} DZD each</div>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', itemHTML);
+      });
+    }
+
     // Function to update the order total
     function updateOrderTotal() {
-      const subtotal = parseFloat(productPrice);
+      const subtotal = orderSummary.subtotal || 0;
       const shippingFee = selectedCity ? 
         (selectedDeliveryMethod === 'desktop' ? selectedCity.desktopFee : selectedCity.houseFee) : 0;
       
       const total = subtotal + shippingFee;
       
       // Update the UI
+      document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)} DZD`;
       document.getElementById('shippingFeeDisplay').textContent = `${shippingFee.toFixed(2)} DZD`;
       document.getElementById('total').textContent = `${total.toFixed(2)} DZD`;
-      
-      // Update hidden field for form submission
       document.getElementById('shippingFee').value = shippingFee;
     }
 
@@ -486,26 +567,18 @@
     async function loadCities() {
       try {
         const response = await fetch('http://localhost:5001/api/cities');
-        if (!response.ok) {
-          throw new Error('Failed to load cities');
-        }
+        if (!response.ok) throw new Error('Failed to load cities');
         
         cities = await response.json();
         const citySelect = document.getElementById('city');
+        citySelect.innerHTML = '<option value="">-- Select City --</option>'; // Clear and add default
         
-        // Clear existing options except the first one
-        while (citySelect.options.length > 1) {
-          citySelect.remove(1);
-        }
-        
-        // Add cities to the dropdown
         cities.forEach(city => {
           const option = document.createElement('option');
           option.value = city._id;
           option.textContent = city.name;
           citySelect.appendChild(option);
         });
-        
       } catch (error) {
         console.error('Error loading cities:', error);
         showError('Failed to load cities. Please try again later.');
@@ -513,185 +586,294 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
-      // Load cities
+      console.log(' [ORDER PAGE] Order page loaded');
+      console.log(' [STORAGE] Checking localStorage for order data...');
+      
+      // Load order summary from localStorage
+      const storedOrder = localStorage.getItem('orderSummary');
+      
+      if (!storedOrder) {
+        console.error(' [ERROR] No order data found in localStorage');
+        showError('No order found. Please add items to your cart first.');
+        return;
+      }
+
+      console.log(' [ORDER DATA] Raw order data from localStorage:', storedOrder);
+      
+      try {
+        orderSummary = JSON.parse(storedOrder);
+        console.log(' [PARSED ORDER] Successfully parsed order data:', {
+          totalItems: orderSummary.totalItems,
+          subtotal: orderSummary.subtotal,
+          numberOfItems: orderSummary.items ? orderSummary.items.length : 0,
+          itemsPreview: orderSummary.items ? orderSummary.items.map(i => ({
+            id: i.id,
+            name: i.name,
+            quantity: i.quantity,
+            price: i.price,
+            hasImage: i.hasImage || false
+          })) : 'No items'
+        });
+      } catch (e) {
+        console.error(' [ERROR] Failed to parse order data:', e);
+        showError('Invalid order data. Please try again.');
+        return;
+      }
+      orderSummary = JSON.parse(storedOrder);
+
+      // Display items and update totals
+      // Fetch product details from the database API before displaying items
+      console.log(' [IMAGES] Fetching product details from API...');
+      await Promise.all(orderSummary.items.map(async item => {
+        try {
+          const res = await fetch('http://localhost:5001/api/products/' + item.id);
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          console.log(`[DEBUG FETCH] Product ${item.id} returned data:`, data);
+          console.log(`[DEBUG FETCH] Product ${item.id} data.image:`, data.image);
+          console.log(`[DEBUG FETCH] Product ${item.id} data.imageUrl:`, data.imageUrl);
+          // Store both the image URL and the full product data
+          item.imageUrl = data.imageUrl || 'img/logo.png';
+          item.image = data.image || data.imageUrl || 'img/logo.png'; // Use URL or data
+          item.fullProductData = data; // Store all product data in case we need it
+        } catch (e) {
+          console.error(' [IMAGES ERROR] Failed to fetch product ' + item.id + ':', e);
+          item.imageUrl = 'img/logo.png';
+          item.image = 'img/logo.png';
+        }
+      }));
+      console.log(' [IMAGES] Product images fetched:', orderSummary.items.map(i => ({ id: i.id, image: i.image })));
+      displayOrderItems();
+      updateOrderTotal();
       await loadCities();
+
+      // Add event listeners
+      document.getElementById('city').addEventListener('change', function() {
+        selectedCity = cities.find(c => c._id === this.value);
+        updateOrderTotal();
+      });
+
+      document.querySelectorAll('input[name="deliveryMethod"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          selectedDeliveryMethod = this.value;
+          updateOrderTotal();
+        });
+      });
+
+      // Add click event listener for place order button
+      document.querySelector('.place-order-btn').addEventListener('click', handleOrderSubmission);
+    });
+    
+    // Function to handle order submission
+    async function handleOrderSubmission(e) {
+      e.preventDefault();
       
-      // Get product ID from URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const productId = urlParams.get('id');
+      console.log('[ORDER] Starting order submission process...');
       
-      if (!productId) {
-        showError('No product specified');
+      // Get form elements
+      const form = document.getElementById('orderForm');
+      const submitBtn = document.querySelector('.place-order-btn');
+      const originalBtnText = submitBtn.innerHTML;
+      
+      // Validate form
+      if (!form.checkValidity()) {
+        console.log('[FORM VALIDATION] Form is not valid');
+        form.reportValidity();
         return;
       }
       
-      // Show loading state
-      document.getElementById('displayProduct').textContent = 'Loading product...';
-      document.getElementById('displayPrice').textContent = '...';
-      
-      try {
-        // Fetch product details from API
-        const response = await fetch(`http://localhost:5001/api/products/${productId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch product');
-        }
-        
-        const product = await response.json();
-        
-        // Update the UI with product details
-        document.getElementById('productId').value = product.id || product._id;
-        document.getElementById('productName').value = product.name;
-        document.getElementById('productPrice').value = product.price * 1300; // Convert to DZD if needed
-        
-        document.getElementById('displayProduct').textContent = product.name;
-        productPrice = product.price * 1300;
-        const price = productPrice.toFixed(2);
-        document.getElementById('displayPrice').textContent = `${price} DZD`;
-        document.getElementById('subtotal').textContent = `${price} DZD`;
-        
-        if (product.image) {
-          document.getElementById('productImage').src = product.image;
-        } else {
-          // Set a default placeholder image if no image is provided
-          document.getElementById('productImage').src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9IiMzMzMiPjxyZWN0IHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzIyMiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM3Nzc3NzkiPk5vIEltYWdlIEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4=';
-        }
-        
-        // Update product description if available
-        // Add event listeners for city and delivery method changes
-        document.getElementById('city').addEventListener('change', function() {
-          const cityId = this.value;
-          selectedCity = cities.find(city => city._id === cityId);
-          updateOrderTotal();
-        });
-        
-        // Add event listeners for delivery method changes
-        document.querySelectorAll('input[name="deliveryMethod"]').forEach(radio => {
-          radio.addEventListener('change', function() {
-            selectedDeliveryMethod = this.value;
-            updateOrderTotal();
-          });
-        });
-        
-        // Initialize order total
-        updateOrderTotal();
-        
-        if (product.description) {
-          document.getElementById('productDescription').textContent = product.description;
-        }
-        
-      } catch (error) {
-        console.error('Error loading product:', error);
-        showError('Failed to load product details. Please try again.');
+      // Validate city selection
+      const citySelect = document.getElementById('city');
+      if (!citySelect.value) {
+        console.log('[VALIDATION] No city selected');
+        showError('Please select a city');
+        citySelect.focus();
+        return;
       }
       
-      // Handle form submission
-      document.getElementById('orderForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Placing Order...';
+      
+      try {
+        console.log('[ORDER] Preparing order data...');
         
-        // Get form values
-        const form = e.target;
-        const citySelect = document.getElementById('city');
-        const selectedCityName = citySelect.options[citySelect.selectedIndex]?.text || '';
-        const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked')?.value || '';
-        const subtotal = parseFloat(document.getElementById('subtotal').textContent) || 0;
-        const shippingFee = parseFloat(document.getElementById('shippingFee').value) || 0;
-        const total = subtotal + shippingFee;
-        const productImage = document.getElementById('productImage').src;
-        const productName = document.getElementById('displayProduct').textContent;
+        // Get the base URL for images
+        const baseUrl = window.location.origin;
         
-        const formData = {
-          // Customer Information
-          firstName: form.querySelector('input[name="firstName"]').value,
-          lastName: form.querySelector('input[name="lastName"]').value,
-          phone: form.querySelector('input[name="phone"]').value,
-          address: form.querySelector('input[name="address"]').value,
-          
-          // Location Information
-          city: selectedCityName, // Store city name instead of ID
-          
-          // Order Details
-          deliveryMethod: deliveryMethod,
-          subtotal: subtotal,
-          shippingFee: shippingFee,
-          total: total,
-          
-          // Product Information
-          productId: document.getElementById('productId').value,
-          productName: productName,
-          productImage: productImage,
-          
-          // Additional Information
-          status: 'pending', // Default status
-          orderDate: new Date().toISOString(),
-          
-          // Optional Fields
-          notes: form.querySelector('textarea[name="notes"]')?.value || ''
+        // Prepare items with image URLs instead of base64 data
+        const items = orderSummary.items.map(item => {
+           // Determine image URL: ignore base64 data, use only valid URLs or relative paths
+           let imageUrl = 'img/logo.png'; // Default image
+           if (item.fullProductData?.imageUrl && !item.fullProductData.imageUrl.startsWith('data:')) {
+             imageUrl = item.fullProductData.imageUrl;
+           } else if (item.fullProductData?.image) {
+             const imgVal = item.fullProductData.image;
+             if (imgVal.startsWith('http')) {
+               imageUrl = imgVal;
+             } else if (!imgVal.startsWith('data:')) {
+               // It's a relative path, construct full URL
+               if (imgVal.startsWith('/')) {
+                 imageUrl = `${baseUrl}${imgVal}`;
+               } else {
+                 imageUrl = `${baseUrl}/uploads/${imgVal}`;
+               }
+             }
+           }
+
+          console.log(`[ITEM] ${item.name} - Using image:`, imageUrl);
+
+          return {
+            productId: item.id,
+            productName: item.name, // Use the fields the backend expects
+            productImage: imageUrl, // Use the fields the backend expects
+            price: parseFloat(item.price),
+            quantity: parseInt(item.quantity, 10)
+          };
+        });
+        
+        // Prepare order data
+        const orderData = {
+          firstName: document.getElementById('firstName').value.trim(),
+          lastName: document.getElementById('lastName').value.trim(),
+          phone: document.getElementById('phone').value.trim(),
+          address: document.getElementById('address').value.trim(),
+          city: citySelect.options[citySelect.selectedIndex].text,
+          deliveryMethod: selectedDeliveryMethod,
+          notes: document.getElementById('notes')?.value?.trim() || '',
+          items: items,
+          subtotal: parseFloat(orderSummary.subtotal),
+          shippingFee: parseFloat(document.getElementById('shippingFee').value || '0'),
+          total: parseFloat(orderSummary.subtotal) + parseFloat(document.getElementById('shippingFee').value || '0')
         };
         
-        console.log('Submitting order:', formData); // For debugging
+        console.log('[ORDER] Submitting order data:', JSON.stringify(orderData, null, 2));
         
-        // Declare variables in the function scope
-        let submitBtn;
-        let originalBtnText;
+        // Log required fields for debugging
+        const requiredFields = ['firstName', 'lastName', 'phone', 'address', 'city', 'deliveryMethod', 'items'];
+        const missingFields = requiredFields.filter(field => !orderData[field] && orderData[field] !== 0);
         
-        try {
-          // Show loading state
-          submitBtn = form.querySelector('button[type="submit"]');
-          if (submitBtn) {
-            originalBtnText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Placing Order...';
-          }
-          
-          const response = await fetch('http://localhost:5001/api/orders', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-          });
-          
-          if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.message || 'Failed to submit order');
-          }
-          
-          const result = await response.json();
-          
-          // Show success modal with order details
-          showSuccessModal(result.orderId || result.data?.orderId);
-          
-          // Reset the form
-          document.getElementById('orderForm').reset();
-          
-        } catch (error) {
-          console.error('Error submitting order:', error);
-          alert(`Error: ${error.message || 'Failed to submit order. Please try again.'}`);
-        } finally {
-          // Reset button state if button was found
-          if (submitBtn && originalBtnText) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnText;
-          }
+        if (missingFields.length > 0) {
+          console.error('[VALIDATION] Missing required fields:', missingFields);
+          throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
         }
-      });
-    });
+        
+        // Log items validation
+        if (!orderData.items || !Array.isArray(orderData.items) || orderData.items.length === 0) {
+          console.error('[VALIDATION] No items in cart');
+          throw new Error('No items in cart');
+        }
+        
+        // Send order to backend
+        console.log('[API] Sending request to /api/orders...');
+        const response = await fetch('http://localhost:5001/api/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(orderData)
+        });
+        
+        console.log(`[API] Response status: ${response.status} ${response.statusText}`);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('[API] Error response:', errorText);
+          let errorMessage = 'Failed to place order';
+          
+          try {
+            const errorData = JSON.parse(errorText);
+            errorMessage = errorData.message || errorMessage;
+            console.error('[API] Error details:', errorData);
+          } catch (e) {
+            console.error('[API] Could not parse error response:', e);
+          }
+          
+          throw new Error(errorMessage);
+        }
+        
+        const result = await response.json();
+        console.log('[API] Order created successfully:', result);
+        
+        // Show success message (you can replace this with a modal or redirect)
+        alert('Order placed successfully! Order ID: ' + result.orderId);
+        
+        // Clear cart and redirect to home or order confirmation page
+        console.log('[STORAGE] Removing order summary from localStorage');
+        localStorage.removeItem('orderSummary');
+        
+        console.log('[NAVIGATION] Redirecting to thank you page');
+        window.location.href = 'thank-you.html?orderId=' + result.orderId;
+        
+      } catch (error) {
+        console.error('[ERROR] Error placing order:', error);
+        
+        // Create a more user-friendly error message
+        let errorMessage = error.message || 'An error occurred while placing your order. Please try again.';
+        
+        // Handle specific error cases
+        if (error.message.includes('Failed to fetch')) {
+          errorMessage = 'Unable to connect to the server. Please check your internet connection and try again.';
+        } else if (error.message.includes('Missing required fields')) {
+          errorMessage = 'Please fill in all required fields.';
+        }
+        
+        showError(errorMessage);
+      } finally {
+        // Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+      }
+    }
     
     function showError(message) {
-      const errorDiv = document.createElement('div');
-      errorDiv.className = 'alert alert-danger';
-      errorDiv.textContent = message;
+      console.log('[UI] Showing error:', message);
       
-      const container = document.querySelector('.order-container');
-      container.insertBefore(errorDiv, container.firstChild);
+      // Create error element
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'alert alert-danger alert-dismissible fade show';
+      errorDiv.role = 'alert';
+      errorDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      
+      // Find the best place to insert the error
+      let container = document.querySelector('.order-container');
+      
+      // If .order-container is not found, try .container
+      if (!container) {
+        container = document.querySelector('.container');
+      }
+      
+      // If still not found, use body
+      if (!container) {
+        container = document.body;
+      }
+      
+      // Insert the error at the top of the container
+      if (container) {
+        container.insertBefore(errorDiv, container.firstChild);
+        
+        // Auto-hide after 10 seconds
+        setTimeout(() => {
+          if (errorDiv.parentNode) {
+            errorDiv.classList.remove('show');
+            setTimeout(() => {
+              if (errorDiv.parentNode) {
+                errorDiv.remove();
+              }
+            }, 150);
+          }
+        }, 10000);
+      } else {
+        // Fallback to alert if we can't find a good place to show the error
+        console.error('Could not find container for error message');
+        alert(`Error: ${message}`);
+      }
     }
     
-    // Function to show success modal
-    function showSuccessModal(orderId) {
-      const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-      document.getElementById('successOrderId').textContent = orderId || 'N/A';
-      successModal.show();
-    }
+
   </script>
 </body>
 </html>

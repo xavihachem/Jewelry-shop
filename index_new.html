@@ -161,12 +161,18 @@
                 <i class="bi bi-shop d-lg-none me-2"></i><span data-i18n-key="nav.shop">Shop</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="admin.html" title="Admin Panel">
-                <i class="bi bi-shield-lock d-lg-none me-2"></i><span data-i18n-key="nav.admin">Admin</span>
+
+            <!-- Cart Icon with Badge -->
+            <li class="nav-item ms-lg-3 me-2">
+              <a class="nav-link position-relative" href="cart.html" title="View Cart">
+                <i class="bi bi-cart3 fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold text-dark cart-count-badge">
+                  0
+                </span>
               </a>
             </li>
-            <li class="nav-item dropdown ms-lg-3">
+            <!-- Language Dropdown -->
+            <li class="nav-item dropdown ms-lg-1">
               <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-translate me-1"></i>
                 <span class="d-none d-lg-inline">English</span>
@@ -324,7 +330,7 @@
     <script>
       // i18n logic: swap text based on session language
       document.addEventListener('DOMContentLoaded', function () {
-        const lang = sessionStorage.getItem('language') || 'en';
+        const lang = localStorage.getItem('language') || 'en';
         const dict = (window.translations && window.translations[lang]) ? window.translations[lang] : {};
         document.querySelectorAll('[data-i18n-key]').forEach(el => {
           const key = el.getAttribute('data-i18n-key');

@@ -1,0 +1,24 @@
+.card-gradient-bg {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+}
+
+.order-summary-card {
+  top: 2rem;
+  align-self: flex-start;
+}
+
+.success-modal-content {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  border: 1px solid #d4af37;
+}
+
+.order-details-box {
+  background: rgba(212, 175, 55, 0.1);
+  border-left: 3px solid var(--primary-gold);
+}
+
+.success-modal-footer-btn {
+  background: linear-gradient(135deg, var(--primary-gold), #f1c40f);
+  border: none;
+  min-width: 200px;
+}

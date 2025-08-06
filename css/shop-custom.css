@@ -1,3 +1,74 @@
+/* Cart Icon Styles */
+.navbar .nav-link {
+  position: relative;
+  padding: 0.5rem 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.navbar .nav-link i.bi-cart3 {
+  font-size: 1.25rem;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.navbar .nav-link:hover i.bi-cart3 {
+  color: #d4af37;
+  transform: scale(1.1);
+}
+
+.cart-count-badge {
+  background-color: #d4af37 !important;
+  color: #1a1a1a !important;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25em 0.5em;
+  border: 2px solid #1a1a1a;
+  transition: all 0.3s ease;
+  font-size: 0.6rem;
+  line-height: 1;
+}
+
+/* Admin link in footer */
+.footer .admin-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  color: #d4af37 !important;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.footer .admin-link:hover {
+  background-color: rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
+  color: #d4af37 !important;
+  text-decoration: none;
+}
+
+/* Ensure the admin icon has proper spacing */
+.footer .admin-link i {
+  line-height: 1;
+}
+
+/* Hide badge when count is 0 */
+.cart-count-badge:empty {
+  display: none;
+}
+
+/* RTL Support */
+[dir="rtl"] .cart-count-badge {
+  left: auto !important;
+  right: 100% !important;
+  transform: translate(50%, -50%) !important;
+}
+
 /* Luxurious Product Cards for Jewelry Shop */
 
 /* Prevent horizontal scrolling */
@@ -8,6 +79,265 @@ html, body {
 
 /* Import Harry Potter Font */
 @import url('https://fonts.cdnfonts.com/css/harry-potter');
+
+/* New Product Card Styles with Golden Theme and Glass Effect */
+.product-card-new {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Glass effect overlay */
+.product-card-new::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+  z-index: -1;
+  border-radius: 15px;
+  opacity: 0.8;
+}
+
+.product-card-new:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(184, 134, 11, 0.15);
+  border-color: rgba(218, 165, 32, 0.6);
+}
+
+.product-card-new::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D4AF37, #FFD700, #D4AF37, transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.product-card-new:hover::before {
+  opacity: 1;
+  animation: shine 2s infinite linear;
+}
+
+@keyframes shine {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.product-link-new {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.product-image-new-wrapper {
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid rgba(184, 134, 11, 0.2);
+}
+
+.product-image-new {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  filter: brightness(0.95);
+}
+
+.product-card-new:hover .product-image-new {
+  transform: scale(1.08);
+  filter: brightness(1.05);
+}
+
+.product-info-new {
+  padding: 20px 15px 25px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  color: #fff;
+  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(20, 15, 5, 0.7));
+}
+
+.product-title-new {
+  font-family: 'Marcellus', serif;
+  font-size: 1.4rem;
+  margin: 10px 0 15px;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  position: relative;
+  display: inline-block;
+  padding: 0 15px 12px;
+  letter-spacing: 0.5px;
+  background: linear-gradient(120deg, #fff 28%, #D4AF37 45%, #FFD700 50%, #D4AF37 55%, #fff 72%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+  transition: all 0.3s ease;
+}
+
+.product-card-new:hover .product-title-new {
+  transform: translateY(-2px);
+  text-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.product-description-new {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 20px;
+  flex-grow: 1;
+  line-height: 1.5;
+  padding: 0 10px;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+}
+
+.product-price-new {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #FFD700;
+  margin-top: auto;
+  padding-top: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+.product-price-new::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D4AF37, #FFD700, #D4AF37, transparent);
+  opacity: 0.5;
+}
+
+.product-price-new .price-currency {
+  margin-right: 5px;
+  font-size: 1em;
+  color: #D4AF37;
+  font-weight: 500;
+}
+
+/* Add to Cart Button */
+.add-to-cart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #D4AF37, #F9E79F, #D4AF37);
+  background-size: 200% auto;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Jost', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+
+.add-to-cart-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+  background-position: right center;
+}
+
+.add-to-cart-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.add-to-cart-btn .btn-icon {
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.add-to-cart-btn:hover .btn-icon {
+  transform: translateX(3px);
+}
+
+/* RTL support for the button */
+[dir="rtl"] .add-to-cart-btn:hover .btn-icon {
+  transform: translateX(-3px);
+}
+
+/* Loading state */
+.add-to-cart-btn.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.add-to-cart-btn.loading .btn-icon {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Add a subtle golden glow on hover */
+.product-card-new::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 15px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(255, 215, 0, 0.1), rgba(212, 175, 55, 0.3));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card-new:hover::after {
+  opacity: 1;
+}
+
+/* Ensure the product grid columns have consistent height */
+.product-grid .product-col {
+  display: flex;
+  flex-direction: column;
+}
 
 /* Banner Section */
 #banner {

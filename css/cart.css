@@ -1,0 +1,328 @@
+/* Cart Page Styles */
+.cart-page {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page Header */
+.page-title {
+  font-family: 'Marcellus', serif;
+  color: #f8f9fa;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+}
+
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #D4AF37, #F9E79F, #D4AF37);
+  background-size: 200% auto;
+  border-radius: 3px;
+  animation: gradient 3s linear infinite;
+}
+
+/* Cart Items Section */
+.cart-items {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.3s ease;
+}
+
+/* Cart Item Images */
+.cart-item-image {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #1a1a1a;
+  padding: 4px;
+}
+
+.cart-item-image:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.cart-item-image.img-error {
+  padding: 20px;
+  background-color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.cart-item {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.product-title {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: #f8f9fa;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.product-sku {
+  font-size: 0.8rem;
+  color: #8e8e8e;
+}
+
+.product-availability {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Quantity Selector */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  overflow: hidden;
+  width: 120px;
+  height: 40px;
+}
+
+.quantity-btn {
+  background: rgba(212, 175, 55, 0.1);
+  border: none;
+  color: #D4AF37;
+  width: 36px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quantity-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  color: #F9E79F;
+}
+
+.quantity-input {
+  width: 48px;
+  height: 100%;
+  border: none;
+  text-align: center;
+  background: transparent;
+  color: #f8f9fa;
+  font-weight: 500;
+  -moz-appearance: textfield;
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove Item Button */
+.remove-item-btn {
+  background: transparent;
+  border: none;
+  color: #8e8e8e;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.remove-item-btn:hover {
+  color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.1);
+}
+
+/* Order Summary */
+.order-summary {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: sticky;
+  top: 2rem;
+}
+
+.summary-item {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  color: #e0e0e0;
+}
+
+.summary-total {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f8f9fa;
+}
+
+.total-amount {
+  color: #D4AF37;
+  font-family: 'Jost', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+/* Buttons */
+.btn-outline-gold {
+  color: #D4AF37;
+  border-color: #D4AF37;
+  background: transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-outline-gold:hover {
+  color: #1a1a1a;
+  background: #D4AF37;
+  border-color: #D4AF37;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #D4AF37, #F9E79F, #D4AF37);
+  background-size: 200% auto;
+  color: #1a1a1a;
+  border: none;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-gold:hover {
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+}
+
+/* Coupon Form */
+.coupon-form .form-control {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f8f9fa;
+  height: 46px;
+}
+
+.coupon-form .form-control:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(212, 175, 55, 0.5);
+  color: #f8f9fa;
+  box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+}
+
+/* Payment Methods */
+.payment-methods i {
+  color: #8e8e8e;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.payment-methods i:hover {
+  color: #D4AF37;
+  transform: translateY(-2px);
+}
+
+/* Empty Cart State */
+.empty-cart {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.empty-cart-icon {
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+  .cart-item {
+    padding: 1rem 0;
+  }
+  
+  .product-title {
+    font-size: 1rem;
+  }
+  
+  .quantity-selector {
+    width: 100px;
+    height: 36px;
+  }
+  
+  .quantity-btn {
+    width: 32px;
+  }
+  
+  .quantity-input {
+    width: 36px;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+}
+
+/* Animations */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Glass Effect Enhancement */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.glass-effect:hover {
+  border-color: rgba(212, 175, 55, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
