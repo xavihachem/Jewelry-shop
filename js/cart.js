@@ -26,8 +26,6 @@ function updateCartCount() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('Cart page loaded');
-  
   // Update cart count in navbar
   updateCartCount();
   
@@ -38,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const now = Date.now();
     const last = parseInt(localStorage.getItem(timestampKey), 10);
     if (last && now - last >= expiryMs) {
-      console.log('🕒 Cart expired after 48 hours, clearing cart...');
+      // Cart expired after 48 hours, clearing cart
       localStorage.removeItem('cart');
       if (window.showToast) showToast('🕒 Cart Expired', 'Your cart was cleared after 48 hours', 'warning');
     }
@@ -65,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       // Get cart from localStorage
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      console.log('Loaded cart from localStorage:', cart);
+      // Cart loaded from localStorage
       
       // Clear current items
       cartItemsContainer.innerHTML = '';
@@ -99,17 +97,17 @@ document.addEventListener('DOMContentLoaded', function() {
               const product = await response.json();
               item.image = product.image || product.imageUrl || 'img/logo.png';
             } else {
-              console.warn(`Failed to fetch product ${item.id}:`, response.status);
+              // Failed to fetch product image
               item.image = 'img/logo.png';
             }
           } catch (error) {
-            console.error(`Error fetching product ${item.id}:`, error);
+            // Error fetching product
             item.image = 'img/logo.png';
           }
         }));
-        console.log('Product images fetched successfully');
+        // Product images fetched successfully
       } catch (error) {
-        console.error('Error fetching product images:', error);
+        // Error fetching product images
         // Continue with existing images or placeholders if API fails
       }
       
@@ -205,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Update order summary with cart data
   function updateOrderSummary(cart) {
-    console.log('Updating order summary with cart:', cart);
+    // Updating order summary
     
     const subtotal = cart.reduce((sum, item) => {
       return sum + (parseInt(item.price) * item.quantity);
@@ -284,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (itemIndex > -1) {
         cart[itemIndex].quantity = newQuantity;
         localStorage.setItem('cart', JSON.stringify(cart));
-        console.log(`Updated quantity for product ${productId} to ${newQuantity}`);
+        // Updated product quantity
         
         // Update the displayed total for this item
         const price = parseInt(cart[itemIndex].price);
@@ -297,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateOrderSummary(cart);
       }
     } catch (error) {
-      console.error('Error updating cart item:', error);
+      // Error updating cart item
     }
   }
   
@@ -308,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const updatedCart = cart.filter(item => item.id !== productId);
       
       localStorage.setItem('cart', JSON.stringify(updatedCart));
-      console.log(`Removed product ${productId} from cart`);
+      // Product removed from cart
       
       // Animate removal
       cartItemElement.style.opacity = '0';
@@ -325,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 300);
       
     } catch (error) {
-      console.error('Error removing cart item:', error);
+      // Error removing cart item
     }
   }
   
@@ -352,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const cartData = localStorage.getItem('cart');
         cart = cartData ? JSON.parse(cartData) : [];
       } catch (e) {
-        console.error('❌ Error parsing cart data:', e);
+        // Error parsing cart data
         cart = [];
       }
       
@@ -386,31 +384,13 @@ document.addEventListener('DOMContentLoaded', function() {
       };
       
       // Detailed logging
-      console.log('🚀 [CHECKOUT] Proceeding to checkout with the following order details:');
-      console.log('📋 Order Summary:', {
-        'Total Items': orderSummary.totalItems,
-        'Order Subtotal': `${orderSummary.subtotal.toFixed(2)} DZD`,
-        'Number of Unique Products': orderSummary.items.length
-      });
-      
-      console.log('🛒 Products in Cart:');
-      orderSummary.items.forEach((item, index) => {
-        console.log(`   ${index + 1}. ${item.name}`, {
-          'Quantity': item.quantity,
-          'Price per Item': `${item.price} DZD`,
-          'Total': `${item.itemTotal} DZD`,
-          'Image': item.image
-        });
-      });
-      
-      console.log('💳 Total Order Value:', `${orderSummary.subtotal.toFixed(2)} DZD`);
-      console.log('🔗 Redirecting to checkout page...');
+      // Proceeding to checkout with order details
       
       // Store the minimal order summary in localStorage
       try {
         localStorage.setItem('orderSummary', JSON.stringify(minimalOrderSummary));
       } catch (e) {
-        console.error('Error saving order summary:', e);
+        // Error saving order summary
         // If we still get an error, try storing just the essential data
         const essentialData = {
           totalItems: minimalOrderSummary.totalItems,

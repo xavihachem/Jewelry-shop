@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadProducts() {
         if (!productGrid) {
-            console.error('Product grid element not found');
+            // Product grid element not found
             return;
         }
 
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loadingIndicator) loadingIndicator.classList.remove('d-none');
         
         try {
-            console.log('Loading products...');
+            // Loading products...
             
             // Check if API is available
             if (!window.api || !window.api.products) {
@@ -41,15 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // Get featured products
-            console.log('Fetching featured products...');
             const products = await window.api.products.getHomeProducts();
-            console.log('Products received:', products);
             
             if (Array.isArray(products) && products.length > 0) {
-                console.log(`Rendering ${products.length} products`);
+                // Rendering products
                 renderProducts(products);
             } else {
-                console.log('No featured products available');
+                // No featured products available
                 productGrid.innerHTML = `
                     <div class="col-12 text-center">
                         <p class="text-muted">No featured products available at the moment.</p>
@@ -59,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>`;
             }
         } catch (error) {
-            console.error('Failed to load products:', error);
+            // Failed to load products
             const errorMessage = error.message || 'Failed to load products. Please try again later.';
             productGrid.innerHTML = `
                 <div class="col-12 text-center text-danger">
@@ -116,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addToCart(productId) {
-        console.log(`Product ${productId} added to cart`);
+        // Product added to cart
         // Here you would typically add the product to a cart object and update the UI
         const cartCount = document.getElementById('cart-count');
         let currentCount = parseInt(cartCount.textContent);

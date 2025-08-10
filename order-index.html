@@ -5,8 +5,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="img/logo.png">
-  <title>Order Product - Kaira</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="img/logo.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="img/logo.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo.png">
+    <meta name="msapplication-TileImage" content="img/logo.png">
+    <meta name="theme-color" content="#D4AF37">
+  <title>Order - ONYXIA</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="css/style_new.css">
@@ -18,18 +24,15 @@
     #orderItemsContainer .small {
       color: #ffffff !important;
     }
-    
     /* RTL specific styles for delivery options */
     [dir="rtl"] .form-check-label i {
       margin-left: 8px;
       margin-right: 0;
     }
-    
     /* LTR (default) styles for delivery options */
     .form-check-label i {
       margin-right: 8px;
     }
-    
     :root {
       --primary-bg: #0a0a0a;
       --card-bg: #1a1a1a;
@@ -39,19 +42,16 @@
       --text-muted: #adb5bd;
       --border-color: #2a2a2a;
     }
-    
     body {
       background-color: var(--primary-bg);
       color: var(--text-light);
       font-family: 'Poppins', sans-serif;
     }
-    
     .order-container { 
       max-width: 1200px; 
       margin: 2rem auto; 
       padding: 0 1.5rem; 
     }
-    
     .card {
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -59,77 +59,64 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       margin-bottom: 2rem;
     }
-    
     h1 {
       color: var(--primary-gold);
       font-family: 'Marcellus', serif;
       margin-bottom: 1.5rem;
     }
-    
     .product-image { 
       width: 100%; 
       height: auto; 
       border-radius: 8px;
     }
-    
     .product-title { 
       font-family: 'Marcellus', serif; 
       color: var(--primary-gold);
       font-size: 1.8rem;
     }
-    
     .product-price { 
       font-size: 1.75rem; 
       color: var(--secondary-gold);
       font-weight: 600;
     }
-    
     .form-label {
       color: var(--text-light);
     }
-    
     .form-control, .form-select { 
       background-color: rgba(255, 255, 255, 0.05); 
       border: 1px solid var(--border-color); 
       color: var(--text-light);
     }
-    
     .form-control:focus, .form-select:focus { 
       background-color: rgba(255, 255, 255, 0.08); 
       border-color: var(--primary-gold);
       box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.15);
       color: var(--text-light);
     }
-    
     /* Style for dropdown options */
     .form-select option {
       color: #000;
       background-color: #fff;
     }
-    
     .btn-primary { 
       background-color: var(--primary-gold); 
       border-color: var(--primary-gold); 
       color: #000;
       font-weight: 600;
     }
-    
     .btn-primary:hover { 
       background-color: var(--secondary-gold); 
       border-color: var(--secondary-gold);
     }
-    
     .btn-outline-light {
       border-color: var(--border-color);
       color: var(--text-light);
     }
-    
     .btn-outline-light:hover {
       background-color: rgba(255, 255, 255, 0.1);
       border-color: var(--primary-gold);
       color: var(--primary-gold);
     }
-    
     .btn-gold {
       background: linear-gradient(135deg, var(--primary-gold), #f1c40f);
       border: none;
@@ -144,13 +131,11 @@
       border-radius: 6px;
       gap: 0.5rem;
     }
-    
     /* RTL styles for Arabic */
     [dir="rtl"] .btn-gold .bi-arrow-left {
       margin: 0 0 0 0.5rem;
       order: 1;
     }
-    
     .btn-gold:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
@@ -159,33 +144,27 @@
     .text-gold {
       color: var(--primary-gold) !important;
     }
-    
     .order-summary-item {
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
-    
     .order-summary-item:last-child {
       border-bottom: none;
     }
-    
     .btn-primary {
       background: linear-gradient(135deg, var(--primary-gold), #f1c40f);
       border: none;
       transition: all 0.3s ease;
     }
-    
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
     }
-    
     /* Success Animation */
     .success-animation {
       width: 80px;
       height: 80px;
       margin: 0 auto 20px;
     }
-    
     .checkmark__circle {
       stroke-dasharray: 166;
       stroke-dashoffset: 166;
@@ -195,7 +174,6 @@
       fill: none;
       animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
     }
-    
     .checkmark {
       width: 80px;
       height: 80px;
@@ -208,7 +186,6 @@
       box-shadow: inset 0px 0px 0px rgba(212, 175, 55, 0.3);
       animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
     }
-    
     .checkmark__check {
       transform-origin: 50% 50%;
       stroke-dasharray: 48;
@@ -216,13 +193,11 @@
       animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
       stroke: var(--primary-gold);
     }
-    
     @keyframes stroke {
       100% {
         stroke-dashoffset: 0;
       }
     }
-    
     @keyframes scale {
       0%, 100% {
         transform: none;
@@ -231,30 +206,24 @@
         transform: scale3d(1.1, 1.1, 1);
       }
     }
-    
     @keyframes fill {
       100% {
         box-shadow: inset 0px 0px 0px 30px rgba(212, 175, 55, 0.1);
       }
     }
-    
     .form-control, .form-select {
       transition: all 0.3s ease;
     }
-    
     .form-control:focus, .form-select:focus {
       transform: translateY(-1px);
     }
-    
     .card {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
     }
-    
     /* Custom radio button styles */
     .form-check-input {
       width: 1.2em;
@@ -264,18 +233,15 @@
       border: 2px solid var(--primary-gold);
       cursor: pointer;
     }
-    
     .form-check-input:checked {
       background-color: var(--primary-gold);
       border-color: var(--primary-gold);
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23000'/%3e%3c/svg%3e");
     }
-    
     .form-check-input:focus {
       box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
       border-color: var(--primary-gold);
     }
-    
     .form-check-label {
       color: var(--text-light);
       cursor: pointer;
@@ -285,22 +251,18 @@
       border-radius: 6px;
       transition: all 0.2s ease;
     }
-    
     .form-check-inline {
       margin-right: 1.5rem;
     }
-    
     .form-check-input:checked + .form-check-label {
       color: var(--primary-gold);
       background-color: rgba(212, 175, 55, 0.1);
     }
-    
     .form-check-label i {
       margin-right: 0.5rem;
       color: var(--primary-gold);
       font-size: 1.2rem;
     }
-    
     .place-order-btn {
       background: linear-gradient(135deg, #d4af37 0%, #f1c40f 50%, #d4af37 100%);
       background-size: 200% auto;
@@ -319,7 +281,6 @@
       font-size: 0.9rem;
       text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
     }
-    
     .place-order-btn::before {
       content: '';
       position: absolute;
@@ -335,7 +296,6 @@
       );
       transition: 0.6s;
     }
-    
     .place-order-btn:hover {
       background-position: right center;
       transform: translateY(-3px);
@@ -343,26 +303,21 @@
       color: #000;
       letter-spacing: 1.5px;
     }
-    
     .place-order-btn:hover::before {
       left: 100%;
     }
-    
     .place-order-btn:active {
       transform: translateY(-1px);
       box-shadow: 0 5px 25px rgba(212, 175, 55, 0.4);
     }
-    
     .place-order-btn i {
       transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       display: inline-block;
       margin-right: 8px;
     }
-    
     .place-order-btn:hover i {
       transform: translateX(5px) scale(1.1);
     }
-    
     .place-order-btn::after {
       content: '';
       position: absolute;
@@ -382,17 +337,14 @@
       transition: all 0.7s ease-in-out;
       z-index: 2;
     }
-    
     .place-order-btn:hover::after {
       opacity: 1;
       transform: rotateZ(60deg) translate(10em, -7.5em);
     }
-    
     .delivery-option {
       flex: 1;
       min-width: 180px;
     }
-    
     .delivery-option .form-check-label {
       padding: 0.75rem 1rem;
       border: 1px solid var(--border-color);
@@ -400,26 +352,21 @@
       width: 100%;
       transition: all 0.3s ease;
     }
-    
     .delivery-option .form-check-input:checked + .form-check-label {
       border-color: var(--primary-gold);
       background-color: rgba(212, 175, 55, 0.1);
       box-shadow: 0 0 0 1px var(--primary-gold);
     }
-    
     .delivery-option .form-check-input {
       position: absolute;
       opacity: 0;
     }
-    
     .delivery-option .form-check-label:hover {
       background-color: rgba(255, 255, 255, 0.05);
     }
-    
     .delivery-option .form-check-label span {
       font-weight: 500;
     }
-    
     @media (min-width: 992px) {
       .position-lg-sticky {
         position: sticky !important;
@@ -438,7 +385,6 @@
           <i class="bi bi-arrow-left"></i>
           <span data-i18n-key="product.back_to_shop">Back to Shop</span>
         </a>
-        
         <div class="card border-0 mb-4 card-gradient-bg">
           <div class="card-body p-4">
             <h3 class="text-gold mb-4"><span data-i18n-key="order.your_items">Your Items</span></h3>
@@ -447,18 +393,15 @@
             </div>
           </div>
         </div>
-        
         <div class="card border-0 card-gradient-bg">
           <div class="card-body p-4">
             <h3 class="text-gold mb-4">
               <i class="bi bi-truck me-2"></i> <span data-i18n-key="order.shipping_information">Shipping Information</span>
             </h3>
-            
             <form id="orderForm">
               <input type="hidden" id="productId" name="productId">
               <input type="hidden" id="productName" name="productName">
               <input type="hidden" id="productPrice" name="productPrice">
-              
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="firstName" class="form-label" data-i18n-key="order.first_name">First Name</label>
@@ -469,17 +412,14 @@
                   <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" required>
                 </div>
               </div>
-              
               <div class="mb-3">
                 <label for="phone" class="form-label" data-i18n-key="order.phone">Phone</label>
                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
               </div>
-              
               <div class="mb-3">
                 <label for="address" class="form-label" data-i18n-key="order.address">Address</label>
                 <input type="text" class="form-control" id="address" name="address" placeholder="Your full address" required>
               </div>
-              
               <div class="mb-4">
                 <label class="form-label d-block mb-3" data-i18n-key="order.delivery_method">Delivery Method</label>
                 <div class="d-flex flex-wrap gap-3">
@@ -499,7 +439,6 @@
                   </div>
                 </div>
               </div>
-              
               <div class="mb-3">
                 <label for="city" class="form-label" data-i18n-key="order.city">City</label>
                 <select class="form-select" id="city" name="city" aria-label="Select your city" required>
@@ -512,7 +451,6 @@
           </div>
         </div>
       </div>
-      
       <div class="col-lg-4 position-lg-sticky order-summary-card">
         <div class="card border-0 mb-4 card-gradient-bg">
           <div class="card-body p-4">
@@ -550,48 +488,24 @@
       </div>
     </div>
   </div>
-
-
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       function translateOrderPage() {
-        const lang = localStorage.getItem('language') || 'en';
-        console.log(`[i18n] Current language: ${lang}`);
-        
-        const dict = window.translations && window.translations[lang];
-        if (!dict) {
-          console.error(`[i18n] No dictionary found for language: ${lang}`);
-          return;
+        const lang = localStorage.getItem('language') || 'ar';const dict = window.translations && window.translations[lang];
+        if (!dict) {return;
         }
-
-        // Log available languages and keys for debugging
-        console.log('[i18n] Available languages:', Object.keys(window.translations || {}));
-        console.log(`[i18n] Available keys in ${lang}:`, Object.keys(dict));
-
-        // Update direction
+        // Log available languages and keys for debugging// Update direction
         const dir = lang === 'ar' ? 'rtl' : 'ltr';
-        document.documentElement.dir = dir;
-        console.log(`[i18n] Set document direction to: ${dir}`);
-
-        // Translate all elements with data-i18n-key
-        const elements = document.querySelectorAll('[data-i18n-key]');
-        console.log(`[i18n] Found ${elements.length} elements to translate`);
-        
-        elements.forEach((el, index) => {
+        document.documentElement.dir = dir;// Translate all elements with data-i18n-key
+        const elements = document.querySelectorAll('[data-i18n-key]');elements.forEach((el, index) => {
           const key = el.getAttribute('data-i18n-key');
-          if (dict[key]) {
-            console.log(`[i18n] [${index}] Translating '${key}' to:`, dict[key]);
-            el.textContent = dict[key];
+          if (dict[key]) {el.textContent = dict[key];
           } else {
             console.warn(`[i18n] [${index}] Missing translation for key: '${key}' in language: '${lang}'`);
             console.warn(`[i18n] Element HTML:`, el.outerHTML);
           }
-        });
-        
-        console.log('[i18n] Translation completed');
-      }
+        });}
       translateOrderPage();
       window.addEventListener('storage', function(e) {
         if (e.key === 'language') translateOrderPage();
@@ -604,7 +518,6 @@
     let cities = [];
     let selectedCity = null;
     let selectedDeliveryMethod = 'desktop';
-
     // Function to display order items
     function displayOrderItems() {
       const container = document.getElementById('orderItemsContainer');
@@ -612,7 +525,6 @@
         return;
       }
       container.innerHTML = ''; // Clear previous content
-
       orderSummary.items.forEach(item => {
         // Use a placeholder image since we don't store the actual image data
         const itemHTML = `
@@ -639,160 +551,99 @@
         container.insertAdjacentHTML('beforeend', itemHTML);
       });
     }
-
     // Function to update the order total
     function updateOrderTotal() {
       const subtotal = orderSummary.subtotal || 0;
       const shippingFee = selectedCity ? 
         (selectedDeliveryMethod === 'desktop' ? selectedCity.desktopFee : selectedCity.houseFee) : 0;
-      
       const total = subtotal + shippingFee;
-      
       // Update the UI
       document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)} DZD`;
       document.getElementById('shippingFeeDisplay').textContent = `${shippingFee.toFixed(2)} DZD`;
       document.getElementById('total').textContent = `${total.toFixed(2)} DZD`;
       document.getElementById('shippingFee').value = shippingFee;
     }
-
     // Function to load cities from the backend
     async function loadCities() {
       try {
         const response = await fetch('http://localhost:5001/api/cities');
         if (!response.ok) throw new Error('Failed to load cities');
-        
         cities = await response.json();
         const citySelect = document.getElementById('city');
         citySelect.innerHTML = '<option value="">-- Select City --</option>'; // Clear and add default
-        
         cities.forEach(city => {
           const option = document.createElement('option');
           option.value = city._id;
           option.textContent = city.name;
           citySelect.appendChild(option);
         });
-      } catch (error) {
-        console.error('Error loading cities:', error);
-        showError('Failed to load cities. Please try again later.');
+      } catch (error) {showError('Failed to load cities. Please try again later.');
       }
     }
-
-    document.addEventListener('DOMContentLoaded', async function() {
-      console.log(' [ORDER PAGE] Order page loaded');
-      console.log(' [STORAGE] Checking localStorage for order data...');
-      
-      // Load order summary from localStorage
+    document.addEventListener('DOMContentLoaded', async function() {// Load order summary from localStorage
       const storedOrder = localStorage.getItem('orderSummary');
-      
-      if (!storedOrder) {
-        console.error(' [ERROR] No order data found in localStorage');
-        showError('No order found. Please add items to your cart first.');
+      if (!storedOrder) {showError('No order found. Please add items to your cart first.');
         return;
-      }
-
-      console.log(' [ORDER DATA] Raw order data from localStorage:', storedOrder);
-      
-      try {
-        orderSummary = JSON.parse(storedOrder);
-        console.log(' [PARSED ORDER] Successfully parsed order data:', {
-          totalItems: orderSummary.totalItems,
-          subtotal: orderSummary.subtotal,
-          numberOfItems: orderSummary.items ? orderSummary.items.length : 0,
-          itemsPreview: orderSummary.items ? orderSummary.items.map(i => ({
-            id: i.id,
-            name: i.name,
-            quantity: i.quantity,
-            price: i.price,
-            hasImage: i.hasImage || false
-          })) : 'No items'
-        });
-      } catch (e) {
-        console.error(' [ERROR] Failed to parse order data:', e);
-        showError('Invalid order data. Please try again.');
+      }try {
+        orderSummary = JSON.parse(storedOrder);} catch (e) {showError('Invalid order data. Please try again.');
         return;
       }
       orderSummary = JSON.parse(storedOrder);
-
       // Display items and update totals
       // Fetch product details from the database API before displaying items
-      console.log(' [IMAGES] Fetching product details from API...');
       await Promise.all(orderSummary.items.map(async item => {
         try {
           const res = await fetch('http://localhost:5001/api/products/' + item.id);
           if (!res.ok) throw new Error('HTTP ' + res.status);
           const data = await res.json();
-          console.log(`[DEBUG FETCH] Product ${item.id} returned data:`, data);
-          console.log(`[DEBUG FETCH] Product ${item.id} data.image:`, data.image);
-          console.log(`[DEBUG FETCH] Product ${item.id} data.imageUrl:`, data.imageUrl);
           // Store both the image URL and the full product data
           item.imageUrl = data.imageUrl || 'img/logo.png';
           item.image = data.image || data.imageUrl || 'img/logo.png'; // Use URL or data
           item.fullProductData = data; // Store all product data in case we need it
         } catch (e) {
-          console.error(' [IMAGES ERROR] Failed to fetch product ' + item.id + ':', e);
           item.imageUrl = 'img/logo.png';
           item.image = 'img/logo.png';
         }
       }));
-      console.log(' [IMAGES] Product images fetched:', orderSummary.items.map(i => ({ id: i.id, image: i.image })));
+      
       displayOrderItems();
       updateOrderTotal();
       await loadCities();
-
       // Add event listeners
       document.getElementById('city').addEventListener('change', function() {
         selectedCity = cities.find(c => c._id === this.value);
         updateOrderTotal();
       });
-
       document.querySelectorAll('input[name="deliveryMethod"]').forEach(radio => {
         radio.addEventListener('change', function() {
           selectedDeliveryMethod = this.value;
           updateOrderTotal();
         });
       });
-
       // Add click event listener for place order button
       document.querySelector('.place-order-btn').addEventListener('click', handleOrderSubmission);
     });
-    
     // Function to handle order submission
     async function handleOrderSubmission(e) {
-      e.preventDefault();
-      
-      console.log('[ORDER] Starting order submission process...');
-      
-      // Get form elements
+      e.preventDefault();// Get form elements
       const form = document.getElementById('orderForm');
       const submitBtn = document.querySelector('.place-order-btn');
       const originalBtnText = submitBtn.innerHTML;
-      
       // Validate form
-      if (!form.checkValidity()) {
-        console.log('[FORM VALIDATION] Form is not valid');
-        form.reportValidity();
+      if (!form.checkValidity()) {form.reportValidity();
         return;
       }
-      
       // Validate city selection
       const citySelect = document.getElementById('city');
-      if (!citySelect.value) {
-        console.log('[VALIDATION] No city selected');
-        showError('Please select a city');
+      if (!citySelect.value) {showError('Please select a city');
         citySelect.focus();
         return;
       }
-      
       // Disable button and show loading state
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Placing Order...';
-      
-      try {
-        console.log('[ORDER] Preparing order data...');
-        
-        // Get the base URL for images
+      try {// Get the base URL for images
         const baseUrl = window.location.origin;
-        
         // Prepare items with image URLs instead of base64 data
         const items = orderSummary.items.map(item => {
            // Determine image URL: ignore base64 data, use only valid URLs or relative paths
@@ -811,11 +662,7 @@
                  imageUrl = `${baseUrl}/uploads/${imgVal}`;
                }
              }
-           }
-
-          console.log(`[ITEM] ${item.name} - Using image:`, imageUrl);
-
-          return {
+           }return {
             productId: item.id,
             productName: item.name, // Use the fields the backend expects
             productImage: imageUrl, // Use the fields the backend expects
@@ -823,7 +670,6 @@
             quantity: parseInt(item.quantity, 10)
           };
         });
-        
         // Prepare order data
         const orderData = {
           firstName: document.getElementById('firstName').value.trim(),
@@ -837,27 +683,17 @@
           subtotal: parseFloat(orderSummary.subtotal),
           shippingFee: parseFloat(document.getElementById('shippingFee').value || '0'),
           total: parseFloat(orderSummary.subtotal) + parseFloat(document.getElementById('shippingFee').value || '0')
-        };
-        
-        console.log('[ORDER] Submitting order data:', JSON.stringify(orderData, null, 2));
-        
-        // Log required fields for debugging
+        };// Log required fields for debugging
         const requiredFields = ['firstName', 'lastName', 'phone', 'address', 'city', 'deliveryMethod', 'items'];
         const missingFields = requiredFields.filter(field => !orderData[field] && orderData[field] !== 0);
-        
-        if (missingFields.length > 0) {
-          console.error('[VALIDATION] Missing required fields:', missingFields);
-          throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+        if (missingFields.length > 0) {throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
         }
-        
         // Log items validation
         if (!orderData.items || !Array.isArray(orderData.items) || orderData.items.length === 0) {
-          console.error('[VALIDATION] No items in cart');
           throw new Error('No items in cart');
         }
         
         // Send order to backend
-        console.log('[API] Sending request to /api/orders...');
         const response = await fetch('http://localhost:5001/api/orders', {
           method: 'POST',
           headers: {
@@ -866,31 +702,20 @@
           body: JSON.stringify(orderData)
         });
         
-        console.log(`[API] Response status: ${response.status} ${response.statusText}`);
-        
         if (!response.ok) {
           const errorText = await response.text();
-          console.error('[API] Error response:', errorText);
           let errorMessage = 'Failed to place order';
-          
           try {
             const errorData = JSON.parse(errorText);
             errorMessage = errorData.message || errorMessage;
-            console.error('[API] Error details:', errorData);
           } catch (e) {
-            console.error('[API] Could not parse error response:', e);
+            // If we can't parse the error, use the default message
           }
-          
           throw new Error(errorMessage);
         }
-        
-        const result = await response.json();
-        console.log('[API] Order created successfully:', result);
-        
-        // Get current language
-        const currentLang = localStorage.getItem('language') || 'en';
+        const result = await response.json();// Get current language
+        const currentLang = localStorage.getItem('language') || 'ar';
         const isRTL = currentLang === 'ar';
-        
         // Translations
         const translations = {
           en: {
@@ -906,9 +731,7 @@
             backToHome: 'العودة للصفحة الرئيسية'
           }
         };
-        
         const t = translations[currentLang] || translations.en;
-        
         // Create simple success message modal
         const successModal = `
           <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true" data-bs-backdrop="static" dir="${isRTL ? 'rtl' : 'ltr'}">
@@ -945,36 +768,24 @@
             }
           </style>
         `;
-        
         // Add modal to the page
         document.body.insertAdjacentHTML('beforeend', successModal);
-        
         // Show the modal
         const modal = new bootstrap.Modal(document.getElementById('successModal'));
         modal.show();
-        
-        // Clear cart
-        console.log('[STORAGE] Removing order summary from localStorage');
-        localStorage.removeItem('orderSummary');
-        
+        // Clear cartlocalStorage.removeItem('orderSummary');
         // Close modal and redirect when clicking outside or pressing ESC
         document.getElementById('successModal').addEventListener('hidden.bs.modal', function () {
           window.location.href = 'index_new.html';
         });
-        
-      } catch (error) {
-        console.error('[ERROR] Error placing order:', error);
-        
-        // Create a more user-friendly error message
+      } catch (error) {// Create a more user-friendly error message
         let errorMessage = error.message || 'An error occurred while placing your order. Please try again.';
-        
         // Handle specific error cases
         if (error.message.includes('Failed to fetch')) {
           errorMessage = 'Unable to connect to the server. Please check your internet connection and try again.';
         } else if (error.message.includes('Missing required fields')) {
           errorMessage = 'Please fill in all required fields.';
         }
-        
         showError(errorMessage);
       } finally {
         // Re-enable button
@@ -982,11 +793,7 @@
         submitBtn.innerHTML = originalBtnText;
       }
     }
-    
-    function showError(message) {
-      console.log('[UI] Showing error:', message);
-      
-      // Create error element
+    function showError(message) {// Create error element
       const errorDiv = document.createElement('div');
       errorDiv.className = 'alert alert-danger alert-dismissible fade show';
       errorDiv.role = 'alert';
@@ -994,24 +801,19 @@
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       `;
-      
       // Find the best place to insert the error
       let container = document.querySelector('.order-container');
-      
       // If .order-container is not found, try .container
       if (!container) {
         container = document.querySelector('.container');
       }
-      
       // If still not found, use body
       if (!container) {
         container = document.body;
       }
-      
       // Insert the error at the top of the container
       if (container) {
         container.insertBefore(errorDiv, container.firstChild);
-        
         // Auto-hide after 10 seconds
         setTimeout(() => {
           if (errorDiv.parentNode) {
@@ -1024,13 +826,9 @@
           }
         }, 10000);
       } else {
-        // Fallback to alert if we can't find a good place to show the error
-        console.error('Could not find container for error message');
-        alert(`Error: ${message}`);
+        // Fallback to alert if we can't find a good place to show the erroralert(`Error: ${message}`);
       }
     }
-    
-
   </script>
 </body>
 </html>

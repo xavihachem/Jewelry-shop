@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize language toggle from localStorage
   (function() {
-    const savedLang = localStorage.getItem('language');
+    const savedLang = localStorage.getItem('language') || 'ar';
     if (savedLang) {
       const ddToggle = document.getElementById('languageDropdown');
       if (ddToggle) {

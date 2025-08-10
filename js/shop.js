@@ -100,7 +100,7 @@ function updateCartCountFromStorage() {
     updateCartCount(totalItems);
     return totalItems;
   } catch (error) {
-    console.error('Error updating cart count:', error);
+    // Error updating cart count
     return 0;
   }
 }
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Listen for language changes
   window.addEventListener('storage', function(e) {
     if (e.key === 'language') {
-      console.log('Language changed to:', e.newValue);
+      // Language changed
       updateViewProductButtons();
     }
   });
@@ -289,7 +289,7 @@ function addToCart(button) {
     }
     
   } catch (error) {
-    console.error('❌ [ERROR] in addToCart:', error);
+    // Error in addToCart function
     
     // Show error state
     button.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>Error';
@@ -668,7 +668,7 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       initProductModal();
     } catch (error) {
-      console.error('Error initializing product modal:', error);
+      // Error initializing product modal
     }
   }
 });

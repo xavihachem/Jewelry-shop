@@ -5,8 +5,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="img/logo.png">
-  <title>Product Detail - Kaira</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="img/logo.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="img/logo.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="img/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo.png">
+    <meta name="msapplication-TileImage" content="img/logo.png">
+    <meta name="theme-color" content="#D4AF37">
+    
+  <title>Product - ONYXIA</title>
   <!-- Translations -->
   <script src="js/translations.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -1062,7 +1069,7 @@
       // Check stock availability
       if (stockQuantity <= 0) {
         console.error('[CART] Cannot add out of stock product to cart');
-        const lang = localStorage.getItem('language') || 'en';
+        const lang = localStorage.getItem('language') || 'ar';
         const dict = (window.translations && window.translations[lang]) || {};
         const message = dict['cart.out_of_stock_message'] || 'This item is out of stock and cannot be added to your cart.';
         showToast(message, 'danger');
@@ -1095,7 +1102,7 @@
       
       if (existingItemIndex > -1) {
         // Product already in cart, show enhanced message
-        const lang = localStorage.getItem('language') || 'en';
+        const lang = localStorage.getItem('language') || 'ar';
         const dict = (window.translations && window.translations[lang]) || {};
         const message = dict['cart.already_in_cart'] || 'This product is already in your cart. You can update the quantity in the cart page.';
         const cartLink = dict['nav.cart'] || 'Cart';
@@ -1143,7 +1150,7 @@
         });
         
         cart.push(product);
-        const lang = localStorage.getItem('language') || 'en';
+        const lang = localStorage.getItem('language') || 'ar';
         const dict = (window.translations && window.translations[lang]) || {};
         const message = dict['cart.added_to_cart'] || 'Added to cart';
         
@@ -1390,7 +1397,7 @@
       }
       
       // Debug: Log the entire product object to see its structure
-      console.log('Product data:', product);
+      // Product data loaded
       
       // Update stock status
       const productAvailability = document.getElementById('productAvailability');
@@ -1403,7 +1410,7 @@
         const isAvailable = stockStatus === 'متاح' || stockStatus === 'available' || stockStatus === 'in stock';
         const stockQuantity = parseInt(stockInfo.quantity) || 0;
         
-        console.log('Stock status - Status:', stockStatus, 'Available:', isAvailable, 'Quantity:', stockQuantity);
+        // Stock status checked
         
         // Set availability status
         if (isAvailable && stockQuantity > 0) {
@@ -1532,12 +1539,12 @@
     // Show error message with translation support
     function showError(message) {
       // Get current language
-      const lang = localStorage.getItem('language') || 'en';
+      const lang = localStorage.getItem('language') || 'ar';
       const dict = (window.translations && window.translations[lang]) || {};
       
       // Get translated message or fallback to original
       const translatedMessage = dict[message] || message;
-      console.error('Error:', translatedMessage);
+      // Error occurred
       
       const productInfo = document.querySelector('.product-info');
       if (productInfo) {
@@ -1563,20 +1570,20 @@
           window.translatePage();
         }
       } else {
-        console.error('Could not find .product-info element to show error:', translatedMessage);
+        // Could not find product info element
       }
     }
     
     // Global function to translate the page
     window.translatePage = function() {
       // Get current language
-      const lang = localStorage.getItem('language') || 'en';
-      console.log('🌐 Translating page to:', lang);
+      const lang = localStorage.getItem('language') || 'ar';
+      // Translating page
       
       // Get translations
       const dict = window.translations && window.translations[lang];
       if (!dict) {
-        console.error('❌ No translations found for language:', lang);
+        // No translations found for language
         return;
       }
       
@@ -1590,34 +1597,33 @@
         if (dict[key]) {
           const newText = dict[key];
           if (el.textContent !== newText) {
-            console.log(`   🔄 ${key}: "${el.textContent}" → "${newText}"`);
+            // Updating text for key
             el.textContent = newText;
           }
           translatedCount++;
         } else {
-          console.warn(`   ⚠️ No translation found for key: ${key}`);
+          // No translation found for key
         }
       });
       
-      console.log(`✅ Translated ${translatedCount} elements`);
+      // Translation completed
       return translatedCount;
     };
     
     // i18n logic for product page
     document.addEventListener('DOMContentLoaded', function() {
       // Log current language from localStorage
-      const lang = localStorage.getItem('language') || 'en';
-      console.log('🌐 Current language from localStorage:', lang);
-      console.log('🔑 localStorage content:', JSON.stringify(localStorage, null, 2));
+      const lang = localStorage.getItem('language') || 'ar';
+      // Current language set
       
       // Make sure translations are loaded
       if (!window.translations) {
-        console.error('❌ translations.js not loaded!');
+        // Translations not loaded
         return;
       }
       
       // Log available translations
-      console.log('📚 Available translations:', Object.keys(window.translations));
+      // Translations available
       
       // Translate the page
       window.translatePage();
@@ -1630,15 +1636,10 @@
         }
       });
       // Log translation completion
-      console.log('🏁 Translation process completed');
-      console.log('🔍 Elements with translation keys:', document.querySelectorAll('[data-i18n-key]').length);
+      // Translation process completed
       
       // Log session storage for debugging
-      console.log('📋 Session Storage:', {
-        language: localStorage.getItem('language'),
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent
-      });
+      // Session storage checked
       
       // Set up language change listener
       window.addEventListener('storage', function(e) {
@@ -1698,12 +1699,10 @@
   <script>
     // Initialize the API
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('Initializing API...');
       window.api.init().then(() => {
-        console.log('API initialized');
+        // API initialized
         // Now initialize the page
         initializePage().catch(error => {
-          console.error('Error initializing page:', error);
           showError('Failed to load product. Please try again later.');
         });
       }).catch(error => {
