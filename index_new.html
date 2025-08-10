@@ -7,7 +7,7 @@
     <meta name="description" content="Discover our exclusive collection of luxury jewelry. Handcrafted pieces with timeless elegance.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="icon" type="image/png" href="img/logo.png">
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,6 +33,344 @@
     <link rel="preload" href="js/home_new.js" as="script">
     
     <style>
+      /* Custom Scrollbar Styles */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(212, 175, 55, 0.5);
+        border-radius: 5px;
+        transition: all 0.3s ease;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(212, 175, 55, 0.7);
+      }
+
+      /* For Firefox */
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(212, 175, 55, 0.5) rgba(0, 0, 0, 0.1);
+      }
+
+      /* Footer Social Icons - Elegant Gold Styling */
+      body .footer-section .social-list .social-link,
+      body .footer-section .social-list .social-link:visited,
+      body .footer-section .social-list a[href^="tel:"] {
+        color: #E6C56E !important;
+        font-size: 1.4rem !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border: 2px solid #b89a4f !important;
+        border-radius: 50% !important;
+        background: rgba(184, 154, 79, 0.1) !important;
+        box-shadow: 0 4px 15px rgba(184, 154, 79, 0.15) !important;
+        margin: 0 5px !important;
+        transition: all 0.3s ease !important;
+        text-decoration: none !important;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      body .footer-section .social-list .social-link:hover {
+        color: #fff !important;
+        background: rgba(184, 154, 79, 0.3) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important;
+      }
+      
+      body .footer-section .admin-link,
+      body .footer-section .admin-link:visited {
+        color: #E6C56E !important;
+        transition: all 0.3s ease !important;
+        text-decoration: none !important;
+      }
+      
+      body .footer-section .admin-link:hover {
+        color: #fff !important;
+        transform: translateY(-2px) !important;
+      }
+      
+      /* View All Collections Button - Matching Gold Style */
+      .btn-outline-gold {
+        color: #E6C56E !important;
+        background: rgba(184, 154, 79, 0.1) !important;
+        border: 2px solid #b89a4f !important;
+        border-radius: 50px !important;
+        padding: 0.6rem 1.5rem !important;
+        font-family: 'Jost', sans-serif;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(184, 154, 79, 0.15) !important;
+        text-decoration: none !important;
+        display: inline-flex;
+        align-items: center;
+      }
+      
+      .btn-outline-gold:hover {
+        color: #fff !important;
+        background: rgba(184, 154, 79, 0.3) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important;
+      }
+      
+      .btn-outline-gold i {
+        transition: transform 0.3s ease;
+      }
+      
+      .btn-outline-gold:hover i {
+        transform: translateX(4px);
+      }
+      
+      /* Gold Button - Matches Footer Icon Style */
+      .btn-gold {
+        /* Base styles */
+        font-family: 'Marcellus', serif;
+        font-weight: 500;
+        font-size: 1.1rem;
+        line-height: 1.5;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        padding: 0.8rem 2.2rem !important;
+        border-radius: 4px !important;
+        transition: all 0.3s ease !important;
+        text-decoration: none !important;
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        text-transform: none;
+        letter-spacing: 0.5px;
+        
+        /* Gold theme - matches footer icons */
+        color: #E6C56E !important;
+        background: rgba(184, 154, 79, 0.1) !important;
+        border: 2px solid #b89a4f !important;
+        box-shadow: 0 4px 15px rgba(184, 154, 79, 0.15) !important;
+      }
+      
+      .btn-gold:hover {
+        color: #fff !important;
+        background: rgba(184, 154, 79, 0.3) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important;
+      }
+      
+      .btn-gold i {
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+        transition: transform 0.3s ease;
+      }
+      
+      .btn-gold:hover i {
+        transform: translateX(4px);
+      }
+      
+      /* Override for hero section to maintain existing style */
+      .hero-section .btn-gold {
+        color: #1a1a1a !important;
+        background: #D4AF37 !important;
+        border: 1px solid #C19B2E !important;
+        box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3) !important;
+      }
+      
+      .hero-section .btn-gold:hover {
+        background: #E6C56E !important;
+        color: #1a1a1a !important;
+        border-color: #D4AF37 !important;
+      }
+      
+      /* Hero Button Styles */
+      .hero-section .btn-gold {
+        background: #D4AF37 !important; /* Solid gold */
+        border: 1px solid #C19B2E !important; /* Slightly darker border */
+        color: #1a1a1a !important;
+        font-family: 'Marcellus', serif;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        padding: 0.8rem 2.2rem !important;
+        border-radius: 4px !important;
+        font-size: 1.1rem;
+        text-transform: none;
+        box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3) !important;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .hero-section .btn-gold::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background: rgba(255, 255, 255, 0.15);
+        transition: all 0.3s ease;
+        z-index: 0;
+      }
+      
+      .hero-section .btn-gold:hover {
+        background: #DDB347 !important;
+        border-color: #C19B2E !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4) !important;
+      }
+      
+      .hero-section .btn-gold:hover::before {
+        height: 100%;
+      }
+      
+      .hero-section .btn-gold:hover::before {
+        width: 100%;
+      }
+      
+      .hero-section .btn-gold i {
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        display: inline-block;
+      }
+      
+      .hero-section .btn-gold:hover i {
+        transform: translateX(5px);
+      }
+      
+      /* Product Card Styles */
+      .product-card-new {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        position: relative;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .product-card-new:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        border-color: var(--primary-gold);
+      }
+      
+      .product-image-container {
+        position: relative;
+        overflow: hidden;
+        padding-top: 120%; /* Slightly taller than square for better proportions */
+        flex-grow: 1;
+        min-height: 350px; /* Minimum height for larger cards */
+      }
+      
+      .product-image-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #1a1a1a;
+      }
+      
+      .product-image-new {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: transform 0.5s ease;
+      }
+      
+      .product-card-new:hover .product-image-new {
+        transform: scale(1.05);
+      }
+      
+      .product-card-new:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        border-color: var(--primary-gold);
+        cursor: pointer;
+      }
+      
+      .product-info {
+        background: rgba(0, 0, 0, 0.3);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        padding: 1.25rem !important;
+      }
+      
+      .product-title-new {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin: 0 0 0.75rem 0;
+        color: #fff;
+        line-height: 1.3;
+        min-height: 3.2em; /* Fixed height for title to prevent layout shift */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      
+      .item-price {
+        font-size: 1.4rem;
+        color: var(--primary-gold);
+        font-weight: 600;
+      }
+      
+      .rating {
+        font-size: 0.8rem;
+      }
+      
+      .cart-badge {
+        --bs-bg-opacity: 0.2;
+        --bs-text-opacity: 1;
+      }
+      
+      /* Golden Social Icons */
+      .social-list {
+        gap: 1rem;
+      }
+      
+      .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(212, 175, 55, 0.1);
+        color: var(--primary-gold);
+        transition: all 0.3s ease;
+        font-size: 1.1rem;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+      }
+      
+      .social-link:hover {
+        background: var(--primary-gold);
+        color: #000;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+      }
+      
       /* Navbar container - allow dropdowns to overflow */
       .navbar {
         position: relative;
@@ -130,6 +468,59 @@
       #languageDropdown:hover {
         color: #d4af37;
       }
+      
+      /* Navbar gold link styles */
+      .nav-gold-link {
+        position: relative;
+        padding: 0.5rem 1rem;
+        color: rgba(255, 255, 255, 0.85) !important;
+        transition: all 0.3s ease;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .nav-gold-link i {
+        color: var(--primary-gold);
+        transition: all 0.3s ease;
+      }
+      
+      .nav-gold-link:hover, .nav-gold-link.active {
+        color: var(--primary-gold) !important;
+        background: rgba(212, 175, 55, 0.1);
+      }
+      
+      .nav-gold-link:hover i, .nav-gold-link.active i {
+        transform: scale(1.1);
+      }
+      
+      .nav-gold-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+      
+      .nav-gold-link:hover::after, .nav-gold-link.active::after {
+        width: 80%;
+      }
+      
+      /* Cart link specific styles */
+      .cart-link {
+        position: relative;
+        padding-right: 1.5rem !important;
+      }
+      
+      .cart-link .badge {
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 0.35em 0.55em;
+      }
     </style>
 </head>
 <body class="homepage">
@@ -143,7 +534,7 @@
       <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index_new.html">
           <img src="img/logo.png" alt="ONYXIA Logo" class="navbar-logo me-2">
-          <span class="d-none d-md-inline">ONYXIA</span>
+          <span class="brand-text">Onyxia</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" 
           aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
@@ -151,24 +542,27 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href="index_new.html" title="Home">
-                <i class="bi bi-house-door d-lg-none me-2"></i><span data-i18n-key="nav.home">Home</span>
+            <li class="nav-item mx-2">
+              <a class="nav-link nav-gold-link active" href="index_new.html" title="Home">
+                <i class="bi bi-house-door-fill me-1"></i>
+                <span class="d-none d-lg-inline" data-i18n-key="nav.home">Home</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="shop.html" title="Shop">
-                <i class="bi bi-shop d-lg-none me-2"></i><span data-i18n-key="nav.shop">Shop</span>
+            <li class="nav-item mx-2">
+              <a class="nav-link nav-gold-link" href="shop.html" title="Shop">
+                <i class="bi bi-shop me-1"></i>
+                <span class="d-none d-lg-inline" data-i18n-key="nav.shop">Shop</span>
               </a>
             </li>
 
             <!-- Cart Icon with Badge -->
             <li class="nav-item ms-lg-3 me-2">
-              <a class="nav-link position-relative" href="cart.html" title="View Cart">
+              <a class="nav-link cart-link nav-gold-link" href="cart.html" title="View Cart">
                 <i class="bi bi-cart3 fs-5"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold text-dark cart-count-badge">
-                  0
+                  <span id="cartItemCount">0</span>
                 </span>
+                <span class="ms-1 d-none d-lg-inline" data-i18n-key="nav.cart">Cart</span>
               </a>
             </li>
             <!-- Language Dropdown -->
@@ -205,19 +599,23 @@
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link active" href="index_new.html">
-              <i class="bi bi-house-door me-2"></i><span data-i18n-key="nav.home">Home</span>
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link active" href="index_new.html">
+              <i class="bi bi-house-door-fill me-1"></i>
+              <span data-i18n-key="nav.home">Home</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="shop.html">
-              <i class="bi bi-shop me-2"></i>Shop
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link" href="shop.html">
+              <i class="bi bi-shop me-1"></i>
+              <span data-i18n-key="nav.shop">Shop</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="admin.html">
-              <i class="bi bi-shield-lock me-2"></i><span data-i18n-key="nav.admin">Admin</span>
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link" href="cart.html">
+              <i class="bi bi-cart3 me-1"></i>
+              <span data-i18n-key="nav.cart">Cart</span>
+              <span class="badge bg-gold text-gold ms-2 cart-badge" id="mobileCartCount">0</span>
             </a>
           </li>
           <li class="nav-item dropdown mt-3 mt-lg-0">
@@ -244,7 +642,7 @@
     </div>
 
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="hero hero-section d-flex align-items-center justify-content-center text-center py-5">
         <div class="container h-100">
             <div class="row h-100 justify-content-center align-items-center">
                 <div class="col-12 text-center">
@@ -264,8 +662,9 @@
   <span data-i18n-key="hero.tagline">Where exceptional craftsmanship meets contemporary design.</span><br>
   <span data-i18n-key="hero.tagline2">Each piece tells a story of passion and precision.</span>
 </p>
-                    <a href="shop.html" class="btn btn-gold btn-lg" title="Discover our collection">
-                        <i class="bi bi-arrow-right-circle me-2"></i><span data-i18n-key="hero.cta">Discover the Collection</span>
+                    <a href="shop.html" class="btn btn-outline-gold btn-lg d-inline-flex align-items-center" title="Discover our collection">
+                        <span data-i18n-key="hero.cta">Discover the Collection</span>
+                        <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
             </div>
@@ -273,9 +672,9 @@
     </section>
 
     <!-- Product Grid -->
-    <main class="container-fluid px-4 px-md-5 my-5">
+    <main class="container-fluid px-4 px-md-5 py-5">
         <h2 class="text-center mb-5" data-i18n-key="products.heading">Featured Products</h2>
-        <div id="product-grid">
+        <div id="product-grid" class="row g-4">
             <!-- Products will be loaded here by JavaScript -->
         </div>
         <div id="pagination-controls" class="d-flex justify-content-center align-items-center mt-4"></div>
@@ -300,27 +699,102 @@
         <div class="container">
             <div class="footer-content pt-5 pb-5 text-center">
                 <div class="footer-logo mb-4">
-                    <a href="index_new.html" class="navbar-brand" title="LUXURY Home">
-                        <span class="fw-bold">ONYXIA</span>
-                        <span class="text-gold">.</span>
+                    <a href="index_new.html" class="navbar-brand" title="ONYXIA Home">
+                        <!-- Logo text removed as requested -->
                     </a>
                 </div>
-                <ul class="social-list list-unstyled d-flex justify-content-center mb-4">
-                    <li><a href="#" class="social-link" title="Facebook"><i class="bi bi-facebook"></i></a></li>
-                    <li><a href="#" class="social-link" title="Instagram"><i class="bi bi-instagram"></i></a></li>
-                    <li><a href="#" class="social-link" title="Twitter"><i class="bi bi-twitter"></i></a></li>
-                    <li><a href="#" class="social-link" title="Pinterest"><i class="bi bi-pinterest"></i></a></li>
+                <ul class="social-list list-unstyled d-flex justify-content-center mb-4 flex-wrap gap-3">
+                    <li>
+                        <a href="https://www.tiktok.com/@onyxiaj?_t=ZM-8yDzFMLHaXm&_r=1" 
+                           class="social-link" 
+                           title="TikTok" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/shaw_wata/?utm_source=qr&r=nametag" 
+                           class="social-link" 
+                           title="Instagram" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:Onyxiajewelry0@gmail.com" 
+                           class="social-link" 
+                           title="Email Us"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            <i class="bi bi-envelope"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/share/177MuXkCCc/" 
+                           class="social-link" 
+                           title="Facebook" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tel:+213660658250" 
+                           class="social-link" 
+                           title="Call Us">
+                            <i class="bi bi-telephone"></i>
+                        </a>
+                    </li>
                 </ul>
-                <div class="footer-text">
-                    <p data-i18n-key="footer.copy">© 2025 LUXURY. All Rights Reserved.</p>
-                    <p data-i18n-key="footer.design">Designed with <i class="bi bi-heart-fill text-gold"></i> by Cascade</p>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-12 text-center mb-3">
+                    <p class="mb-0" data-i18n-key="footer.copy">© 2025 ONYXIA. All Rights Reserved.</p>
+                </div>
+                <div class="col-12 text-center">
+                    <a href="admin.html" class="text-muted admin-link" title="Admin Panel">
+                        <i class="bi bi-shield-lock fs-5"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Update cart count on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      function updateCartCount() {
+        try {
+          const cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+          
+          // Update all cart count elements
+          document.querySelectorAll('.cart-count-badge, #mobileCartCount').forEach(el => {
+            el.textContent = totalItems;
+          });
+          
+          console.log('Cart updated. Total items:', totalItems);
+        } catch (error) {
+          console.error('Error updating cart count:', error);
+        }
+      }
+      
+      // Initial update
+      updateCartCount();
+      
+      // Listen for cart updates
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'cart') {
+          updateCartCount();
+        }
+      });
+    });
+  </script>
     
     <!-- Custom Scripts -->
     <script src="js/api.js"></script>

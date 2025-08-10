@@ -1,8 +1,8 @@
 /* Golden Black Theme Override */
 :root {
-  --primary-gold: #d4af37;
-  --dark-gold: #a88a2c;
-  --light-gold: #f8f3e6;
+  --primary-gold: #D4AF37;
+  --gold-light: #e6c56e;
+  --gold-dark: #a88a2c;
   --bg-color: #0f0c09;
   --card-bg: #1a1610;
   --text-dark: #f0e6d2;
@@ -104,27 +104,56 @@ body::before {
 
 /* Buttons */
 .btn-gold {
-  background: linear-gradient(145deg, var(--primary-gold), var(--dark-gold));
-  color: #0f0c09;
-  border: none;
-  font-weight: 600;
+  background: #D4AF37 !important;
+  border: 1px solid #D4AF37 !important;
+  color: #111 !important;
+  font-family: 'Marcellus', serif;
+  font-weight: 500;
   letter-spacing: 1px;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  font-family: 'Jost', sans-serif;
-  text-transform: uppercase;
-  font-size: 0.85rem;
+  padding: 0.8rem 2.2rem !important;
+  border-radius: 0;
+  font-size: 1rem;
   transition: all 0.3s ease;
-  width: 100%;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(180, 150, 45, 0.2);
+  z-index: 1;
+  text-transform: none;
+  box-shadow: 0 4px 15px rgba(197, 164, 126, 0.3) !important;
+}
+
+.btn-gold::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.3));
+  transition: all 0.3s ease;
+  z-index: -1;
+  opacity: 0;
 }
 
 .btn-gold:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(180, 150, 45, 0.3);
-  color: #0f0c09;
+  color: #111 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(197, 164, 126, 0.4) !important;
+  border-color: #D4B692 !important;
+  background: #D4B692 !important;
+}
+
+.btn-gold:hover::before {
+  height: 100%;
+  opacity: 1;
+}
+
+.btn-gold i {
+  transition: transform 0.3s ease;
+  margin-left: 5px;
+}
+
+.btn-gold:hover i {
+  transform: translateX(3px);
 }
 
 /* Price Filter */

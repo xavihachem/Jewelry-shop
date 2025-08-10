@@ -15,6 +15,21 @@ function updateCurrencyDisplay() {
       el.textContent = el.getAttribute('data-en');
     }
   });
+  
+  // Update all View Product buttons when language changes
+  updateViewProductButtons();
+}
+
+// Function to update View Product buttons text based on current language
+function updateViewProductButtons() {
+  const currentLang = localStorage.getItem('language') || 'en';
+  const buttons = document.querySelectorAll('.btn-text[data-i18n-key="view_product"]');
+  
+  buttons.forEach(btn => {
+    if (window.translations?.[currentLang]?.['view_product']) {
+      btn.textContent = window.translations[currentLang]['view_product'];
+    }
+  });
 }
 
 // Main initialization function
@@ -36,15 +51,14 @@ async function initializeShop() {
     const productGrid = document.querySelector('.product-grid');
     if (productGrid) {
       try {
-        // Check if we have mock data for testing
+            // Check if we have mock data for testing
         if (typeof window.api === 'undefined' || typeof window.api.products === 'undefined') {
-          console.warn('API not available, loading mock data');
           await loadMockProducts(productGrid);
         } else {
           await loadProductsIntoGrid(productGrid);
         }
       } catch (error) {
-        console.error('Error loading products:', error);
+        // Error loading products
         productGrid.innerHTML = `
           <div class="col-12 text-center py-5">
             <div class="alert alert-warning">
@@ -58,7 +72,7 @@ async function initializeShop() {
     // Update cart count
     updateCartCountFromStorage();
   } catch (error) {
-    console.error('Error initializing shop:', error);
+    // Error initializing shop
     // Show error message to user
     const errorDiv = document.createElement('div');
     errorDiv.className = 'alert alert-danger m-3';
@@ -69,11 +83,13 @@ async function initializeShop() {
 
 // Function to update cart count from localStorage
 function updateCartCount(count) {
-  const cartCountElements = document.querySelectorAll('.cart-count-badge');
-  cartCountElements.forEach(el => {
+  // Update all cart count elements in the page
+  document.querySelectorAll('.cart-count-badge, .cart-badge').forEach(el => {
+    el.textContent = count > 0 ? count : '';
     el.style.display = count > 0 ? 'inline-flex' : 'none';
+    el.parentElement.classList.toggle('has-items', count > 0);
   });
-  console.log('Cart count updated to:', count);
+  // Cart count updated
 }
 
 // Function to update cart count from localStorage
@@ -82,12 +98,6 @@ function updateCartCountFromStorage() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
     updateCartCount(totalItems);
-    
-    // Update all cart count badges on the page
-    document.querySelectorAll('.cart-count-badge').forEach(badge => {
-      badge.textContent = totalItems > 0 ? totalItems : '';
-    });
-    
     return totalItems;
   } catch (error) {
     console.error('Error updating cart count:', error);
@@ -99,6 +109,14 @@ function updateCartCountFromStorage() {
 document.addEventListener('DOMContentLoaded', function() {
   // Update cart count on page load
   updateCartCountFromStorage();
+  
+  // Listen for language changes
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'language') {
+      console.log('Language changed to:', e.newValue);
+      updateViewProductButtons();
+    }
+  });
   
   // Also update when the cart changes (useful if multiple tabs are open)
   window.addEventListener('storage', function(event) {
@@ -114,11 +132,8 @@ document.addEventListener('DOMContentLoaded', initializeShop);
 // Initial currency display
 updateCurrencyDisplay();
 
-// Function to handle adding items to cart with detailed debugging
+// Function to handle adding items to cart
 function addToCart(button) {
-  console.group('=== Add to Cart Debug ===');
-  console.time('addToCart Execution Time');
-  
   // Store original button state for restoration
   const originalHTML = button.innerHTML;
   const originalClasses = button.className;
@@ -128,19 +143,15 @@ function addToCart(button) {
     if (!button) {
       throw new Error('Add to Cart button is null or undefined');
     }
-    console.log('🔄 [1/9] Add to cart button clicked');
-    console.debug('Button element:', button);
     
     // 2. Update button to loading state
     button.disabled = true;
     button.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Adding...';
     button.classList.remove('btn-outline-gold');
     button.classList.add('btn-secondary');
-    console.log('⏳ [2/9] Button state updated to loading');
     
     // 3. Get product details
-    const card = button.closest('.product-card-new') || button.closest('.product-card');
-    console.debug('Found product card:', card);
+    const card = button.closest('.product-card-new') || button.closest('.product-card');;
     
     // 4. Extract product data with fallbacks
     const productId = button.getAttribute('data-product-id') || 
@@ -176,44 +187,28 @@ function addToCart(button) {
     // Store the full image path
     const productImageRef = productImage;
     
-    console.log('📦 [3/9] Product details retrieved:', {
-      productId,
-      productName,
-      productPrice,
-      productImage: productImageRef,
-      'Valid Price': !isNaN(productPrice) && productPrice > 0,
-      'Has Image': !!productImage && !productImage.includes('placeholder')
-    });
-    
     // 5. Validate product data
     if (!productId || !productName || isNaN(productPrice) || productPrice <= 0) {
       throw new Error(`Invalid product data - ID: ${productId}, Name: ${productName}, Price: ${productPrice}`);
     }
     
     // 6. Get or initialize cart
-    console.log('🛒 [4/9] Retrieving cart from localStorage...');
     let cart = [];
     try {
       const cartData = localStorage.getItem('cart');
       cart = cartData ? JSON.parse(cartData) : [];
-      console.log('📋 Current cart items:', cart.length);
-      if (cart.length > 0) {
-        console.table(cart);
-      }
     } catch (e) {
-      console.error('❌ Error parsing cart from localStorage:', e);
       cart = []; // Reset cart if corrupted
     }
     
     // 7. Check if product exists in cart
     const existingItemIndex = cart.findIndex(item => item.id === productId);
-    console.log(`🔍 [5/9] Product ${productId} exists in cart: ${existingItemIndex > -1 ? 'Yes' : 'No'}`);
     
     // 8. Update cart
     if (existingItemIndex > -1) {
       cart[existingItemIndex].quantity = (cart[existingItemIndex].quantity || 1) + 1;
       cart[existingItemIndex].lastUpdated = new Date().toISOString();
-      console.log(`➕ [6/9] Increased quantity for ${productName} to ${cart[existingItemIndex].quantity}`);
+
     } else {
       const newItem = {
         id: productId,
@@ -225,11 +220,10 @@ function addToCart(button) {
         lastUpdated: new Date().toISOString()
       };
       cart.push(newItem);
-      console.log('🆕 [6/9] Added new item to cart:', newItem);
+
     }
     
     // 9. Save to localStorage with quota management
-    console.log('💾 [7/9] Saving cart to localStorage...');
     try {
       // Check if we're approaching the quota
       const cartString = JSON.stringify(cart);
@@ -237,35 +231,27 @@ function addToCart(button) {
       
       if (cartString.length > quotaBytes * 0.9) { // 90% of quota
         // If we're close to quota, remove oldest items until we're at 50%
-        console.warn('⚠️ Approaching localStorage quota, cleaning up old items');
         cart.sort((a, b) => new Date(b.lastUpdated) - new Date(a.lastUpdated));
         while (cart.length > 0 && JSON.stringify(cart).length > quotaBytes * 0.5) {
-          const removed = cart.pop();
-          console.log(`🗑️ Removed old item to free space: ${removed.name}`);
+          cart.pop();
         }
       }
       
       localStorage.setItem('cart', JSON.stringify(cart));
-      console.log('✅ Cart saved successfully');
-      console.table(cart);
       
       // 10. Update UI
       const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
       updateCartCount(totalItems);
-      console.log(`🔄 [8/9] Cart count updated to: ${totalItems} items`);
       
       // 11. Show success feedback
       button.innerHTML = '<i class="bi bi-check-circle me-2"></i>Added!';
       button.classList.remove('btn-secondary');
       button.classList.add('btn-success');
       
-      // 12. Show toast notification
+      // 12. Show toast notification if available
       if (window.showToast) {
-        showToast('✅ Added to Cart', `${productName} was added to your cart`, 'success');
-      } else {
-        console.log('ℹ️ Toast notification system not available');
+        showToast('Added to Cart', `${productName} was added to your cart`, 'success');
       }
-      console.log('🎉 [9/9] Success notification shown');
       
       // 13. Reset button after delay
       setTimeout(() => {
@@ -275,11 +261,8 @@ function addToCart(button) {
       }, 2000);
       
     } catch (error) {
-      console.error('❌ Error saving to localStorage:', error);
-      
       if (error.name === 'QuotaExceededError') {
         // If we hit the quota, clear the cart and try again with just this item
-        console.error('⚠️ localStorage quota exceeded, clearing cart and trying again');
         localStorage.removeItem('cart');
         
         // Try again with just this one item
@@ -328,8 +311,7 @@ function addToCart(button) {
     }, 3000);
     
   } finally {
-    console.timeEnd('addToCart Execution Time');
-    console.groupEnd();
+    // Cleanup complete
   }
 }
 
@@ -343,7 +325,7 @@ document.addEventListener('click', function(e) {
       addToCart(addToCartBtn);
     }
   } catch (error) {
-    console.error('Error in add to cart click handler:', error);
+    // Error in add to cart click handler
   }
 });
 
@@ -351,9 +333,9 @@ document.addEventListener('click', function(e) {
 (async function() {
   try {
     const loaded = await loadProducts();
-    console.log('[shop.js] loadProducts completed:', loaded);
+    // Products loaded successfully
   } catch (e) {
-    console.error('[shop.js] Error loading products:', e);
+    // Error loading products
     // Show error message to user
     const productGrid = document.querySelector('#shop-products .row.product-grid');
     if (productGrid) {
@@ -375,7 +357,7 @@ async function loadProducts() {
   
   const productGrid = document.querySelector('#shop-products .row.product-grid');
   if (!productGrid) {
-    console.error('shop.js: loadProducts - Product grid not found in DOM. Products cannot be displayed.');
+    // Product grid not found in DOM
     return;
   }
   
@@ -448,27 +430,32 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
                 <span class="item-price">${parseFloat(product.price).toLocaleString('en-US')}</span>
                 <span class="price-currency" data-en="DZD" data-ar="د.ج">DZD</span>
               </div>
-              <button class="add-to-cart-btn" data-product-id="${product.id || product._id}" data-i18n-key="add_to_cart">
-                <span class="btn-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                  </svg>
-                </span>
-                <span class="btn-text" data-i18n-key="add_to_cart">Add to Cart</span>
-              </button>
+              <a href="product.html?id=${product.id || product._id}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center" style="padding: 0.6rem 1.5rem; border-radius: 50px; transition: all 0.3s ease; gap: 8px; color: #E6C56E !important; background: rgba(184, 154, 79, 0.1) !important; border: 2px solid #b89a4f !important; box-shadow: 0 4px 15px rgba(184, 154, 79, 0.15) !important; font-family: 'Jost', sans-serif; font-weight: 400; letter-spacing: 0.5px;">
+                <span class="btn-text" data-i18n-key="view_product" style="margin-right: 8px;">${window.translations?.[window.currentLanguage || 'en']?.['view_product'] || 'View Product'}</span>
+                <i class="bi bi-arrow-right" style="font-size: 1rem; transition: transform 0.3s ease;"></i>
+              </a>
+              <style>
+                .btn-outline-gold:hover {
+                  color: #fff !important;
+                  background: rgba(184, 154, 79, 0.3) !important;
+                  transform: translateY(-2px);
+                  box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important;
+                }
+                .btn-outline-gold i {
+                  transition: transform 0.3s ease;
+                }
+                .btn-outline-gold:hover i {
+                  transform: translateX(3px);
+                }
+              </style>
             </div>
           </a>
         </div>
       `;
       
       productGrid.appendChild(productCol);
-      // Translate 'Order Now' text for Arabic view
-      if (sessionStorage.getItem('language') === 'ar') {
-        const btnText = productCol.querySelector('.btn-text');
-        if (btnText) btnText.textContent = 'أطلب الآن';
-      }
+      // Translate button text based on current language
+      updateViewProductButtons();
     });
     
     // Removed order now button initialization as it's no longer needed
@@ -578,7 +565,6 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
       
     return true;
   } catch (error) {
-    console.error('shop.js: loadProducts - Error loading products:', error);
     productGrid.innerHTML = '<div class="col-12 text-center"><p>Error loading products. Please try again later.</p></div>';
     return false;
   }
@@ -591,7 +577,6 @@ function initProductModal() {
   
   const modalElem = document.getElementById('productModal');
   if (!modalElem) {
-    console.error('shop.js: initProductModal - Product modal element not found');
     return;
   }
   
@@ -608,7 +593,6 @@ function initProductModal() {
   }
   
   if (!modalProductImage || !modalProductTitle || !modalProductDescription || !modalProductPrice) {
-    console.error('shop.js: initProductModal - One or more modal elements not found');
     return;
   }
   
@@ -625,10 +609,8 @@ function initProductModal() {
           
         }
       }
-      console.log('[shop.js] Click event on document, found productLink:', productLink);
-    if (productLink && !event.target.closest('button')) {
+      if (productLink && !event.target.closest('button')) {
         event.preventDefault();
-        console.log('[shop.js] Triggering product modal open via link:', productLink);
       
       // Find the parent product item
       const productItem = productLink.closest('.product-item');
@@ -693,8 +675,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Load mock products if API is not available
 async function loadMockProducts(productGrid) {
-  console.log('Loading mock products...');
-  
   // Mock products data
   const mockProducts = [
     {
@@ -778,8 +758,6 @@ async function loadMockProducts(productGrid) {
   
   // Update currency display
   updateCurrencyDisplay();
-  
-  console.log('Mock products loaded successfully');
 }
 
 // Export functions for testing or other modules

@@ -11,6 +11,8 @@
   <meta name="author" content="TemplatesJungle">
   <meta name="keywords" content="ecommerce,fashion,store">
   <meta name="description" content="Simple and elegant jewelry shop template.">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="img/logo.png">
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -40,7 +42,7 @@
       <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index_new.html">
           <img src="img/logo.png" alt="ONYXIA Logo" class="navbar-logo me-2">
-          <span class="d-none d-md-inline">ONYXIA</span>
+          <span class="brand-text">Onyxia</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" 
           aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,26 +50,30 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index_new.html" title="Home">
-                <i class="bi bi-house-door d-lg-none me-2"></i><span data-i18n-key="nav.home">Home</span>
+            <li class="nav-item mx-2">
+              <a class="nav-link nav-gold-link" href="index_new.html" title="Home">
+                <i class="bi bi-house-door-fill me-1"></i>
+                <span class="d-none d-lg-inline" data-i18n-key="nav.home">Home</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="shop.html" title="Shop">
-                <i class="bi bi-shop d-lg-none me-2"></i><span data-i18n-key="nav.shop">Shop</span>
+            <li class="nav-item mx-2">
+              <a class="nav-link nav-gold-link active" href="shop.html" title="Shop">
+                <i class="bi bi-shop me-1"></i>
+                <span class="d-none d-lg-inline" data-i18n-key="nav.shop">Shop</span>
               </a>
             </li>
 
             <!-- Cart Icon with Badge -->
             <li class="nav-item ms-lg-3 me-2">
-              <a class="nav-link position-relative" href="cart.html" title="View Cart">
+              <a class="nav-link cart-link nav-gold-link" href="cart.html" title="View Cart">
                 <i class="bi bi-cart3 fs-5"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold text-dark cart-count-badge">
-                  0
+                  <span id="cartItemCount">0</span>
                 </span>
+                <span class="ms-1 d-none d-lg-inline" data-i18n-key="nav.cart">Cart</span>
               </a>
             </li>
+
           </ul>
         </div>
       </div>
@@ -79,32 +85,38 @@
   </main>
   <div class="preloader text-white fs-6 text-uppercase overflow-hidden"></div>
 
-  <!-- Offcanvas Menu -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas" aria-labelledby="offcanvasNavbarLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasNavbarLabel" data-i18n-key="nav.menu">Menu</h5>
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <!-- Offcanvas Menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel" data-i18n-key="nav.menu">Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link" href="index_new.html">
+              <i class="bi bi-house-door-fill me-1"></i>
+              <span data-i18n-key="nav.home">Home</span>
+            </a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link active" href="shop.html">
+              <i class="bi bi-shop me-1"></i>
+              <span data-i18n-key="nav.shop">Shop</span>
+            </a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link" href="cart.html">
+              <i class="bi bi-cart3 me-1"></i>
+              <span data-i18n-key="nav.cart">Cart</span>
+              <span class="badge bg-gold text-dark ms-2 cart-badge" id="mobileCartCount">0</span>
+            </a>
+          </li>
+
+
+        </ul>
+      </div>
     </div>
-    <div class="offcanvas-body">
-      <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-        <li class="nav-item">
-          <a class="nav-link" href="index_new.html">
-            <i class="bi bi-house-door me-2"></i><span data-i18n-key="nav.home">Home</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="shop.html">
-            <i class="bi bi-shop me-2"></i><span data-i18n-key="nav.shop">Shop</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="admin.html">
-            <i class="bi bi-shield-lock me-2"></i><span data-i18n-key="nav.admin">Admin</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
 
   <section id="banner" class="py-5 page-banner">
     <div class="container">
@@ -127,44 +139,224 @@
       </div>
     </div>
   </section>
-  <footer id="footer" class="footer-section glass-footer">
-    <div class="container">
-      <div class="footer-content pt-5 pb-5 text-center">
-        <div class="footer-logo mb-4">
-          <a href="index.html" class="navbar-brand" title="LUXURY Home">
-            <span class="fw-bold">LUXURY</span>
-            <span class="text-gold">.</span>
-          </a>
+  </section>
+  
+    <!-- Footer -->
+    <footer id="footer" class="footer-section glass-footer">
+        <div class="container">
+            <div class="footer-content pt-5 pb-5 text-center">
+                <div class="footer-logo mb-4">
+                    <a href="index_new.html" class="navbar-brand" title="ONYXIA Home">
+                        <!-- Logo text removed as requested -->
+                    </a>
+                </div>
+                <ul class="social-list list-unstyled d-flex justify-content-center mb-4 flex-wrap gap-3">
+                    <li>
+                        <a href="https://www.tiktok.com/@onyxiaj?_t=ZM-8yDzFMLHaXm&_r=1" 
+                           class="social-link" 
+                           title="TikTok" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/shaw_wata/?utm_source=qr&r=nametag" 
+                           class="social-link" 
+                           title="Instagram" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:Onyxiajewelry0@gmail.com" 
+                           class="social-link" 
+                           title="Email Us"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            <i class="bi bi-envelope"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/share/177MuXkCCc/" 
+                           class="social-link" 
+                           title="Facebook" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tel:+213660658250" 
+                           class="social-link" 
+                           title="Call Us">
+                            <i class="bi bi-telephone"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-12 text-center mb-3">
+                    <p class="mb-0" data-i18n-key="footer.copy">© 2025 ONYXIA. All Rights Reserved.</p>
+                </div>
+                <div class="col-12 text-center">
+                    <a href="admin.html" class="text-muted admin-link" title="Admin Panel">
+                        <i class="bi bi-shield-lock fs-5"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        <ul class="social-list list-unstyled d-flex justify-content-center mb-4">
-          <li><a href="#" class="social-link" title="Facebook"><i class="bi bi-facebook"></i></a></li>
-          <li><a href="#" class="social-link" title="Instagram"><i class="bi bi-instagram"></i></a></li>
-          <li><a href="#" class="social-link" title="Twitter"><i class="bi bi-twitter"></i></a></li>
-          <li><a href="#" class="social-link" title="Pinterest"><i class="bi bi-pinterest"></i></a></li>
-        </ul>
-        <div class="footer-text">
-          <p> 2024 LUXURY. All Rights Reserved.</p>
-          <p>Designed with <i class="bi bi-heart-fill text-gold"></i> by Cascade</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <footer class="footer mt-auto py-4">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-12 text-center mb-3">
-          <p class="mb-0">&copy; 2025 Kaira Jewelry. All rights reserved.</p>
-        </div>
-        <div class="col-12 text-center">
-          <a href="admin.html" class="text-muted admin-link" title="Admin Panel">
-            <i class="bi bi-shield-lock fs-5"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </div> <!-- End content-wrapper -->
 
+  <style>
+    /* Custom Scrollbar Styles */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.5);
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(212, 175, 55, 0.7);
+    }
+
+    /* For Firefox */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212, 175, 55, 0.5) rgba(0, 0, 0, 0.1);
+    }
+
+    /* Banner Logo */
+    .banner-logo {
+      color: var(--text-light);
+      text-align: center !important;
+      vertical-align: middle;
+      margin-bottom: 1rem !important;
+      max-width: 300px;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+      animation: float 6s ease-in-out infinite;
+      filter: sepia(0.5) hue-rotate(10deg) saturate(2) brightness(1.1) contrast(1.1) drop-shadow(0 0 8px rgba(184, 154, 79, 0.5));
+      position: relative;
+      transform: translateY(-0.00529597px);
+      transition: all 0.3s ease;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .banner-logo:hover {
+      filter: sepia(0.5) hue-rotate(10deg) saturate(2.2) brightness(1.2) contrast(1.2) drop-shadow(0 0 15px rgba(184, 154, 79, 0.7));
+      transform: scale(1.02);
+    }
+
+    /* Footer Social Icons */
+    .social-list .social-link {
+      color: #E6C56E !important;
+      font-size: 1.4rem !important;
+      width: 40px !important;
+      height: 40px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border: 2px solid #b89a4f !important;
+      border-radius: 50% !important;
+      background: rgba(184, 154, 79, 0.1) !important;
+      box-shadow: 0 4px 15px rgba(184, 154, 79, 0.15) !important;
+      margin: 0 5px !important;
+      transition: all 0.3s ease !important;
+      text-decoration: none !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-list .social-link:hover {
+      background: rgba(184, 154, 79, 0.3) !important;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important;
+    }
+
+    .social-list .social-link i {
+      transition: all 0.3s ease;
+    }
+
+    .social-list .social-link:hover i {
+      transform: scale(1.1);
+    }
+
+    /* Navbar gold link styles */
+    .nav-gold-link {
+      position: relative;
+      padding: 0.5rem 1rem;
+      color: rgba(255, 255, 255, 0.85) !important;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-gold-link i {
+      color: var(--primary-gold);
+      transition: all 0.3s ease;
+    }
+    
+    .nav-gold-link:hover, .nav-gold-link.active {
+      color: var(--primary-gold) !important;
+      background: rgba(212, 175, 55, 0.1);
+    }
+    
+    .nav-gold-link:hover i, .nav-gold-link.active i {
+      transform: scale(1.1);
+    }
+    
+    .nav-gold-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    .nav-gold-link:hover::after, .nav-gold-link.active::after {
+      width: 80%;
+    }
+    
+    /* Cart link specific styles */
+    .cart-link {
+      position: relative;
+      padding-right: 1.5rem !important;
+    }
+    
+    .cart-link .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.35em 0.55em;
+    }
+  </style>
+  
   <!-- Bootstrap JS Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   
@@ -174,9 +366,9 @@
   <script src="js/custom.js"></script>
   <script src="js/shop.js"></script>
   <script>
-    // i18n logic: swap text based on session language
+    // i18n logic: swap text based on localStorage language
     document.addEventListener('DOMContentLoaded', function () {
-      const lang = sessionStorage.getItem('language') || 'en';
+      const lang = localStorage.getItem('language') || 'en';
       const dict = (window.translations && window.translations[lang]) ? window.translations[lang] : {};
       document.querySelectorAll('[data-i18n-key]').forEach(el => {
         const key = el.getAttribute('data-i18n-key');

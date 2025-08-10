@@ -4,13 +4,225 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/logo.png">
   <title>Product Detail - Kaira</title>
   <!-- Translations -->
   <script src="js/translations.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
-    /* Majestic Golden Button */
+    /* Toast Animations */
+    @keyframes progress {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+    
+    /* Toast Container */
+    #toast-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      padding: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    }
+    
+    #toast-container::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    #toast-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    #toast-container::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+    
+    /* Toast Message */
+    .toast-message {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    
+    /* Toast Close Button */
+    .toast .btn-close {
+      padding: 0.5rem;
+      margin: -0.5rem -0.5rem -0.5rem 0.5rem;
+    }
+    
+    /* Add to Cart Button */
+    .add-to-cart-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 32px;
+      background: linear-gradient(135deg, #D4AF37, #F9E79F, #D4AF37);
+      background-size: 200% auto;
+      color: #1a1a1a;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Jost', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+      width: 100%;
+      max-width: 300px;
+      margin: 20px auto 0;
+    }
+
+    .add-to-cart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+      background-position: right center;
+    }
+
+    .add-to-cart-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .add-to-cart-btn .btn-icon {
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s ease;
+    }
+
+    .add-to-cart-btn:hover .btn-icon {
+      transform: translateX(3px);
+    }
+    
+    /* Toast notifications */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-20px); }
+    }
+    
+    #toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+    
+    #toast-container .toast {
+      margin-bottom: 10px;
+      animation: fadeIn 0.3s ease-out;
+      max-width: 350px;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      border-radius: 0.375rem;
+    }
+    
+    #toast-container .toast:not(.show) {
+      display: block;
+      opacity: 0;
+      animation: fadeOut 0.3s ease-out;
+    }
+    
+    /* Dark theme toast */
+    .toast.bg-dark {
+      background-color: #212529 !important;
+    }
+    
+    /* Success toast */
+    .toast.bg-success {
+      background-color: #198754 !important;
+    }
+    
+    /* Danger toast */
+    .toast.bg-danger {
+      background-color: #dc3545 !important;
+    }
+    
+    /* Info toast */
+    .toast.bg-info {
+      background-color: #0dcaf0 !important;
+    }
+    
+    /* Warning toast */
+    .toast.bg-warning {
+      background-color: #ffc107 !important;
+      color: #212529;
+    }
+    
+    /* RTL support */
+    [dir="rtl"] #toast-container {
+      right: auto;
+      left: 20px;
+    }
+    
+    /* Out of stock button state */
+    .add-to-cart-btn.out-of-stock {
+      background: #6c757d;
+      background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+      cursor: not-allowed;
+      opacity: 0.7;
+      box-shadow: none;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .add-to-cart-btn.out-of-stock:hover,
+    .add-to-cart-btn.out-of-stock:active,
+    .add-to-cart-btn.out-of-stock:focus {
+      transform: none !important;
+      background: #6c757d !important;
+      background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%) !important;
+      box-shadow: none !important;
+    }
+    
+    .add-to-cart-btn.out-of-stock::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+    }
+    
+    .add-to-cart-btn .bi-x-circle {
+      font-size: 1.1rem;
+      margin-right: 5px;
+    }
+
+    /* Loading state */
+    .add-to-cart-btn.loading {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .add-to-cart-btn.loading .btn-icon {
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* RTL support */
+    [dir="rtl"] .add-to-cart-btn:hover .btn-icon {
+      transform: translateX(-3px);
+    }
+
+    /* Old button styles (keeping for reference) */
     .order-now-btn {
       cursor: pointer;
       display: inline-flex;
@@ -646,16 +858,17 @@
         
         <div class="d-flex flex-column align-items-center w-100">
           <p id="productPrice" class="fs-3 fw-bold my-3 text-center w-100"></p>
-          <a href="#" id="orderNowBtn" class="order-now-btn order-now-link">
-            <span class="btn-text" data-i18n-key="product.order_now">Order Now</span>
+          <button class="add-to-cart-btn" id="addToCartBtn" data-product-id="" data-stock-quantity="0" data-stock-status="" data-i18n-key="add_to_cart">
             <span class="btn-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
               </svg>
             </span>
-          </a>
+            <span class="btn-text">Add to Cart</span>
+            <span class="btn-price ms-2" id="priceDisplay"></span>
+          </button>
         </div>
       </div>
     </div>
@@ -675,6 +888,322 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/database.js"></script>
   <script src="js/order.js"></script>
+  <script>
+    // Enhanced Toast Notification System
+    function showToast(message, type = 'info') {
+      // Create toast container if it doesn't exist
+      let toastContainer = document.getElementById('toast-container');
+      if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toast-container';
+        toastContainer.style.position = 'fixed';
+        toastContainer.style.top = '20px';
+        toastContainer.style.right = '20px';
+        toastContainer.style.left = 'auto';
+        toastContainer.style.zIndex = '9999';
+        toastContainer.style.maxWidth = 'calc(100% - 40px)';
+        document.body.appendChild(toastContainer);
+      }
+      
+      // Get current language for RTL support
+      const isRTL = document.documentElement.dir === 'rtl';
+      
+      // Create toast element
+      const toast = document.createElement('div');
+      toast.className = `toast show align-items-center text-white border-0 mb-3`;
+      toast.style.backgroundColor = getToastColor(type);
+      toast.style.borderRadius = '8px';
+      toast.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+      toast.style.overflow = 'hidden';
+      toast.style.transition = 'all 0.3s ease';
+      toast.style.maxWidth = '400px';
+      toast.style.width = 'auto';
+      toast.role = 'alert';
+      toast.setAttribute('aria-live', 'assertive');
+      toast.setAttribute('aria-atomic', 'true');
+      
+      // Set RTL if needed
+      if (isRTL) {
+        toast.style.textAlign = 'right';
+        toast.style.direction = 'rtl';
+      }
+      
+      // Add icon based on type
+      const icon = getToastIcon(type);
+      
+      toast.innerHTML = `
+        <div class="d-flex align-items-start" style="padding: 1rem;">
+          <div class="toast-icon" style="margin-${isRTL ? 'left' : 'right'}: 12px; font-size: 1.25rem;">
+            ${icon}
+          </div>
+          <div class="toast-message" style="flex: 1; padding-${isRTL ? 'left' : 'right'}: 8px;">
+            ${message}
+          </div>
+          <button type="button" 
+                  class="btn-close btn-close-white m-0" 
+                  data-bs-dismiss="toast" 
+                  aria-label="Close"
+                  style="opacity: 0.8; transition: opacity 0.2s;"
+                  onmouseover="this.style.opacity='1'"
+                  onmouseout="this.style.opacity='0.8'">
+          </button>
+        </div>
+        <div class="toast-progress" style="height: 4px; width: 100%; background: rgba(255, 255, 255, 0.3);">
+          <div class="toast-progress-bar" style="height: 100%; width: 100%; background: white; animation: progress 4.8s linear forwards;"></div>
+        </div>
+      `;
+      
+      // Add to container
+      if (isRTL) {
+        toastContainer.insertBefore(toast, toastContainer.firstChild);
+      } else {
+        toastContainer.appendChild(toast);
+      }
+      
+      // Auto-remove after 5 seconds
+      const timeout = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+          toast.remove();
+          // Remove container if no more toasts
+          if (toastContainer.children.length === 0) {
+            toastContainer.remove();
+          }
+        }, 300);
+      }, 5000);
+      
+      // Pause on hover
+      toast.addEventListener('mouseenter', () => {
+        clearTimeout(timeout);
+        toast.querySelector('.toast-progress-bar').style.animationPlayState = 'paused';
+      });
+      
+      toast.addEventListener('mouseleave', () => {
+        const remainingWidth = parseFloat(toast.querySelector('.toast-progress-bar').style.width) / 100 * 4800;
+        toast.querySelector('.toast-progress-bar').style.animation = `progress ${remainingWidth}ms linear forwards`;
+        
+        const newTimeout = setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(-10px)';
+          setTimeout(() => {
+            toast.remove();
+            if (toastContainer.children.length === 0) {
+              toastContainer.remove();
+            }
+          }, 300);
+        }, remainingWidth);
+        
+        toast.timeoutId = newTimeout;
+      });
+    }
+    
+    // Helper function to get toast color based on type
+    function getToastColor(type) {
+      const colors = {
+        success: '#28a745',
+        error: '#dc3545',
+        warning: '#ffc107',
+        info: '#3b82f6', // Brighter blue for better visibility
+        default: '#343a40'
+      };
+      return colors[type] || colors.default;
+    }
+    
+    // Helper function to get toast icon based on type
+    function getToastIcon(type) {
+      const icons = {
+        success: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+        error: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>',
+        warning: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
+        info: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'
+      };
+      return icons[type] || icons.info;
+    }
+    
+    // Simple add to cart function
+        // Simple add to cart function
+    function addToCart(button) {
+      console.log('[CART] ===== Start addToCart =====');
+      console.log('[CART] Button state:', {
+        disabled: button.disabled,
+        dataset: button.dataset,
+        text: button.textContent.trim()
+      });
+      
+      if (button.disabled) {
+        console.log('[CART] Add to cart button is disabled, ignoring click');
+        return;
+      }
+
+      // Get product ID and data
+      const productId = button.getAttribute('data-product-id') || window.currentProduct?._id;
+      console.log('[CART] Product ID from button/global:', productId);
+      
+      if (!productId) {
+        console.error('[CART] No product ID found in button data or window.currentProduct');
+        console.error('[CART] Button dataset:', JSON.stringify(button.dataset));
+        console.error('[CART] window.currentProduct:', window.currentProduct);
+        return;
+      }
+
+      // Use global product data
+      const current = window.currentProduct;
+      console.log('[CART] Current product data:', JSON.parse(JSON.stringify(current || {})));
+      
+      if (!current || !current.stock) {
+        console.error('[CART] No product data available in window.currentProduct');
+        console.error('[CART] Available window keys:', Object.keys(window).filter(k => k.includes('current') || k.includes('product') || k.includes('cart')));
+        return;
+      }
+      const stockQuantity = parseInt(current.stock.quantity) || 0;
+      const stockStatus = current.stock.status || 'unknown';
+
+      // Check stock availability
+      if (stockQuantity <= 0) {
+        console.error('[CART] Cannot add out of stock product to cart');
+        const lang = localStorage.getItem('language') || 'en';
+        const dict = (window.translations && window.translations[lang]) || {};
+        const message = dict['cart.out_of_stock_message'] || 'This item is out of stock and cannot be added to your cart.';
+        showToast(message, 'danger');
+        return;
+      }
+
+      // Build cart item
+      const product = {
+        id: productId,
+        name: current.name || 'Product',
+        price: parseFloat(current.price) || 0,
+        image: current.image || '',
+        stock: { quantity: stockQuantity, status: stockStatus },
+        quantity: 1
+      };
+      console.log('[CART] Product details with stock:', product);
+
+      // Get or initialize cart
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      console.log('[CART] Current cart before update:', cart);
+
+      // Check if product already exists in cart
+      const existingItemIndex = cart.findIndex(item => item.id === productId);
+      console.log('[CART] Existing item index in cart:', existingItemIndex);
+      console.log('[CART] Current cart items:', cart.map(item => ({
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity
+      })));
+      
+      if (existingItemIndex > -1) {
+        // Product already in cart, show enhanced message
+        const lang = localStorage.getItem('language') || 'en';
+        const dict = (window.translations && window.translations[lang]) || {};
+        const message = dict['cart.already_in_cart'] || 'This product is already in your cart. You can update the quantity in the cart page.';
+        const cartLink = dict['nav.cart'] || 'Cart';
+        
+        console.log('[CART] Product already in cart:', {
+          productId: productId,
+          existingItem: cart[existingItemIndex],
+          currentLanguage: lang,
+          message: message
+        });
+        
+        // Create enhanced message with cart link
+        const enhancedMessage = `
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="flex-shrink: 0;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+            </div>
+            <div>
+              <div style="margin-bottom: 4px;">${message}</div>
+              <a href="cart.html" style="color: white; text-decoration: underline; font-weight: 500; display: inline-flex; align-items: center; gap: 4px;">
+                <span>${cartLink}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 2px;">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        `;
+        
+        showToast(enhancedMessage, 'info');
+        return;
+      } else {
+        // Add new product to cart
+        console.log('[CART] Adding new product to cart:', {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          quantity: product.quantity,
+          stock: product.stock
+        });
+        
+        cart.push(product);
+        const lang = localStorage.getItem('language') || 'en';
+        const dict = (window.translations && window.translations[lang]) || {};
+        const message = dict['cart.added_to_cart'] || 'Added to cart';
+        
+        console.log('[CART] Product added to cart successfully');
+        showToast(message, 'success');
+      }
+
+      // Save and update UI
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
+      console.log('[CART] Cart updated:', {
+        itemCount: cart.length,
+        totalItems: cart.reduce((sum, item) => sum + (item.quantity || 1), 0),
+        items: cart.map(item => ({
+          id: item.id,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price
+        }))
+      });
+      
+      updateCartCount();
+      console.log('[CART] ===== End addToCart =====\n');
+    }
+  
+    
+    // Update cart count in UI
+    function updateCartCount() {
+      try {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        document.querySelectorAll('.cart-count-badge').forEach(el => {
+          el.style.display = count > 0 ? 'inline-flex' : 'none';
+          el.textContent = count > 0 ? count : '';
+        });
+      } catch (e) {
+        console.error('Error updating cart count:', e);
+      }
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const addBtn = document.getElementById('addToCartBtn');
+      const productId = new URLSearchParams(window.location.search).get('id');
+      
+      if (addBtn && productId) {
+        addBtn.setAttribute('data-product-id', productId);
+        
+        // Add click handler
+        addBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          addToCart(this);
+        });
+      }
+      
+      // Initial cart count update
+      updateCartCount();
+    });
+  </script>
+  <script src="js/custom.js"></script>
   <script>
     // Update the price display in the Add to Cart button
     function updatePriceDisplay() {
@@ -699,10 +1228,65 @@
       // Update price in Add to Cart button
       updatePriceDisplay();
       
-      // Generate and display SKU
-      const skuElement = document.getElementById('productSku');
-      if (skuElement) {
-        skuElement.textContent = generateSku(product._id);
+      // Update the product price
+      const priceElement = document.getElementById('productPrice');
+      if (priceElement) {
+        priceElement.textContent = formatPrice(product.price || 0);
+      }
+      
+      // Log full product data for debugging
+      console.log('[STOCK] Full product data:', product);
+      
+      // Update add to cart button based on stock
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      const stockQuantity = product.stock?.quantity || 0;
+      const stockStatus = product.stock?.status || 'unknown';
+      const isInStock = stockQuantity > 0;
+      
+      console.log('[STOCK] Checking product stock:', {
+        productId: product._id || 'unknown',
+        stockQuantity: stockQuantity,
+        stockStatus: stockStatus,
+        isInStock: isInStock
+      });
+      
+      if (addToCartBtn) {
+        // Always update button attributes first
+        addToCartBtn.setAttribute('data-stock-quantity', stockQuantity);
+        addToCartBtn.setAttribute('data-stock-status', stockStatus);
+        
+        // Clear any previous state
+        addToCartBtn.disabled = false;
+        addToCartBtn.classList.remove('out-of-stock');
+        
+        if (!isInStock) {
+          console.log('[STOCK] Product out of stock, disabling button');
+          addToCartBtn.disabled = true;
+          addToCartBtn.classList.add('out-of-stock');
+          addToCartBtn.innerHTML = `
+            <span class="btn-icon">
+              <i class="bi bi-x-circle"></i>
+            </span>
+            <span class="btn-text" data-i18n-key="out_of_stock">Out of Stock</span>
+          `;
+        } else {
+          addToCartBtn.disabled = false;
+          addToCartBtn.classList.remove('out-of-stock');
+          addToCartBtn.innerHTML = `
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+            </span>
+            <span class="btn-text" data-i18n-key="add_to_cart">Add to Cart</span>
+            <span class="btn-price ms-2" id="priceDisplay"></span>
+            <span class="btn-stock ms-2" id="stockDisplay">${product.stock?.quantity} in stock</span>
+          `;
+          addToCartBtn.setAttribute('data-stock-quantity', product.stock?.quantity);
+          addToCartBtn.setAttribute('data-stock-status', product.stock?.status);
+        }
       }
       
       // Add animation class to product image
@@ -796,6 +1380,9 @@
     
     // Update the UI with product data
     function updateProductUI(product) {
+      // Store the current product globally for addToCart
+      window.currentProduct = product;
+      
       // Update product title
       const productTitle = document.getElementById('productTitle');
       if (productTitle) {
@@ -945,7 +1532,7 @@
     // Show error message with translation support
     function showError(message) {
       // Get current language
-      const lang = sessionStorage.getItem('language') || 'en';
+      const lang = localStorage.getItem('language') || 'en';
       const dict = (window.translations && window.translations[lang]) || {};
       
       // Get translated message or fallback to original
@@ -983,7 +1570,7 @@
     // Global function to translate the page
     window.translatePage = function() {
       // Get current language
-      const lang = sessionStorage.getItem('language') || 'en';
+      const lang = localStorage.getItem('language') || 'en';
       console.log('🌐 Translating page to:', lang);
       
       // Get translations
@@ -1018,10 +1605,10 @@
     
     // i18n logic for product page
     document.addEventListener('DOMContentLoaded', function() {
-      // Log current language from session storage
-      const lang = sessionStorage.getItem('language') || 'en';
-      console.log('🌐 Current language from sessionStorage:', lang);
-      console.log('🔑 sessionStorage content:', JSON.stringify(sessionStorage, null, 2));
+      // Log current language from localStorage
+      const lang = localStorage.getItem('language') || 'en';
+      console.log('🌐 Current language from localStorage:', lang);
+      console.log('🔑 localStorage content:', JSON.stringify(localStorage, null, 2));
       
       // Make sure translations are loaded
       if (!window.translations) {
@@ -1048,7 +1635,7 @@
       
       // Log session storage for debugging
       console.log('📋 Session Storage:', {
-        language: sessionStorage.getItem('language'),
+        language: localStorage.getItem('language'),
         timestamp: new Date().toISOString(),
         userAgent: navigator.userAgent
       });

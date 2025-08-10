@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopping Cart - Kaira</title>
+  <title>Shopping Cart - ONYXIA</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="img/logo.png">
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -29,7 +31,7 @@
       <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index_new.html">
           <img src="img/logo.png" alt="ONYXIA Logo" class="navbar-logo me-2">
-          <span class="d-none d-md-inline">ONYXIA</span>
+          <span class="brand-text">Onyxia</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" 
           aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,20 +39,27 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index_new.html" title="Home">
-                <i class="bi bi-house-door d-lg-none me-2"></i><span data-i18n-key="nav.home">Home</span>
+            <li class="nav-item mx-2">
+              <a class="nav-link nav-gold-link" href="index_new.html" title="Home">
+                <i class="bi bi-house-door-fill me-1"></i>
+                <span class="d-none d-lg-inline" data-i18n-key="nav.home">Home</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="shop.html" title="Shop">
-                <i class="bi bi-shop d-lg-none me-2"></i><span data-i18n-key="nav.shop">Shop</span>
+            <li class="nav-item mx-2">
+              <a class="nav-link nav-gold-link" href="shop.html" title="Shop">
+                <i class="bi bi-shop me-1"></i>
+                <span class="d-none d-lg-inline" data-i18n-key="nav.shop">Shop</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="cart.html" title="Cart">
-                <i class="bi bi-cart d-lg-none me-2"></i><span data-i18n-key="nav.cart">Cart</span>
-                <span class="cart-count-badge">3</span>
+
+            <!-- Cart Icon with Badge -->
+            <li class="nav-item ms-lg-3 me-2">
+              <a class="nav-link cart-link nav-gold-link active" href="cart.html" title="View Cart">
+                <i class="bi bi-cart3 fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold text-dark cart-count-badge">
+                  <span id="cartItemCount">0</span>
+                </span>
+                <span class="ms-1 d-none d-lg-inline" data-i18n-key="nav.cart">Cart</span>
               </a>
             </li>
 
@@ -59,13 +68,43 @@
       </div>
     </nav>
 
+    <!-- Offcanvas Menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel" data-i18n-key="nav.menu">Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link" href="index_new.html">
+              <i class="bi bi-house-door-fill me-1"></i>
+              <span data-i18n-key="nav.home">Home</span>
+            </a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link" href="shop.html">
+              <i class="bi bi-shop me-1"></i>
+              <span data-i18n-key="nav.shop">Shop</span>
+            </a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link active" href="cart.html">
+              <i class="bi bi-cart3 me-1"></i>
+              <span data-i18n-key="nav.cart">Cart</span>
+              <span class="badge bg-gold text-dark ms-2 cart-badge" id="mobileCartCount">0</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <!-- Main Content -->
     <main class="main-content py-5">
       <div class="container py-5">
         <div class="row">
-          <div class="col-12 mb-5">
-            <h1 class="page-title text-center mb-4">Your Shopping Cart</h1>
-            <p class="text-center text-muted">Review and manage your selected items</p>
+          <div class="col-12 mb-4">
+            <h1 data-i18n-key="cart.page_title" class="page-title text-center">Your Shopping Cart</h1>
           </div>
         </div>
 
@@ -73,8 +112,6 @@
           <!-- Cart Items -->
           <div class="col-lg-8 mb-4 mb-lg-0">
             <div class="cart-items glass-effect p-4">
-              <h2 class="section-title mb-4">Your Items <span class="item-count">(0 items)</span></h2>
-              
               <!-- Cart items will be dynamically inserted here by JavaScript -->
               <div class="cart-items-container">
                 <!-- Empty state will be shown by default -->
@@ -82,19 +119,19 @@
                   <div class="empty-cart-icon">
                     <i class="bi bi-cart-x fs-1"></i>
                   </div>
-                  <h3 class="mb-3">Your cart is empty</h3>
-                  <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
-                  <a href="shop.html" class="btn btn-gold">Continue Shopping</a>
+                  <h3 class="mb-3" data-i18n-key="cart.empty_title">Your cart is empty</h3>
+                  <p data-i18n-key="cart.empty_text" class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
+                  <a href="shop.html" class="btn btn-gold" data-i18n-key="cart.continue_shopping">Continue Shopping</a>
                 </div>
               </div>
               
               <!-- Cart actions (hidden when cart is empty) -->
               <div class="cart-actions mt-4 d-none">
                 <button class="btn btn-outline-gold" id="continueShoppingBtn">
-                  <i class="bi bi-arrow-left me-2"></i> Continue Shopping
+                  <i class="bi bi-arrow-left me-2"></i> <span data-i18n-key="cart.continue_shopping">Continue Shopping</span>
                 </button>
                 <button class="btn btn-outline-secondary ms-2" id="updateCartBtn">
-                  <i class="bi bi-arrow-clockwise me-2"></i> Update Cart
+                  <i class="bi bi-arrow-clockwise me-2"></i> <span data-i18n-key="cart.update">Update Cart</span>
                 </button>
               </div>
             </div>
@@ -103,10 +140,8 @@
           <!-- Order Summary -->
           <div class="col-lg-4">
             <div class="order-summary glass-effect p-4">
-              <h2 class="section-title mb-4">Order Summary</h2>
-              
               <div class="summary-total d-flex justify-content-between align-items-center mb-4">
-                <h3 class="mb-0">Total</h3>
+                <h3 class="mb-0" data-i18n-key="cart.summary_total">Total</h3>
                 <div class="total-amount">
                   <span class="amount">29,000</span> <span class="currency">DZD</span>
                 </div>
@@ -114,7 +149,7 @@
               
               <div class="d-grid gap-2 mt-4">
                 <button class="btn btn-gold">
-                  Proceed to Checkout <i class="bi bi-arrow-right ms-2"></i>
+                  <span data-i18n-key="cart.proceed_checkout">Proceed to Checkout</span> <i class="bi bi-arrow-right ms-2"></i>
                 </button>
               </div>
               
@@ -126,26 +161,276 @@
     </main>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer mt-auto py-4">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-12 text-center mb-3">
-          <p class="mb-0">&copy; 2025 Kaira Jewelry. All rights reserved.</p>
+    <!-- Footer -->
+    <footer id="footer" class="footer-section glass-footer">
+        <div class="container">
+            <div class="footer-content pt-5 pb-5 text-center">
+                <div class="footer-logo mb-4">
+                    <a href="index_new.html" class="navbar-brand" title="ONYXIA Home">
+                        <!-- Logo text removed as requested -->
+                    </a>
+                </div>
+                <ul class="social-list list-unstyled d-flex justify-content-center mb-4 flex-wrap gap-3">
+                    <li>
+                        <a href="https://www.tiktok.com/@onyxiaj?_t=ZM-8yDzFMLHaXm&_r=1" 
+                           class="social-link" 
+                           title="TikTok" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/shaw_wata/?utm_source=qr&r=nametag" 
+                           class="social-link" 
+                           title="Instagram" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:Onyxiajewelry0@gmail.com" 
+                           class="social-link" 
+                           title="Email Us"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            <i class="bi bi-envelope"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/share/177MuXkCCc/" 
+                           class="social-link" 
+                           title="Facebook" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tel:+213660658250" 
+                           class="social-link" 
+                           title="Call Us">
+                            <i class="bi bi-telephone"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-12 text-center mb-3">
+                    <p class="mb-0" data-i18n-key="footer.copy">© 2025 ONYXIA. All Rights Reserved.</p>
+                </div>
+                <div class="col-12 text-center">
+                    <a href="admin.html" class="text-muted admin-link" title="Admin Panel">
+                        <i class="bi bi-shield-lock fs-5"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="col-12 text-center">
-          <a href="admin.html" class="text-muted admin-link" title="Admin Panel">
-            <i class="bi bi-shield-lock fs-5"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    /* Custom Scrollbar Styles */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.5);
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(212, 175, 55, 0.7);
+    }
+
+    /* For Firefox */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212, 175, 55, 0.5) rgba(0, 0, 0, 0.1);
+    }
+
+    /* Cart link specific styles */
+    .cart-link {
+      position: relative;
+      padding-right: 1.5rem !important;
+    }
+    
+    .cart-link .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.35em 0.55em;
+    }
+
+    /* Cart Footer Social Icons */
+    .footer-section .social-list .social-link {
+      color: #E6C56E !important;
+      font-size: 1.4rem !important;
+      width: 40px !important;
+      height: 40px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border: 2px solid #b89a4f !important;
+      border-radius: 50% !important;
+      background: rgba(184, 154, 79, 0.1) !important;
+      box-shadow: 0 4px 15px rgba(184, 154, 79, 0.15) !important;
+      margin: 0 5px !important;
+      transition: all 0.3s ease !important;
+      text-decoration: none !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-section .social-list .social-link:hover {
+      background: rgba(184, 154, 79, 0.3) !important;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important;
+    }
+
+    .footer-section .social-list .social-link i {
+      transition: all 0.3s ease;
+    }
+
+    .footer-section .social-list .social-link:hover i {
+      transform: scale(1.1);
+    }
+
+    /* Proceed to Checkout Button */
+    .btn-gold {
+      color: #E6C56E !important;
+      background: rgba(184, 154, 79, 0.1) !important;
+      border: 2px solid #b89a4f !important;
+      border-radius: 50px !important;
+      padding: 10px 25px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      transition: all 0.3s ease !important;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(184, 154, 79, 0.15) !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-gold:hover {
+      background: rgba(184, 154, 79, 0.3) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important;
+    }
+
+    .btn-gold:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(184, 154, 79, 0.2) !important;
+    }
+
+    .btn-gold i {
+      transition: transform 0.3s ease;
+    }
+
+    .btn-gold:hover i {
+      transform: translateX(5px);
+    }
+
+    /* Cart Item Currency */
+    .price-currency {
+      color: #E6C56E !important;
+      font-weight: 500;
+    }
+
+    /* Cart Item Price */
+    .product-price {
+      color: #E6C56E !important;
+    }
+
+    /* Navbar gold link styles */
+    .nav-gold-link {
+      position: relative;
+      padding: 0.5rem 1rem;
+      color: rgba(255, 255, 255, 0.85) !important;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-gold-link i {
+      color: var(--primary-gold);
+      transition: all 0.3s ease;
+    }
+    
+    .nav-gold-link:hover, .nav-gold-link.active {
+      color: var(--primary-gold) !important;
+      background: rgba(212, 175, 55, 0.1);
+    }
+    
+    .nav-gold-link:hover i, .nav-gold-link.active i {
+      transform: scale(1.1);
+    }
+    
+    .nav-gold-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    .nav-gold-link:hover::after, .nav-gold-link.active::after {
+      width: 80%;
+    }
+    
+    /* Cart link specific styles */
+    .cart-link {
+      position: relative;
+      padding-right: 1.5rem !important;
+    }
+    
+    .cart-link .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.35em 0.55em;
+    }
+  </style>
 
   <!-- Bootstrap JS Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Custom JS -->
   <script src="js/translations.js"></script>
   <script src="js/cart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function translateCartPage() {
+      const lang = localStorage.getItem('language') || 'en';
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      const dict = window.translations && window.translations[lang];
+      if (!dict) return;
+      document.querySelectorAll('[data-i18n-key]').forEach(el => {
+        const key = el.getAttribute('data-i18n-key');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+    translateCartPage();
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'language') translateCartPage();
+    });
+  });
+</script>
 </body>
 </html>

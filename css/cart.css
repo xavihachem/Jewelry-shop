@@ -1,3 +1,71 @@
+/* Navbar Fixes */
+.navbar {
+  direction: ltr !important;
+}
+
+.navbar-brand {
+  margin-right: auto !important;
+}
+
+.navbar-nav {
+  margin-left: auto !important;
+  direction: ltr !important;
+}
+
+/* Cart Badge Styles */
+.cart-link {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-link .badge {
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  padding: 0.25em 0.5em !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  position: absolute !important;
+  top: 0 !important; /* Positioned at the top */
+  right: -15px !important; /* Pushed more to the right */
+  transform: translateY(-50%) !important; /* Slight upward adjustment */
+}
+
+/* Mobile cart badge in offcanvas menu */
+.offcanvas-body .cart-badge {
+  font-size: 0.7rem !important;
+  padding: 0.25em 0.5em !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: 8px !important;
+  vertical-align: middle !important;
+  position: static !important;
+  transform: none !important;
+  top: auto !important;
+  right: auto !important;
+}
+
+/* Cart Item Price Styles */
+.price-amount,
+.amount {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+/* Cart Item Currency Styles */
+.price-currency,
+.currency {
+  color: #D4AF37 !important; /* Gold color */
+  font-weight: 600;
+  margin-left: 2px;
+}
+
 /* Cart Page Styles */
 .cart-page {
   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
@@ -10,11 +78,26 @@
 /* Page Header */
 .page-title {
   font-family: 'Marcellus', serif;
-  color: #f8f9fa;
+  color: #D4AF37; /* Gold color */
   font-size: 2.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.page-title::before {
+  content: '';
   display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='21' r='1'%3E%3C/circle%3E%3Ccircle cx='20' cy='21' r='1'%3E%3C/circle%3E%3Cpath d='M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6'%3E%3C/path%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.5));
 }
 
 .page-title::after {
@@ -24,7 +107,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 80px;
-  height: 3px;
+  height: 2px;
   background: linear-gradient(90deg, #D4AF37, #F9E79F, #D4AF37);
   background-size: 200% auto;
   border-radius: 3px;
@@ -212,23 +295,26 @@
 }
 
 .btn-gold {
-  background: linear-gradient(135deg, #D4AF37, #F9E79F, #D4AF37);
-  background-size: 200% auto;
-  color: #1a1a1a;
-  border: none;
+  background: #D4AF37 !important;
+  color: #1a1a1a !important;
+  border: 1px solid #D4AF37 !important;
   font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.8rem 2.2rem !important;
+  border-radius: 0;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   z-index: 1;
+  font-family: 'Marcellus', serif;
+  text-transform: none;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
 }
 
 .btn-gold:hover {
-  background-position: right center;
+  background: #e6c56e !important;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+  border-color: #e6c56e !important;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
 }
 
 /* Coupon Form */

@@ -259,9 +259,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 700);
   }
 
-    // Initialize language toggle from sessionStorage
+    // Initialize language toggle from localStorage
   (function() {
-    const savedLang = sessionStorage.getItem('language');
+    const savedLang = localStorage.getItem('language');
     if (savedLang) {
       const ddToggle = document.getElementById('languageDropdown');
       if (ddToggle) {
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to update language and refresh the page
   function updateLanguage(lang) {
-    sessionStorage.setItem('language', lang);
+    localStorage.setItem('language', lang);
     // Update dropdown toggle text
     const ddToggle = document.getElementById('languageDropdown');
     if (ddToggle) {

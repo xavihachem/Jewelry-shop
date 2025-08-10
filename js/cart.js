@@ -10,9 +10,10 @@ function updateCartCount() {
     const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
     
     // Update all cart count elements in the page
-    document.querySelectorAll('.cart-count-badge').forEach(el => {
+    document.querySelectorAll('.cart-count-badge, .cart-badge').forEach(el => {
       el.textContent = cartCount;
-      el.style.display = cartCount > 0 ? 'flex' : 'none';
+      el.style.display = cartCount > 0 ? 'inline-flex' : 'none';
+      el.parentElement.classList.toggle('has-items', cartCount > 0);
     });
     
     return cartCount;
@@ -341,7 +342,8 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', function(e) {
     // Check if the clicked element or any of its parents is the checkout button
     const checkoutBtn = e.target.closest('.btn-gold');
-    if (checkoutBtn && checkoutBtn.textContent.trim().includes('Proceed to Checkout')) {
+    // Detect proceed-to-checkout button by its i18n key, not text content
+    if (checkoutBtn && checkoutBtn.querySelector('[data-i18n-key="cart.proceed_checkout"]')) {
       e.preventDefault();
       
       // Get cart data from localStorage
@@ -425,7 +427,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       // Proceed to checkout page
-      window.location.href = 'Order-index.html';
+      window.location.href = 'order-index.html';
     }
   });
   

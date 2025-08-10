@@ -79,19 +79,40 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Function to format price (already in DZD)
+        const formatPriceDZD = (price) => {
+            // Format with commas as thousand separators
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        };
+
         productGrid.innerHTML = products.map(product => `
-            <div class="product-col">
-                <div class="card h-100 product-card">
-                    <div class="card-img-container">
-                        <img src="${product.image || 'img/placeholder.jpg'}" class="card-img-top" alt="${product.name}">
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <a href="shop.html" class="text-decoration-none">
+                    <div class="product-card-new h-100">
+                        <div class="product-image-container">
+                            <div class="product-image-link">
+                                <img src="${product.image || 'img/placeholder.jpg'}" 
+                                     alt="${product.name}" 
+                                     class="product-image-new img-fluid"
+                                     loading="lazy">
+                            </div>
+                        </div>
+                        <div class="product-info p-3">
+                            <h3 class="product-title-new mb-1">${product.name}</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="item-price text-gold fw-bold">${formatPriceDZD(product.price)} <span class="price-currency" style="color: #D4AF37 !important; display: inline-block; margin-left: 4px;">DZD</span></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text mt-auto">$${product.price.toFixed(2)}</p>
-                    </div>
-                </div>
+                </a>
             </div>
         `).join('');
+        
+        // Initialize tooltips for the new elements
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
     }
 
     function addToCart(productId) {
