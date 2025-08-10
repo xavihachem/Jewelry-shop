@@ -85,9 +85,16 @@ async function initializeShop() {
 function updateCartCount(count) {
   // Update all cart count elements in the page
   document.querySelectorAll('.cart-count-badge, .cart-badge').forEach(el => {
-    el.textContent = count > 0 ? count : '';
-    el.style.display = count > 0 ? 'inline-flex' : 'none';
-    el.parentElement.classList.toggle('has-items', count > 0);
+    if (count > 0) {
+      // Show badge with count when there are items
+      el.textContent = count;
+      el.style.display = 'flex';
+      el.classList.add('has-items');
+    } else {
+      // Hide badge when cart is empty
+      el.style.display = 'none';
+      el.classList.remove('has-items');
+    }
   });
   // Cart count updated
 }

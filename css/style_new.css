@@ -35,7 +35,7 @@ body .product-card .item-price .price-currency {
   font-weight: 700;
   min-width: 20px !important;
   height: 20px !important;
-  display: flex !important;
+  display: none !important; /* Hide by default */
   align-items: center !important;
   justify-content: center !important;
   padding: 0.25em 0.5em !important;
