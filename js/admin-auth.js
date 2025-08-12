@@ -1,5 +1,14 @@
 // Check if user is authenticated before loading admin pages
 document.addEventListener('DOMContentLoaded', async () => {
+    // Resolve Admin API base URL flexibly (window var, meta tag, fallback to same origin)
+    const __metaAdminBase = document.querySelector('meta[name="admin-base-url"]')?.content;
+    const ADMIN_BASE = (
+        (window.ADMIN_BASE_URL && window.ADMIN_BASE_URL.trim()) ||
+        (__metaAdminBase && __metaAdminBase.trim()) ||
+        ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+            ? 'http://localhost:3000'
+            : window.location.origin)
+    ).replace(/\/$/, '');
     // Skip check for login page
     if (window.location.pathname.endsWith('login.html')) {
         return;
@@ -14,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Verify token with server
-        const response = await fetch('http://localhost:3000/api/admin/verify', {
+        const response = await fetch(`${ADMIN_BASE}/api/admin/verify`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -30,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             logoutBtn.addEventListener('click', async (e) => {
                 e.preventDefault();
                 try {
-                    await fetch('/api/admin/logout', {
+                    await fetch(`${ADMIN_BASE}/api/admin/logout`, {
                         method: 'POST',
                         headers: {
                             'Authorization': `Bearer ${token}`,

@@ -3,7 +3,25 @@
  * Handles all communication with the backend server
  */
 
-const API_URL = 'http://localhost:5001/api';
+// Resolve API base URL in a flexible way so we don't hardcode it across files
+// Priority:
+// 1) window.API_BASE_URL (can be set inline before scripts)
+// 2) <meta name="api-base-url" content="https://api.onyxia.store">
+// 3) Local dev fallback: http://localhost:5001
+// 4) Same origin (useful when API is served from the same domain)
+const __metaApiBase = (typeof document !== 'undefined')
+  ? document.querySelector('meta[name="api-base-url"]')?.content
+  : undefined;
+
+const API_BASE = (
+  (typeof window !== 'undefined' && window.API_BASE_URL && window.API_BASE_URL.trim()) ||
+  (__metaApiBase && __metaApiBase.trim()) ||
+  ((typeof window !== 'undefined') && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:5001'
+    : (typeof window !== 'undefined' ? window.location.origin : ''))
+).replace(/\/$/, '');
+
+const API_URL = `${API_BASE}/api`;
 
 // Helper function to handle API responses
 const handleResponse = async (response) => {

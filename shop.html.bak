@@ -1,0 +1,2132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Shop - ONYXIA</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '810352084654161');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="img/logo.png">
+    <meta name="msapplication-TileImage" content="img/logo.png">
+    <meta name="theme-color" content="#D4AF37">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="author" content="TemplatesJungle">
+  <meta name="keywords" content="ecommerce,fashion,store">
+  <meta name="description" content="Simple and elegant jewelry shop template.">
+
+    
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+  
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    // Check if the Facebook Pixel is already loaded
+    if (!window.fbq) {
+        !function(f,b,e,v,n,t,s) {
+            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t,s);
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize the Facebook Pixel
+        fbq('init', '810352084654161');
+        
+        // Track PageView
+        fbq('track', 'PageView');
+        
+        console.log('Facebook Pixel loaded and initialized');
+    } else {
+        console.log('Facebook Pixel already initialized');
+    }
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style_new.css">
+  <!-- Additional Styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="css/shop-custom.css">
+  <link rel="stylesheet" href="css/glass-effects.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
+    rel="stylesheet">
+</head>
+
+<body class="homepage">
+  <!-- Network Canvas Background -->
+  <canvas id="network-canvas"></canvas>
+  
+  <!-- Main Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index_new.html">
+          <img src="img/logo.png" alt="ONYXIA Logo" class="navbar-logo me-2">
+          <span class="brand-text">Onyxia</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" 
+          aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item mx-2">
+              <a class="nav-link nav-gold-link" href="index_new.html" title="Home">
+                <i class="bi bi-house-door-fill me-1"></i>
+                <span class="d-none d-lg-inline" data-i18n-key="nav.home">Home</span>
+              </a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link nav-gold-link active" href="shop.html" title="Shop">
+                <i class="bi bi-shop me-1"></i>
+                <span class="d-none d-lg-inline" data-i18n-key="nav.shop">Shop</span>
+              </a>
+            </li>
+
+            <!-- Cart Icon with Badge -->
+            <li class="nav-item ms-lg-3 me-2">
+              <a class="nav-link cart-link nav-gold-link" href="cart.html" title="View Cart">
+                <i class="bi bi-cart3 fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold text-dark cart-count-badge">
+                  <span id="cartItemCount">0</span>
+                </span>
+                <span class="ms-1 d-none d-lg-inline" data-i18n-key="nav.cart">Cart</span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+  <!-- Main Content -->
+  <main class="main-content">
+  </main>
+  <div class="preloader text-white fs-6 text-uppercase overflow-hidden"></div>
+
+    <!-- Offcanvas Menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvas" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel" data-i18n-key="nav.menu">Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link" href="index_new.html">
+              <i class="bi bi-house-door-fill me-1"></i>
+              <span data-i18n-key="nav.home">Home</span>
+            </a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link active" href="shop.html">
+              <i class="bi bi-shop me-1"></i>
+              <span data-i18n-key="nav.shop">Shop</span>
+            </a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link nav-gold-link" href="cart.html">
+              <i class="bi bi-cart3 me-1"></i>
+              <span data-i18n-key="nav.cart">Cart</span>
+              <span class="badge bg-gold text-dark ms-2 cart-badge" id="mobileCartCount">0</span>
+            </a>
+          </li>
+
+
+        </ul>
+      </div>
+    </div>
+
+  <section id="banner" class="py-5 page-banner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="banner-content">
+            <div class="banner-title-container text-center">
+              <img src="img/logo.png" alt="ONYXIA Logo" class="banner-logo">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shop-products" class="py-5">
+    <div class="container">
+      <div class="row product-grid">
+        <!-- Product grid will be populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+  </section>
+  
+    <!-- Footer -->
+    <footer id="footer" class="footer-section glass-footer">
+        <div class="container">
+            <div class="footer-content pt-5 pb-5 text-center">
+                <div class="footer-logo mb-4">
+                    <a href="index_new.html" class="navbar-brand" title="ONYXIA Home">
+                        <!-- Logo text removed as requested -->
+                    </a>
+                </div>
+                <ul class="social-list list-unstyled d-flex justify-content-center mb-4 flex-wrap gap-3">
+                    <li>
+                        <a href="https://www.tiktok.com/@onyxiaj?_t=ZM-8yDzFMLHaXm&_r=1" 
+                           class="social-link" 
+                           title="TikTok" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/shaw_wata/?utm_source=qr&r=nametag" 
+                           class="social-link" 
+                           title="Instagram" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:Onyxiajewelry0@gmail.com" 
+                           class="social-link" 
+                           title="Email Us"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            <i class="bi bi-envelope"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/share/177MuXkCCc/" 
+                           class="social-link" 
+                           title="Facebook" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tel:+213660658250" 
+                           class="social-link" 
+                           title="Call Us">
+                            <i class="bi bi-telephone"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-12 text-center mb-3">
+                    <p class="mb-0" data-i18n-key="footer.copy">© 2025 ONYXIA. All Rights Reserved.</p>
+                </div>
+                <div class="col-12 text-center">
+                    <a href="admin.html" class="text-muted admin-link" title="Admin Panel">
+                        <i class="bi bi-shield-lock fs-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</div> <!-- End content-wrapper -->
+
+  <style>
+    /* Custom Scrollbar Styles */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.5);
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(212, 175, 55, 0.7);
+    }
+
+    /* For Firefox */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212, 175, 55, 0.5) rgba(0, 0, 0, 0.1);
+    }
+
+    /* Banner Logo */
+    .banner-logo {
+      color: var(--text-light);
+      text-align: center !important;
+      vertical-align: middle;
+      margin-bottom: 1rem !important;
+      max-width: 300px;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+      animation: float 6s ease-in-out infinite;
+      filter: sepia(0.5) hue-rotate(10deg) saturate(2) brightness(1.1) contrast(1.1) drop-shadow(0 0 8px rgba(184, 154, 79, 0.5));
+      position: relative;
+      transform: translateY(-0.00529597px);
+      transition: all 0.3s ease;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .banner-logo:hover {
+      filter: sepia(0.5) hue-rotate(10deg) saturate(2.2) brightness(1.2) contrast(1.2) drop-shadow(0 0 15px rgba(184, 154, 79, 0.7));
+      transform: scale(1.02);
+    }
+
+    /* Footer Social Icons */
+    .social-list .social-link {
+      color: #E6C56E !important;
+      font-size: 1.4rem !important;
+      width: 40px !important;
+      height: 40px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border: 2px solid #b89a4f !important;
+      border-radius: 50% !important;
+      background: rgba(184, 154, 79, 0.1) !important;
+      box-shadow: 0 4px 15px rgba(184, 154, 79, 0.15) !important;
+      margin: 0 5px !important;
+      transition: all 0.3s ease !important;
+      text-decoration: none !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-list .social-link:hover {
+      background: rgba(184, 154, 79, 0.3) !important;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important;
+    }
+
+    .social-list .social-link i {
+      transition: all 0.3s ease;
+    }
+
+    .social-list .social-link:hover i {
+      transform: scale(1.1);
+    }
+
+    /* Navbar gold link styles */
+    .nav-gold-link {
+      position: relative;
+      padding: 0.5rem 1rem;
+      color: rgba(255, 255, 255, 0.85) !important;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-gold-link i {
+      color: var(--primary-gold);
+      transition: all 0.3s ease;
+    }
+    
+    .nav-gold-link:hover, .nav-gold-link.active {
+      color: var(--primary-gold) !important;
+      background: rgba(212, 175, 55, 0.1);
+    }
+    
+    .nav-gold-link:hover i, .nav-gold-link.active i {
+      transform: scale(1.1);
+    }
+    
+    .nav-gold-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    .nav-gold-link:hover::after, .nav-gold-link.active::after {
+      width: 80%;
+    }
+    
+    /* Cart link specific styles */
+    .cart-link {
+      position: relative;
+      padding-right: 1.5rem !important;
+    }
+    
+    .cart-link .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.35em 0.55em;
+    }
+  </style>
+  
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  
+  <!-- Custom Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/custom.js"></script>
+  <script src="js/shop.js"></script>
+  <script>
+    // i18n logic: swap text based on localStorage language
+    document.addEventListener('DOMContentLoaded', function () {
+      const lang = localStorage.getItem('language') || 'ar';
+      const dict = (window.translations && window.translations[lang]) ? window.translations[lang] : {};
+      document.querySelectorAll('[data-i18n-key]').forEach(el => {
+        const key = el.getAttribute('data-i18n-key');
+        if (dict[key]) {
+          el.textContent = dict[key];
+        }
+      });
+      // Translate product cart buttons if present
+      document.querySelectorAll('.order-now-btn').forEach(btn => {
+        const textSpan = btn.querySelector('.btn-text');
+        if (textSpan) {
+          textSpan.textContent = lang === 'ar' ? 'أطلب الآن' : 'Order Now';
+        }
+      });
+    });
+  </script>
+  <script src="js/order.js"></script>
+  
+  <!-- Initialize Bootstrap components -->
+  <script>
+    // Enable Bootstrap tooltips and popovers
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl);
+    });
+  </script>
+
+
+    <!-- Facebook Pixel NoScript -->
+    <!--#include virtual="/includes/facebook-pixel-noscript.html" -->
+    <!-- End Facebook Pixel NoScript -->
+</body>
+
+</html>

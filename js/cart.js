@@ -92,7 +92,16 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Fetching product images from API...');
         await Promise.all(cart.map(async item => {
           try {
-            const response = await fetch(`http://localhost:5001/api/products/${item.id}`);
+            // Resolve API base URL similar to js/api.js
+            const __metaApiBase = document.querySelector('meta[name="api-base-url"]')?.content;
+            const API_BASE = (
+              (window.API_BASE_URL && window.API_BASE_URL.trim()) ||
+              (__metaApiBase && __metaApiBase.trim()) ||
+              ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                ? 'http://localhost:5001'
+                : window.location.origin)
+            ).replace(/\/$/, '');
+            const response = await fetch(`${API_BASE}/api/products/${item.id}`);
             if (response.ok) {
               const product = await response.json();
               item.image = product.image || product.imageUrl || 'img/logo.png';

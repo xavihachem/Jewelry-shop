@@ -6,6 +6,26 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Centralized API config -->
+    <script src="js/config.js"></script>
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '810352084654161');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
     <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
@@ -19,7 +39,6 @@
   <meta name="author" content="TemplatesJungle">
   <meta name="keywords" content="ecommerce,fashion,store">
   <meta name="description" content="Simple and elegant jewelry shop template.">
-  
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -205,7 +224,7 @@
             </div>
             <div class="row align-items-center">
                 <div class="col-12 text-center mb-3">
-                    <p class="mb-0" data-i18n-key="footer.copy">© 2025 ONYXIA. All Rights Reserved.</p>
+                    <p class="mb-0" data-i18n-key="footer.copy">Â© 2025 ONYXIA. All Rights Reserved.</p>
                 </div>
                 <div class="col-12 text-center">
                     <a href="admin.html" class="text-muted admin-link" title="Admin Panel">
@@ -387,7 +406,7 @@
       document.querySelectorAll('.order-now-btn').forEach(btn => {
         const textSpan = btn.querySelector('.btn-text');
         if (textSpan) {
-          textSpan.textContent = lang === 'ar' ? 'أطلب الآن' : 'Order Now';
+          textSpan.textContent = lang === 'ar' ? 'Ø£Ø·Ù„Ø¨ Ø§Ù„Ø¢Ù†' : 'Order Now';
         }
       });
     });
@@ -408,6 +427,11 @@
     });
   </script>
 
+
+    <!-- Facebook Pixel NoScript -->
+    <!--#include virtual="/includes/facebook-pixel-noscript.html" -->
+    <!-- End Facebook Pixel NoScript -->
 </body>
 
 </html>
+

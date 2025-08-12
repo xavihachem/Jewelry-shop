@@ -4,6 +4,25 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Centralized API config -->
+  <script src="js/config.js"></script>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '810352084654161');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=810352084654161&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
     <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
@@ -1029,38 +1048,22 @@
     }
     
     // Simple add to cart function
-        // Simple add to cart function
     function addToCart(button) {
-      console.log('[CART] ===== Start addToCart =====');
-      console.log('[CART] Button state:', {
-        disabled: button.disabled,
-        dataset: button.dataset,
-        text: button.textContent.trim()
-      });
-      
       if (button.disabled) {
-        console.log('[CART] Add to cart button is disabled, ignoring click');
         return;
       }
 
       // Get product ID and data
       const productId = button.getAttribute('data-product-id') || window.currentProduct?._id;
-      console.log('[CART] Product ID from button/global:', productId);
       
       if (!productId) {
-        console.error('[CART] No product ID found in button data or window.currentProduct');
-        console.error('[CART] Button dataset:', JSON.stringify(button.dataset));
-        console.error('[CART] window.currentProduct:', window.currentProduct);
         return;
       }
 
       // Use global product data
       const current = window.currentProduct;
-      console.log('[CART] Current product data:', JSON.parse(JSON.stringify(current || {})));
       
       if (!current || !current.stock) {
-        console.error('[CART] No product data available in window.currentProduct');
-        console.error('[CART] Available window keys:', Object.keys(window).filter(k => k.includes('current') || k.includes('product') || k.includes('cart')));
         return;
       }
       const stockQuantity = parseInt(current.stock.quantity) || 0;
@@ -1068,7 +1071,6 @@
 
       // Check stock availability
       if (stockQuantity <= 0) {
-        console.error('[CART] Cannot add out of stock product to cart');
         const lang = localStorage.getItem('language') || 'ar';
         const dict = (window.translations && window.translations[lang]) || {};
         const message = dict['cart.out_of_stock_message'] || 'This item is out of stock and cannot be added to your cart.';
@@ -1085,20 +1087,12 @@
         stock: { quantity: stockQuantity, status: stockStatus },
         quantity: 1
       };
-      console.log('[CART] Product details with stock:', product);
 
       // Get or initialize cart
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      console.log('[CART] Current cart before update:', cart);
 
       // Check if product already exists in cart
       const existingItemIndex = cart.findIndex(item => item.id === productId);
-      console.log('[CART] Existing item index in cart:', existingItemIndex);
-      console.log('[CART] Current cart items:', cart.map(item => ({
-        id: item.id,
-        name: item.name,
-        quantity: item.quantity
-      })));
       
       if (existingItemIndex > -1) {
         // Product already in cart, show enhanced message
@@ -1106,13 +1100,6 @@
         const dict = (window.translations && window.translations[lang]) || {};
         const message = dict['cart.already_in_cart'] || 'This product is already in your cart. You can update the quantity in the cart page.';
         const cartLink = dict['nav.cart'] || 'Cart';
-        
-        console.log('[CART] Product already in cart:', {
-          productId: productId,
-          existingItem: cart[existingItemIndex],
-          currentLanguage: lang,
-          message: message
-        });
         
         // Create enhanced message with cart link
         const enhancedMessage = `
@@ -1141,39 +1128,17 @@
         return;
       } else {
         // Add new product to cart
-        console.log('[CART] Adding new product to cart:', {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          quantity: product.quantity,
-          stock: product.stock
-        });
-        
         cart.push(product);
         const lang = localStorage.getItem('language') || 'ar';
         const dict = (window.translations && window.translations[lang]) || {};
         const message = dict['cart.added_to_cart'] || 'Added to cart';
         
-        console.log('[CART] Product added to cart successfully');
         showToast(message, 'success');
       }
 
       // Save and update UI
       localStorage.setItem('cart', JSON.stringify(cart));
-      
-      console.log('[CART] Cart updated:', {
-        itemCount: cart.length,
-        totalItems: cart.reduce((sum, item) => sum + (item.quantity || 1), 0),
-        items: cart.map(item => ({
-          id: item.id,
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price
-        }))
-      });
-      
       updateCartCount();
-      console.log('[CART] ===== End addToCart =====\n');
     }
   
     
@@ -1711,5 +1676,9 @@
       });
     });
   </script>
+
+    <!-- Facebook Pixel NoScript -->
+    <!--#include virtual="/includes/facebook-pixel-noscript.html" -->
+    <!-- End Facebook Pixel NoScript -->
 </body>
 </html>
