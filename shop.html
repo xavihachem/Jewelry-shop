@@ -70,10 +70,21 @@
           <img src="img/logo.png" alt="ONYXIA Logo" class="navbar-logo me-2">
           <span class="brand-text">Onyxia</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" 
-          aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- Mobile Nav Right (cart + menu toggle) -->
+        <div class="d-flex align-items-center">
+          <!-- Mobile Cart Icon (visible on < lg) -->
+          <a class="nav-link cart-link nav-gold-link d-lg-none position-relative" href="cart.html" title="View Cart">
+            <i class="bi bi-cart3 fs-5"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold text-dark cart-count-badge">
+              <span id="cartItemCount">0</span>
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" 
+            aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item mx-2">
@@ -381,6 +392,23 @@
       font-weight: 600;
       padding: 0.35em 0.55em;
     }
+    /* Mobile-only tweaks: cart icon and menu toggle spacing */
+    @media (max-width: 991.98px) {
+      .navbar .cart-link {
+        padding: 0.3rem 0.4rem !important;
+        margin: 0 0.4rem 0 0 !important;
+      }
+      .navbar .cart-link .badge {
+        top: -6px !important;
+        right: -8px !important;
+        left: auto !important;
+        transform: none !important;
+      }
+      .navbar .navbar-toggler {
+        margin: 0 0.5rem 0 0 !important;
+        padding: 0.35rem 0.5rem;
+      }
+    }
   </style>
   
   <!-- Bootstrap JS Bundle with Popper -->
@@ -391,6 +419,24 @@
   <script src="js/translations.js"></script>
   <script src="js/custom.js"></script>
   <script src="js/shop.js"></script>
+  <script>
+    // Update cart count on page load and storage changes
+    document.addEventListener('DOMContentLoaded', function() {
+      function updateCartCount() {
+        try {
+          const cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+          document.querySelectorAll('.cart-count-badge, #mobileCartCount').forEach(el => {
+            el.textContent = totalItems;
+          });
+        } catch (e) {}
+      }
+      updateCartCount();
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'cart') updateCartCount();
+      });
+    });
+  </script>
   <script>
     // i18n logic: swap text based on localStorage language
     document.addEventListener('DOMContentLoaded', function () {

@@ -547,6 +547,30 @@
         font-weight: 600;
         padding: 0.35em 0.55em;
       }
+      /* Mobile-only tweaks: cart icon and menu toggle spacing */
+      @media (max-width: 991.98px) {
+        .navbar .navbar-toggler-container {
+          display: flex;
+          align-items: center;
+          margin-left: auto;
+        }
+        .navbar .cart-link {
+          padding: 0.3rem 0.4rem !important;
+          margin: 0 0.4rem 0 0 !important;
+          order: 1;
+        }
+        .navbar .cart-link .badge {
+          top: -6px !important;
+          right: -8px !important;
+          left: auto !important;
+          transform: none !important;
+        }
+        .navbar .navbar-toggler {
+          margin: 0 0.5rem 0 0 !important;
+          order: 2;
+          padding: 0.35rem 0.5rem;
+        }
+      }
     </style>
 </head>
 <body class="homepage">
@@ -562,10 +586,20 @@
           <img src="img/logo.png" alt="ONYXIA Logo" class="navbar-logo me-2">
           <span class="brand-text">Onyxia</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" 
-          aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- Mobile Nav Right (cart + menu toggle) -->
+        <div class="d-flex align-items-center">
+          <!-- Mobile Cart Icon (visible on < lg) -->
+          <a class="nav-link cart-link nav-gold-link d-lg-none position-relative" href="cart.html" title="View Cart">
+            <i class="bi bi-cart3 fs-5"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold text-dark cart-count-badge">
+              <span>0</span>
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas" 
+            aria-controls="navbarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item mx-2">
