@@ -394,9 +394,21 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
   }
 
   try {
+    const DBG = (typeof window !== 'undefined' && window.DEBUG_SHOP) ? true : false;
+    if (DBG) {
+      console.group('[SHOP] loadProductsIntoGrid');
+      console.log('grid:', productGrid);
+      console.log('requested page:', page);
+      console.time('[SHOP] total render time');
+    }
+
     // Get products from API (cache for pagination)
     if (!shopAllProducts.length) {
+      if (DBG) console.time('[SHOP] fetch products');
       shopAllProducts = await window.api.products.getAllProducts();
+      if (DBG) console.timeEnd('[SHOP] fetch products');
+    } else if (DBG) {
+      console.log('using cached products:', shopAllProducts.length);
     }
     const products = shopAllProducts;
     if (!products || products.length === 0) {
@@ -406,6 +418,7 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
         </div>
       `;
       paginationControls.innerHTML = '';
+      if (DBG) { console.timeEnd('[SHOP] total render time'); console.groupEnd(); }
       return;
     }
 
@@ -418,17 +431,53 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
     const startIdx = (shopCurrentPage - 1) * SHOP_PRODUCTS_PER_PAGE;
     const endIdx = startIdx + SHOP_PRODUCTS_PER_PAGE;
     const productsToShow = products.slice(startIdx, endIdx);
+    if (DBG) {
+      console.log('total products:', products.length);
+      console.log('totalPages:', totalPages);
+      console.log('shopCurrentPage:', shopCurrentPage);
+      console.log('slice range:', { startIdx, endIdx, count: productsToShow.length });
+    }
 
-    // Add products to grid
-    productsToShow.forEach(product => {
+    // Add products to grid progressively with image lazy-loading
+    const placeholder = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+    const getImgSrc = (p) => p.imageUrl || p.image || 'img/logo.png';
+
+    // Create (or reuse) a single IntersectionObserver for lazy images
+    if (!window.shopLazyObserver) {
+      window.shopLazyObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            const realSrc = img.getAttribute('data-src');
+            if (realSrc) {
+              img.src = realSrc;
+              img.removeAttribute('data-src');
+              img.classList.remove('lazy');
+              if (DBG) {
+                const pid = img.closest('a.product-link-new')?.dataset?.productId;
+                console.log('[SHOP] image loaded (intersect):', { productId: pid, src: realSrc });
+              }
+            }
+            obs.unobserve(img);
+          }
+        });
+      }, { rootMargin: '200px 0px', threshold: 0.01 });
+    }
+    const lazyObserver = window.shopLazyObserver;
+
+    // Create product card; when lazy=false, we will attach the image element and set its src externally
+    const createProductCard = (product, imgSrc, lazy = true) => {
       const productCol = document.createElement('div');
       productCol.className = 'product-col';
-      
+      imgSrc = imgSrc || getImgSrc(product);
       productCol.innerHTML = `
         <div class="product-card-new">
           <a href="product.html?id=${product.id || product._id}" class="product-link-new" data-product-id="${product.id || product._id}">
-            <div class="product-image-new-wrapper">
-              <img src="${product.image}" alt="${product.name}" class="product-image-new img-fluid">
+            <div class="product-image-new-wrapper" style="aspect-ratio: 1/1; overflow: hidden;">
+              ${lazy
+                ? `<img data-src="${imgSrc}" src="${placeholder}" alt="${product.name}" class="product-image-new img-fluid lazy" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit: cover;" />`
+                : `<img alt="${product.name}" class="product-image-new img-fluid" style="width:100%; height:100%; object-fit: cover;" />`
+              }
             </div>
             <div class="product-info-new">
               <h5 class="product-title-new">${product.name}</h5>
@@ -442,28 +491,37 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
                 <i class="bi bi-arrow-right" style="font-size: 1rem; transition: transform 0.3s ease;"></i>
               </a>
               <style>
-                .btn-outline-gold:hover {
-                  color: #fff !important;
-                  background: rgba(184, 154, 79, 0.3) !important;
-                  transform: translateY(-2px);
-                  box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important;
-                }
-                .btn-outline-gold i {
-                  transition: transform 0.3s ease;
-                }
-                .btn-outline-gold:hover i {
-                  transform: translateX(3px);
-                }
+                .btn-outline-gold:hover { color: #fff !important; background: rgba(184, 154, 79, 0.3) !important; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important; }
+                .btn-outline-gold i { transition: transform 0.3s ease; }
+                .btn-outline-gold:hover i { transform: translateX(3px); }
               </style>
             </div>
           </a>
-        </div>
-      `;
-      
+        </div>`;
+      return productCol;
+    };
+
+    // Render strictly one-by-one with a single network request per image:
+    // create the <img>, attach onload, set src, await load, then append the card containing that same <img>
+    for (let i = 0; i < productsToShow.length; i++) {
+      const product = productsToShow[i];
+      const imgSrc = getImgSrc(product);
+      if (DBG) console.log('[SHOP] start item', { index: i, id: product.id || product._id, name: product.name, imgSrc });
+      const productCol = createProductCard(product, imgSrc, /*lazy*/ false);
+      const imgEl = productCol.querySelector('img.product-image-new');
+      const loaded = await new Promise((resolve) => {
+        if (!imgEl) return resolve(false);
+        imgEl.onload = () => resolve(true);
+        imgEl.onerror = () => resolve(false);
+        // Trigger the single network request for this image
+        imgEl.src = imgSrc;
+      });
       productGrid.appendChild(productCol);
-      // Translate button text based on current language
+      if (DBG) console.log('appended product (after load):', { index: i, id: product.id || product._id, name: product.name, imageLoaded: loaded });
       updateViewProductButtons();
-    });
+      // Yield to the browser to paint between items
+      await new Promise(requestAnimationFrame);
+    }
     
     // Removed order now button initialization as it's no longer needed
     
@@ -570,8 +628,13 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
     
     
       
+    if (DBG) {
+      console.timeEnd('[SHOP] total render time');
+      console.groupEnd();
+    }
     return true;
   } catch (error) {
+    console.error('[SHOP] loadProductsIntoGrid error:', error);
     productGrid.innerHTML = '<div class="col-12 text-center"><p>Error loading products. Please try again later.</p></div>';
     return false;
   }

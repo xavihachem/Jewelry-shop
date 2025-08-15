@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 80;
 
 // Admin credentials (in production, use environment variables)
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
