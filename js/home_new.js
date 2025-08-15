@@ -85,7 +85,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Lazy-loading: single IntersectionObserver reused
         const placeholder = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-        const getImgSrc = (p) => p.imageUrl || p.image || 'img/logo.png';
+        // Resolve image to absolute like in shop page (prefix API_BASE_URL when relative)
+        const resolveImageUrl = (u) => {
+            if (!u) return 'img/logo.png';
+            if (/^https?:\/\//i.test(u)) return u;
+            const base = (window.API_BASE_URL || '').replace(/\/+$/,'');
+            if (!base) return u; // fallback as-is
+            return u.startsWith('/') ? `${base}${u}` : `${base}/${u}`;
+        };
+        const getImgSrc = (p) => resolveImageUrl(p.imageUrl || p.image || 'img/logo.png');
         if (!window.homeLazyObserver) {
             window.homeLazyObserver = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
