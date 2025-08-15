@@ -85,13 +85,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Lazy-loading: single IntersectionObserver reused
         const placeholder = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-        // Resolve image to absolute like in shop page (prefix API_BASE_URL when relative)
-        const resolveImageUrl = (u) => {
-            if (!u) return 'img/logo.png';
-            if (/^https?:\/\//i.test(u)) return u;
-            const base = (window.API_BASE_URL || '').replace(/\/+$/,'');
-            if (!base) return u; // fallback as-is
-            return u.startsWith('/') ? `${base}${u}` : `${base}/${u}`;
+        // Build absolute image URLs like shop page
+        const API_BASE = (
+            (typeof window !== 'undefined' && window.API_BASE_URL && window.API_BASE_URL.trim()) ||
+            (typeof window !== 'undefined' ? window.location.origin : '')
+        ).replace(/\/$/, '');
+        const resolveImageUrl = (src) => {
+            if (!src) return 'img/logo.png';
+            if (/^https?:\/\//i.test(src)) return src; // already absolute
+            if (src.startsWith('/')) return `${API_BASE}${src}`; // leading slash
+            return `${API_BASE}/${src}`; // relative path like uploads/...
         };
         const getImgSrc = (p) => resolveImageUrl(p.imageUrl || p.image || 'img/logo.png');
         if (!window.homeLazyObserver) {
