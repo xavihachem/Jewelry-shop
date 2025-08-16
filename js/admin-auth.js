@@ -1,56 +1,39 @@
 // Check if user is authenticated before loading admin pages
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Admin auth script loaded');
-    
+
     // Skip check for login page
     if (window.location.pathname.endsWith('login.html')) {
         console.log('Login page detected, skipping auth check');
         return;
     }
 
-    // Resolve Admin API base URL flexibly (window var, meta tag, or fallback to API_BASE_URL)
-    const __metaAdminBase = document.querySelector('meta[name="admin-base-url"]')?.content;
-    const ADMIN_BASE = (
-        (window.ADMIN_BASE_URL && window.ADMIN_BASE_URL.trim()) ||
-        (__metaAdminBase && __metaAdminBase.trim()) ||
-        (window.API_BASE_URL && window.API_BASE_URL.trim()) ||
-        window.location.origin
-    ).replace(/\/$/, '');
-    
+    // Resolve Admin API base URL
+    const ADMIN_BASE = (window.ADMIN_BASE_URL || window.API_BASE_URL || window.location.origin).replace(/\/$/, '');
     console.log('Using ADMIN_BASE:', ADMIN_BASE);
-    
-    // Get token from localStorage
-    const token = localStorage.getItem('token');
-    console.log('Token found in localStorage:', token ? 'Yes' : 'No');
-    
-    if (!token) {
-        console.log('No token found, redirecting to login');
-        window.location.href = 'login.html';
-        return;
-    }
 
     try {
-        console.log('Verifying token with server...');
-        // Verify token with server
+        // Verify session with the server
+        console.log('Verifying session with server...');
         const response = await fetch(`${ADMIN_BASE}/api/admin/verify`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            credentials: 'include' // Important for cookies if using them
+            credentials: 'include' // Crucial for sending session cookies
         });
-        
-        const data = await response.json().catch(() => ({}));
-        console.log('Token verification response:', { status: response.status, data });
-        
+
         if (!response.ok) {
-            throw new Error(data.message || 'Invalid token');
+            const data = await response.json().catch(() => ({}));
+            console.log('Session verification failed, redirecting to login.');
+            // If not authenticated, redirect to login page with a message
+            window.location.href = `login.html?error=${encodeURIComponent(data.message || 'Session expired. Please log in again.')}`;
+            return;
         }
-        
-        console.log('Token verified successfully');
-        
+
+        console.log('Session verified successfully.');
+
         // Add logout functionality
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
@@ -59,33 +42,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                 e.preventDefault();
                 console.log('Logout initiated');
                 try {
-                    const logoutResponse = await fetch(`${ADMIN_BASE}/api/admin/logout`, {
+                    await fetch(`${ADMIN_BASE}/api/admin/logout`, {
                         method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        },
                         credentials: 'include'
                     });
-                    
-                    console.log('Logout response status:', logoutResponse.status);
                 } catch (error) {
-                    console.error('Logout error:', error);
-                    // Continue with logout even if server logout fails
+                    console.error('Logout request failed:', error);
+                    // Proceed with client-side logout regardless
                 }
                 
-                // Clear token and redirect to login
-                console.log('Removing token and redirecting to login');
-                localStorage.removeItem('token');
-                window.location.href = 'login.html';
+                console.log('Redirecting to login page after logout.');
+                window.location.href = 'login.html?success=You have been logged out.';
             });
         }
-        
+
     } catch (error) {
-        console.error('Authentication error:', error);
-        // Clear any invalid token
-        localStorage.removeItem('token');
-        // Redirect to login with error message
-        window.location.href = `login.html?error=${encodeURIComponent(error.message || 'Authentication failed')}`;
+        console.error('Authentication check failed:', error);
+        // Redirect to login on any other error
+        window.location.href = `login.html?error=${encodeURIComponent('An error occurred. Please log in again.')}`;
     }
 });

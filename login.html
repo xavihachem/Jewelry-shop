@@ -155,26 +155,26 @@
         
         async function handleLogin(event) {
             event.preventDefault();
-            
+
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('errorMessage');
             const loginButton = event.target.querySelector('button[type="submit"]');
             const buttonText = document.getElementById('loginButtonText');
             const spinner = document.getElementById('loginSpinner');
-            
+
             // Reset messages
             errorMessage.style.display = 'none';
-            
+
             // Show loading state
             buttonText.textContent = 'Signing in...';
             spinner.classList.remove('d-none');
             loginButton.disabled = true;
-            
+
             try {
                 const apiUrl = `${window.API_BASE_URL || ''}/api/admin/login`;
-                console.log('Making login request to:', apiUrl);
-                
+                console.log('Attempting login to:', apiUrl);
+
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
@@ -182,33 +182,20 @@
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({ username, password }),
-                    credentials: 'include' // Important for cookies if using them
+                    credentials: 'include' // Crucial for sending and receiving session cookies
                 });
-                
-                const data = await response.json().catch(() => ({}));
-                console.log('Login response:', { status: response.status, data });
-                
-                if (response.ok && data.token) {
-                    // Store the token
-                    localStorage.setItem('token', data.token);
-                    console.log('Login successful, redirecting to admin...');
-                    
-                    // Redirect to admin page
+
+                if (response.ok) {
+                    console.log('Login successful, redirecting to admin page...');
                     window.location.href = 'admin.html';
                 } else {
-                    // Show error message
-                    errorMessage.textContent = data.message || 'Invalid username or password. Please try again.';
+                    const data = await response.json().catch(() => ({}));
+                    errorMessage.textContent = data.message || 'Invalid username or password.';
                     errorMessage.style.display = 'block';
-                    
-                    // Clear password field
-                    document.getElementById('password').value = '';
-                    
-                    // Focus back on password field
-                    document.getElementById('password').focus();
                 }
             } catch (error) {
-                console.error('Login error:', error);
-                errorMessage.textContent = 'An error occurred while trying to log in. Please try again later.';
+                console.error('Login request failed:', error);
+                errorMessage.textContent = 'An error occurred. Please check your connection and try again.';
                 errorMessage.style.display = 'block';
             } finally {
                 // Reset button state
