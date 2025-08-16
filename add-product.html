@@ -456,8 +456,8 @@
                 }
                 
                 // Check file size (max 2MB)
-                if (file.size > 2 * 1024 * 1024) {
-                    showAlert('Image size should be less than 2MB', 'warning');
+                if (file.size > 3.5 * 1024 * 1024) {
+                    showAlert('Image size should be less than 3.5MB', 'warning');
                     return false;
                 }
                 
@@ -569,8 +569,8 @@
                         return;
                     }
                     
-                    if (file.size > 2 * 1024 * 1024) {
-                        reject('Image size should be less than 2MB');
+                    if (file.size > 3.5 * 1024 * 1024) {
+                        reject('Image size should be less than 3.5MB');
                         return;
                     }
                     
