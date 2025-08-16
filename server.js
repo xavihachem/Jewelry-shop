@@ -10,7 +10,7 @@ const PORT = 80;
 
 // Admin credentials (in production, use environment variables)
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'securepassword123';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'H01a05M19z97A@';
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key_here';
 
 // Middleware

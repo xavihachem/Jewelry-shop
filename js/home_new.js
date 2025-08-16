@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const products = await window.api.products.getHomeProducts();
             
             if (Array.isArray(products) && products.length > 0) {
-                // Rendering products incrementally with lazy images
-                await renderProductsIncremental(products);
+                // Rendering products
+                renderProducts(products);
             } else {
                 // No featured products available
                 productGrid.innerHTML = `
@@ -71,60 +71,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function renderProductsIncremental(products) {
+    function renderProducts(products) {
         if (!products || products.length === 0) {
             productGrid.innerHTML = '<p class="text-center w-100">No products found.</p>';
             return;
         }
 
-        // Format price (already DZD)
-        const formatPriceDZD = (price) => String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-        // Clear and prepare grid
-        productGrid.innerHTML = '';
-
-        // Lazy-loading: single IntersectionObserver reused
-        const placeholder = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-        // Build absolute image URLs like shop page
-        const API_BASE = (
-            (typeof window !== 'undefined' && window.API_BASE_URL && window.API_BASE_URL.trim()) ||
-            (typeof window !== 'undefined' ? window.location.origin : '')
-        ).replace(/\/$/, '');
-        const resolveImageUrl = (src) => {
-            if (!src) return 'img/logo.png';
-            if (/^https?:\/\//i.test(src)) return src; // already absolute
-            if (src.startsWith('/')) return `${API_BASE}${src}`; // leading slash
-            return `${API_BASE}/${src}`; // relative path like uploads/...
+        // Function to format price (already in DZD)
+        const formatPriceDZD = (price) => {
+            // Format with commas as thousand separators
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         };
-        const getImgSrc = (p) => resolveImageUrl(p.imageUrl || p.image || 'img/logo.png');
-        if (!window.homeLazyObserver) {
-            window.homeLazyObserver = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if (!entry.isIntersecting) return;
-                    const img = entry.target;
-                    const real = img.getAttribute('data-src');
-                    if (real) {
-                        img.src = real;
-                        img.removeAttribute('data-src');
-                        img.classList.remove('lazy');
-                    }
-                    obs.unobserve(img);
-                });
-            }, { rootMargin: '200px 0px', threshold: 0.01 });
-        }
-        const lazyObserver = window.homeLazyObserver;
 
-        const createCard = (product) => {
-            const id = product.id || product._id;
-            const imgSrc = getImgSrc(product);
-            const col = document.createElement('div');
-            col.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
-            col.innerHTML = `
-                <a href="product.html?id=${id}" class="text-decoration-none">
+        productGrid.innerHTML = products.map(product => `
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <a href="shop.html" class="text-decoration-none">
                     <div class="product-card-new h-100">
                         <div class="product-image-container">
-                            <div class="product-image-link" style="aspect-ratio: 1/1; overflow: hidden;">
-                                <img data-src="${imgSrc}" src="${placeholder}" alt="${product.name}" class="product-image-new img-fluid lazy" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit: cover;" />
+                            <div class="product-image-link">
+                                <img src="${product.image || 'img/placeholder.jpg'}" 
+                                     alt="${product.name}" 
+                                     class="product-image-new img-fluid"
+                                     loading="lazy">
                             </div>
                         </div>
                         <div class="product-info p-3">
@@ -134,21 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
                     </div>
-                </a>`;
-            return col;
-        };
-
-        // Incremental append one-by-one with a small yield for smoothness
-        for (let i = 0; i < products.length; i++) {
-            const p = products[i];
-            const el = createCard(p);
-            productGrid.appendChild(el);
-            const img = el.querySelector('img.lazy');
-            if (img) lazyObserver.observe(img);
-            // Yield to browser to paint between items
-            await new Promise(requestAnimationFrame);
-        }
-
+                </a>
+            </div>
+        `).join('');
+        
         // Initialize tooltips for the new elements
         const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.map(function (tooltipTriggerEl) {

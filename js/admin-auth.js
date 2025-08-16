@@ -1,13 +1,12 @@
 // Check if user is authenticated before loading admin pages
 document.addEventListener('DOMContentLoaded', async () => {
-    // Resolve Admin API base URL flexibly (window var, meta tag, fallback to same origin)
+    // Resolve Admin API base URL flexibly (window var, meta tag, or fallback to API_BASE_URL)
     const __metaAdminBase = document.querySelector('meta[name="admin-base-url"]')?.content;
     const ADMIN_BASE = (
         (window.ADMIN_BASE_URL && window.ADMIN_BASE_URL.trim()) ||
         (__metaAdminBase && __metaAdminBase.trim()) ||
-        ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-            ? 'http://localhost:3000'
-            : window.location.origin)
+        (window.API_BASE_URL && window.API_BASE_URL.trim()) ||
+        window.location.origin
     ).replace(/\/$/, '');
     // Skip check for login page
     if (window.location.pathname.endsWith('login.html')) {
