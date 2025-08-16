@@ -1081,8 +1081,8 @@
                     const fileInput = document.getElementById('image-upload');
                     if (fileInput.files && fileInput.files[0]) {
                         const file = fileInput.files[0];
-                        if (file.size > 2 * 1024 * 1024) { // 2MB limit
-                            throw new Error('Image size should be less than 2MB');
+                        if (file.size > 3.5 * 1024 * 1024) { // 3.5MB limit
+                            throw new Error('Image size should be less than 3.5MB');
                         }
                         
                         // Convert image to base64
