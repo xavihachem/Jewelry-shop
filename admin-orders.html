@@ -4,6 +4,12 @@
     <title>Admin - Orders Management</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Centralized API config -->
+    <script src="js/config.js"></script>
+    <script>
+      // Resolve API base globally for all admin scripts
+      window.API_BASE = (window.API_BASE_URL && window.API_BASE_URL.trim()) || window.location.origin;
+    </script>
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
     <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
@@ -751,7 +757,7 @@
         
         // Call API to delete order
         const startTime = performance.now();
-        const response = await fetch(`http://localhost:5001/api/orders/${orderId}`, {
+        const response = await fetch(`${window.API_BASE}/api/orders/${orderId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -851,7 +857,7 @@
           timestamp: new Date().toISOString()
         });
         
-        const response = await fetch(`http://localhost:5001/api/orders/${orderId}/status`, {
+        const response = await fetch(`${window.API_BASE}/api/orders/${orderId}/status`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -1023,7 +1029,7 @@
         ordersTable.innerHTML = '<tr><td colspan="7" class="text-center py-5 text-muted">Loading orders...</td></tr>';
         
         // Fetch orders from backend API
-        const response = await fetch('http://localhost:5001/api/orders');
+        const response = await fetch(`${window.API_BASE}/api/orders`);
         
         if (!response.ok) {
           throw new Error(`Failed to fetch orders: ${response.status} ${response.statusText}`);
@@ -1205,7 +1211,8 @@
             
             try {
               // Fetch the specific order details
-              const response = await fetch(`http://localhost:5001/api/orders/${orderId}`);
+              const response = await fetch(`${window.API_BASE}/api/orders/${orderId}`);
+              
               if (!response.ok) {
                 throw new Error(`Failed to fetch order: ${response.status} ${response.statusText}`);
               }
@@ -1238,7 +1245,7 @@
           try {
             logAdminEvent('Updating order status', { orderId, newStatus });
             
-            const response = await fetch(`http://localhost:5001/api/orders/${orderId}`, {
+            const response = await fetch(`${window.API_BASE}/api/orders/${orderId}`, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',

@@ -4,6 +4,11 @@
     <title>Order Details - Admin</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Centralized API config -->
+    <script src="js/config.js"></script>
+    <script>
+      window.API_BASE = (window.API_BASE_URL && window.API_BASE_URL.trim()) || window.location.origin;
+    </script>
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
     <link rel="icon" type="image/png" sizes="512x512" href="img/logo.png">
@@ -369,12 +374,12 @@
                 console.log('Fetching order details from API...');
                 // Fetch order by orderId
                 console.log(`Fetching order with ID: ${orderId}`);
-                let response = await fetch(`http://localhost:5001/api/orders/order/${orderId}`);
+                let response = await fetch(`${window.API_BASE}/api/orders/order/${orderId}`);
                 
                 // If not found by orderId, try finding by _id
                 if (!response.ok) {
                     console.log('Order not found by orderId, trying with _id...');
-                    response = await fetch(`http://localhost:5001/api/orders/${orderId}`);
+                    response = await fetch(`${window.API_BASE}/api/orders/${orderId}`);
                 }
                 
                 console.log('API Response status:', response.status);
@@ -472,7 +477,7 @@
                 // Function to fetch product details including images
                 async function fetchProductDetails(productId) {
                     try {
-                        const response = await fetch(`http://localhost:5001/api/products/${productId}`);
+                        const response = await fetch(`${window.API_BASE}/api/products/${productId}`);
                         if (!response.ok) {
                             console.error(`Failed to fetch product ${productId}:`, response.status);
                             return { image: 'img/placeholder.jpg' }; // Return default image on error
