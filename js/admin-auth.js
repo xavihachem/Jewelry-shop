@@ -25,10 +25,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         if (!response.ok) {
-            const data = await response.json().catch(() => ({}));
-            console.log('Session verification failed, redirecting to login.');
+            const errorData = await response.json().catch(() => ({ message: 'Received non-JSON response from server.' }));
+            console.error('Session verification failed. Server responded with:', {
+                status: response.status,
+                statusText: response.statusText,
+                body: errorData
+            });
             // If not authenticated, redirect to login page with a message
-            window.location.href = `login.html?error=${encodeURIComponent(data.message || 'Session expired. Please log in again.')}`;
+            window.location.href = `login.html?error=${encodeURIComponent(errorData.message || 'Session expired. Please log in again.')}`;
             return;
         }
 
