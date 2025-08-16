@@ -581,6 +581,7 @@
     });
   </script>
   <script>
+    const API_BASE = (window.API_BASE_URL && window.API_BASE_URL.trim()) || window.location.origin;
     // Update cart count badge in header
     function updateCartCount() {
       try {
@@ -655,7 +656,7 @@
     // Function to load cities from the backend
     async function loadCities() {
       try {
-        const response = await fetch('http://localhost:5001/api/cities');
+        const response = await fetch(`${API_BASE}/api/cities`);
         if (!response.ok) throw new Error('Failed to load cities');
         cities = await response.json();
         const citySelect = document.getElementById('city');
@@ -682,7 +683,7 @@
       // Fetch product details from the database API before displaying items
       await Promise.all(orderSummary.items.map(async item => {
         try {
-          const res = await fetch('http://localhost:5001/api/products/' + item.id);
+          const res = await fetch(`${API_BASE}/api/products/${item.id}`);
           if (!res.ok) throw new Error('HTTP ' + res.status);
           const data = await res.json();
           // Store both the image URL and the full product data
