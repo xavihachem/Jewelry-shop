@@ -787,9 +787,10 @@
                     showLoading(true);
                     
                     // Add the new product
-                    const response = await fetch('http://localhost:5001/api/products', {
+                    const response = await fetch(`${window.API_BASE_URL}/api/products`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include', // send session cookie to backend
                         body: JSON.stringify(productData)
                     });
                     
