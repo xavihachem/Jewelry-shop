@@ -23,20 +23,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             },
             credentials: 'include' // Crucial for sending session cookies
         });
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: 'Received non-JSON response from server.' }));
-            console.error('Session verification failed. Server responded with:', {
-                status: response.status,
-                statusText: response.statusText,
-                body: errorData
-            });
-            // If not authenticated, redirect to login page with a message
-            window.location.href = `login.html?error=${encodeURIComponent(errorData.message || 'Session expired. Please log in again.')}`;
+        let data; 
+        try {
+            data = await response.json();
+        } catch (e) {
+            console.error('Failed to parse JSON from /api/admin/verify:', e);
+            console.error('Response status/text:', response.status, response.statusText);
+            window.location.href = `login.html?error=${encodeURIComponent('Received non-JSON response from server.')}`;
             return;
         }
 
-        console.log('Session verified successfully.');
+        if (!response.ok || !data?.success) {
+            console.error('Session verification failed. Details:', {
+                status: response.status,
+                statusText: response.statusText,
+                body: data
+            });
+            window.location.href = `login.html?error=${encodeURIComponent(data?.message || 'Session expired. Please log in again.')}`;
+            return;
+        }
+
+        console.log('Session verified successfully.', data);
 
         // Add logout functionality
         const logoutBtn = document.getElementById('logoutBtn');
