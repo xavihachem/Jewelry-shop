@@ -12,6 +12,8 @@
     <link rel="apple-touch-icon" sizes="512x512" href="img/logo.png">
     <meta name="msapplication-TileImage" content="img/logo.png">
     <meta name="theme-color" content="#D4AF37">
+    <!-- Centralized API config -->
+    <script src="js/config.js"></script>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
@@ -787,7 +789,8 @@
                     showLoading(true);
                     
                     // Add the new product
-                    const response = await fetch(`${window.API_BASE_URL}/api/products`, {
+                    const API_BASE = window.API_BASE_URL || window.location.origin;
+                    const response = await fetch(`${API_BASE}/api/products`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         credentials: 'include', // send session cookie to backend
