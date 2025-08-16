@@ -467,7 +467,7 @@
                                             <i class="bi bi-upload"></i> Upload New Image
                                         </button>
                                         <input type="hidden" id="product-image" name="image">
-                                        <div class="text-muted small mt-2">Recommended size: 800x800px, max 2MB</div>
+                                        <div class="text-muted small mt-2">Recommended size: 800x800px, max 3.5MB</div>
                                     </div>
                                 </div>
                                 
@@ -613,9 +613,9 @@
                     return;
                 }
                 
-                // Check file size (max 2MB)
-                if (file.size > 2 * 1024 * 1024) {
-                    alert('Image size should be less than 2MB');
+                // Check file size (max 3.5MB)
+                if (file.size > 3.5 * 1024 * 1024) {
+                    alert('Image size should be less than 3.5MB');
                     return;
                 }
                 
@@ -783,34 +783,34 @@
             // Handle additional image upload
             additionalImageUpload.addEventListener('change', (e) => {
                 const files = Array.from(e.target.files);
-                
+
                 if (files.length + additionalImages.length > 5) {
                     showAlert('You can upload a maximum of 5 additional images', 'warning');
                     return;
                 }
-                
+
                 let processedCount = 0;
-                
+
                 files.forEach(file => {
-                    if (file.size > 2 * 1024 * 1024) {
-                        showAlert(`Image ${file.name} is too large (max 2MB)`, 'warning');
+                    if (file.size > 3.5 * 1024 * 1024) {
+                        showAlert(`Image ${file.name} is too large (max 3.5MB)`, 'warning');
                         return;
                     }
-                    
+
                     const reader = new FileReader();
-                    
+
                     reader.onload = (event) => {
                         additionalImages.push(event.target.result);
                         processedCount++;
-                        
+
                         if (processedCount === files.length) {
                             renderAdditionalImages();
                         }
                     };
-                    
+
                     reader.readAsDataURL(file);
                 });
-                
+
                 // Reset the file input
                 e.target.value = '';
             });
