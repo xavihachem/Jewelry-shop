@@ -649,7 +649,7 @@
                         const orderIdentifier = order.orderId || order._id || orderId;
                         console.log('Using order identifier:', orderIdentifier);
                         
-                        const response = await fetch(`http://localhost:5001/api/orders/${orderIdentifier}/status`, {
+                        const response = await fetch(`${window.API_BASE}/api/orders/${orderIdentifier}/status`, {
                             method: 'PATCH',
                             headers: {
                                 'Content-Type': 'application/json',
