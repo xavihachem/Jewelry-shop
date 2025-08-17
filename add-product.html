@@ -550,8 +550,9 @@
                         formData.append('home_position', document.getElementById('home-position').value || '0');
                     }
 
-                    // Append stock as a JSON string for the backend to parse
-                    const stockQuantity = parseInt(document.getElementById('stock').value, 10) || 0;
+                    // Append stock as a JSON string for the backend to parse (guard if #stock is absent)
+                    const stockEl = document.getElementById('stock');
+                    const stockQuantity = stockEl ? (parseInt(stockEl.value, 10) || 0) : 0;
                     const stockData = {
                         quantity: stockQuantity,
                         status: stockQuantity > 0 ? 'متاح' : 'غير متاح'
