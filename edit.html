@@ -574,6 +574,18 @@
                 setTimeout(() => new bootstrap.Alert(alertDiv).close(), 5000);
             };
 
+            // Image URL resolver (works for /uploads and absolute/base64)
+            function getImageUrl(img) {
+                if (!img || typeof img !== 'string') return '';
+                const API_BASE = window.API_BASE_URL || window.location.origin;
+                const trimmed = img.trim();
+                if (trimmed.startsWith('data:image')) return trimmed;
+                if (/^https?:\/\//i.test(trimmed)) return trimmed;
+                if (trimmed.startsWith('/uploads/')) return `${API_BASE}${trimmed}`;
+                if (trimmed.startsWith('uploads/')) return `${API_BASE}/${trimmed}`;
+                return `${API_BASE}/uploads/${trimmed.split('/').pop()}`;
+            }
+
             // --- Image Handling ---
             function handleMainImageSelect(file) {
                 if (!file) return;
@@ -598,7 +610,7 @@
                 allImages.forEach((image, index) => {
                     const item = document.createElement('div');
                     item.className = 'additional-image-item';
-                    const src = image.type === 'existing' ? image.data : URL.createObjectURL(image.data);
+                    const src = image.type === 'existing' ? getImageUrl(image.data) : URL.createObjectURL(image.data);
                     item.innerHTML = `
                         <img src="${src}" alt="Product Image">
                         <button type="button" class="btn btn-danger btn-sm remove-btn">&times;</button>
@@ -649,12 +661,16 @@
                     document.getElementById('product-description').value = product.description;
                     document.getElementById('small-description').value = product.smallDescription || '';
                     document.getElementById('stock-quantity').value = product.stock?.quantity || 0;
-                    document.getElementById('display-on-home').checked = product.display_home;
-                    document.getElementById('home-position').value = product.home_position || 0;
-                    document.getElementById('home-position-container').style.display = product.display_home ? 'block' : 'none';
+                    const displayOnHomeEl = document.getElementById('display-on-home');
+                    const homePosEl = document.getElementById('home-position');
+                    const homePosContainer = document.getElementById('home-position-container');
+                    displayOnHomeEl.checked = !!product.display_home;
+                    homePosEl.value = product.display_home ? (product.home_position || 1) : 1;
+                    homePosContainer.style.display = product.display_home ? 'block' : 'none';
+                    homePosEl.disabled = !product.display_home; // disable when hidden to avoid validation issues
 
                     if (product.image) {
-                        imagePreview.src = product.image;
+                        imagePreview.src = getImageUrl(product.image);
                         imagePreview.style.display = 'block';
                     }
 
@@ -669,6 +685,18 @@
             }
 
             // --- Form Submission ---
+            // Toggle home position enable/disable
+            document.getElementById('display-on-home').addEventListener('change', (e) => {
+                const checked = e.target.checked;
+                const homePosEl = document.getElementById('home-position');
+                const homePosContainer = document.getElementById('home-position-container');
+                homePosContainer.style.display = checked ? 'block' : 'none';
+                homePosEl.disabled = !checked;
+                if (checked && (!homePosEl.value || parseInt(homePosEl.value, 10) < 1)) {
+                    homePosEl.value = 1;
+                }
+            });
+
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 showLoading(true);
@@ -679,8 +707,13 @@
                     formData.append('price', document.getElementById('product-price').value);
                     formData.append('description', document.getElementById('product-description').value);
                     formData.append('smallDescription', document.getElementById('small-description').value);
-                    formData.append('display_home', document.getElementById('display-on-home').checked);
-                    formData.append('home_position', document.getElementById('home-position').value || '0');
+                    const isDisplayHome = document.getElementById('display-on-home').checked;
+                    formData.append('display_home', isDisplayHome);
+                    if (isDisplayHome) {
+                        formData.append('home_position', document.getElementById('home-position').value || '1');
+                    } else {
+                        formData.append('home_position', '0');
+                    }
                     
                     const stockQuantity = parseInt(document.getElementById('stock-quantity').value, 10) || 0;
                     formData.append('stock', JSON.stringify({ 
