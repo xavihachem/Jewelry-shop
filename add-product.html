@@ -567,18 +567,38 @@
                     });
 
                     const API_BASE = window.API_BASE_URL || window.location.origin;
+                    
+                    // Debug: Log FormData contents
+                    console.log('FormData entries:');
+                    for (let pair of formData.entries()) {
+                        console.log(pair[0], pair[1]);
+                    }
+                    
                     const response = await fetch(`${API_BASE}/api/products`, {
                         method: 'POST',
                         credentials: 'include', // Send cookies
                         body: formData // The browser will set the correct Content-Type for multipart/form-data
                     });
+                    
+                    console.log('Response status:', response.status);
 
-                    const result = await response.json();
+                    let result;
+                    try {
+                        result = await response.json();
+                    } catch (e) {
+                        console.error('Error parsing JSON response:', e);
+                        const responseText = await response.text();
+                        console.error('Response text:', responseText);
+                        throw new Error('Invalid response from server. Please try again.');
+                    }
 
                     if (!response.ok) {
-                        let errorMessage = result.message || 'Failed to add product.';
+                        console.error('Server responded with error:', result);
+                        let errorMessage = result.message || `Server error: ${response.status} ${response.statusText}`;
                         if (result.errors) {
-                            errorMessage = Object.values(result.errors).join('\n');
+                            errorMessage = Object.entries(result.errors)
+                                .map(([field, error]) => `${field}: ${error}`)
+                                .join('\n');
                         }
                         throw new Error(errorMessage);
                     }
