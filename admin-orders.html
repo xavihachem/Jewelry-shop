@@ -1178,7 +1178,8 @@
           
           // Set order totals
           const subtotal = order.subtotal || 0;
-          const shipping = order.deliveryFee || 0;
+          // Prefer shippingFee (as stored in backend). Fallback to deliveryFee for backward compatibility
+          const shipping = (typeof order.shippingFee === 'number' ? order.shippingFee : order.deliveryFee) || 0;
           const total = order.total || subtotal + shipping;
           
           document.getElementById('orderSubtotal').textContent = formatCurrency(subtotal);
