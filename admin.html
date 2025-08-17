@@ -426,6 +426,7 @@
             const paginatedProducts = getPaginatedProducts(window.productsList);
             
             tbody.innerHTML = paginatedProducts.map(product => {
+                const API_BASE = window.API_BASE_URL || window.location.origin;
                 // Process additional images
                 const additionalImages = product.additionalImages || product.images || [];
                 const validImages = Array.isArray(additionalImages) ? 
@@ -437,15 +438,18 @@
                 // Function to get image URL
                 const getImageUrl = (img) => {
                     if (!img) return '';
-                    if (img.startsWith('data:image')) return img;
-                    if (img.startsWith('http')) return img;
-                    if (img.startsWith('/uploads/')) return '..' + img;
-                    if (img.startsWith('uploads/')) return '../' + img;
-                    return '../uploads/' + img.split('/').pop();
+                    if (typeof img !== 'string') return '';
+                    const trimmed = img.trim();
+                    if (trimmed.startsWith('data:image')) return trimmed; // legacy base64
+                    if (/^https?:\/\//i.test(trimmed)) return trimmed;   // absolute URL
+                    if (trimmed.startsWith('/uploads/')) return `${API_BASE}${trimmed}`; // absolute from server
+                    if (trimmed.startsWith('uploads/')) return `${API_BASE}/${trimmed}`;
+                    // fallback: assume it's a filename stored
+                    return `${API_BASE}/uploads/${trimmed.split('/').pop()}`;
                 };
                 
                 // Get main image URL
-                const mainImageUrl = getImageUrl(product.image);
+                const mainImageUrl = getImageUrl(product.image || product.imageUrl);
                 
                 // Create additional images HTML
                 let additionalImagesHtml = '';
