@@ -540,680 +540,191 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Character counter for small description
-        const smallDescription = document.getElementById('small-description');
-        const charCount = document.getElementById('char-count');
-        
-        if (smallDescription && charCount) {
-            smallDescription.addEventListener('input', function() {
-                const currentLength = this.value.length;
-                charCount.textContent = currentLength;
-                
-                // Optional: Add warning when approaching limit
-                if (currentLength > 140) {
-                    charCount.style.color = 'red';
-                } else {
-                    charCount.style.color = '';
-                }
-            });
-            
-            // Initialize counter
-            charCount.textContent = smallDescription.value.length;
-        }
-    </script>
-    <script src="js/api.js"></script>
-    <script>
-        // Helper function to set form field values
-        function setValue(id, value) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.value = value !== undefined ? value : '';
-            } else {
-                console.warn(`Element with ID '${id}' not found`);
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', async () => {
-            // Get product ID from URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('id');
-            
-            if (!productId) {
-                showError('No product ID provided');
-                return;
-            }
-            
             const form = document.getElementById('edit-product-form');
             const loadingOverlay = document.querySelector('.loading-overlay');
-            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-            
-            // Toggle home position input based on checkbox
-            document.getElementById('display-on-home').addEventListener('change', function() {
-                document.getElementById('home-position-container').style.display = 
-                    this.checked ? 'block' : 'none';
-            });
-            
-            // Image upload handling
-            const imageUpload = document.getElementById('image-upload');
-            const uploadBtn = document.getElementById('upload-btn');
-            const imagePreview = document.getElementById('image-preview');
-            const imageInput = document.getElementById('product-image');
-            
-            // Handle click on upload button
-            uploadBtn.addEventListener('click', () => imageUpload.click());
-            
-            // Handle file selection
-            imageUpload.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                // Check file type
-                if (!file.type.match('image.*')) {
-                    alert('Please select an image file (JPEG, PNG, etc.)');
-                    return;
-                }
-                
-                // Check file size (max 3.5MB)
-                if (file.size > 3.5 * 1024 * 1024) {
-                    alert('Image size should be less than 3.5MB');
-                    return;
-                }
-                
-                // Create a FileReader to read the image
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    // Set the preview image
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                    
-                    // Store the base64 image data in the hidden input
-                    imageInput.value = e.target.result;
-                    
-                    // Change button text
-                    uploadBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Change Image';
-                };
-                
-                // Read the image file as a data URL
-                reader.readAsDataURL(file);
-            });
-            
-            // Initialize image preview if there's an existing image
-            if (imageInput.value) {
-                imagePreview.src = imageInput.value;
-                imagePreview.style.display = 'block';
-                uploadBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Change Image';
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            // State variables
+            let mainImageFile = null; // Holds the new main image File object if selected
+            let existingAdditionalImages = []; // Holds URLs of images already on the server
+            let newAdditionalFiles = []; // Holds new additional image File objects
+
+            if (!productId) {
+                showAlert('No product ID provided. Please go back and select a product to edit.', 'danger');
+                showLoading(false);
+                return;
             }
-            
-            // Additional Images Functionality
+
+            // --- Element Selectors ---
+            const imagePreview = document.getElementById('image-preview');
+            const imageUploadInput = document.getElementById('image-upload');
+            const uploadBtn = document.getElementById('upload-btn');
             const additionalImagesContainer = document.getElementById('additional-images-container');
             const addImageBtn = document.getElementById('add-image-btn');
-            const additionalImageUpload = document.getElementById('additional-image-upload');
-            let additionalImages = [];
-            
-            // Function to render additional images
-            function renderAdditionalImages() {
-                additionalImagesContainer.innerHTML = '';
-                
-                additionalImages.forEach((image, index) => {
-                    const imageElement = document.createElement('div');
-                    imageElement.className = 'additional-image-item mb-2 p-2 border rounded d-flex align-items-center';
-                    imageElement.draggable = true;
-                    imageElement.dataset.index = index;
-                    
-                    imageElement.innerHTML = `
-                        <img src="${image}" class="img-thumbnail me-2 additional-image-thumbnail" alt="Additional product image">
-                        <div class="flex-grow-1">
-                            <div class="small text-truncate">Image ${index + 1}</div>
-                            <div class="btn-group btn-group-sm mt-1">
-                                <button type="button" class="btn btn-outline-secondary btn-move-up" ${index === 0 ? 'disabled' : ''}>
-                                    <i class="bi bi-arrow-up"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary btn-move-down" ${index === additionalImages.length - 1 ? 'disabled' : ''}>
-                                    <i class="bi bi-arrow-down"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-danger btn-remove">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Add drag and drop functionality
-                    imageElement.addEventListener('dragstart', handleDragStart);
-                    imageElement.addEventListener('dragover', handleDragOver);
-                    imageElement.addEventListener('drop', handleDrop);
-                    imageElement.addEventListener('dragend', handleDragEnd);
-                    
-                    // Add button event listeners
-                    const moveUpBtn = imageElement.querySelector('.btn-move-up');
-                    const moveDownBtn = imageElement.querySelector('.btn-move-down');
-                    const removeBtn = imageElement.querySelector('.btn-remove');
-                    
-                    moveUpBtn?.addEventListener('click', () => moveImage(index, 'up'));
-                    moveDownBtn?.addEventListener('click', () => moveImage(index, 'down'));
-                    removeBtn?.addEventListener('click', () => removeImage(index));
-                    
-                    additionalImagesContainer.appendChild(imageElement);
-                });
-                
-                // Update hidden input with current images
-                updateAdditionalImagesInput();
-            }
-            
-            // Move image up or down
-            function moveImage(index, direction) {
-                if (direction === 'up' && index > 0) {
-                    [additionalImages[index], additionalImages[index - 1]] = [additionalImages[index - 1], additionalImages[index]];
-                } else if (direction === 'down' && index < additionalImages.length - 1) {
-                    [additionalImages[index], additionalImages[index + 1]] = [additionalImages[index + 1], additionalImages[index]];
-                }
-                renderAdditionalImages();
-            }
-            
-            // Remove image
-            function removeImage(index) {
-                additionalImages.splice(index, 1);
-                renderAdditionalImages();
-            }
-            
-            // Update hidden input with current images
-            function updateAdditionalImagesInput() {
-                const input = document.getElementById('additional-images-input');
-                if (!input) {
-                    const newInput = document.createElement('input');
-                    newInput.type = 'hidden';
-                    newInput.id = 'additional-images-input';
-                    newInput.name = 'additionalImages';
-                    form.appendChild(newInput);
-                }
-                document.getElementById('additional-images-input').value = JSON.stringify(additionalImages);
-            }
-            
-            // Drag and drop functionality
-            let draggedItem = null;
-            
-            function handleDragStart(e) {
-                draggedItem = this;
-                this.classList.add('dragging');
-                e.dataTransfer.effectAllowed = 'move';
-                e.dataTransfer.setData('text/html', this.innerHTML);
-            }
-            
-            function handleDragOver(e) {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'move';
-                this.classList.add('drag-over');
-                return false;
-            }
-            
-            function handleDrop(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                
-                if (draggedItem !== this) {
-                    // Get indices
-                    const fromIndex = parseInt(draggedItem.dataset.index);
-                    const toIndex = parseInt(this.dataset.index);
-                    
-                    // Move the item in the array
-                    const [movedItem] = additionalImages.splice(fromIndex, 1);
-                    additionalImages.splice(toIndex, 0, movedItem);
-                    
-                    // Re-render
-                    renderAdditionalImages();
-                }
-                
-                return false;
-            }
-            
-            function handleDragEnd() {
-                this.classList.remove('dragging');
-                document.querySelectorAll('.additional-image-item').forEach(item => {
-                    item.classList.remove('drag-over');
-                });
-                draggedItem = null;
-            }
-            
-            // Handle add image button click
-            addImageBtn.addEventListener('click', () => {
-                additionalImageUpload.click();
-            });
-            
-            // Handle additional image upload
-            additionalImageUpload.addEventListener('change', (e) => {
-                const files = Array.from(e.target.files);
 
-                if (files.length + additionalImages.length > 5) {
-                    showAlert('You can upload a maximum of 5 additional images', 'warning');
+            // --- Utility Functions ---
+            const showLoading = (show) => { loadingOverlay.style.display = show ? 'flex' : 'none'; };
+            const showAlert = (message, type = 'info') => {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+                alertDiv.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+                document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.container').firstChild);
+                setTimeout(() => new bootstrap.Alert(alertDiv).close(), 5000);
+            };
+
+            // --- Image Handling ---
+            function handleMainImageSelect(file) {
+                if (!file) return;
+                if (!file.type.match('image.*') || file.size > 3.5 * 1024 * 1024) {
+                    showAlert('Please select a valid image file under 3.5MB.', 'danger');
                     return;
                 }
-
-                let processedCount = 0;
-
-                files.forEach(file => {
-                    if (file.size > 3.5 * 1024 * 1024) {
-                        showAlert(`Image ${file.name} is too large (max 3.5MB)`, 'warning');
-                        return;
-                    }
-
-                    const reader = new FileReader();
-
-                    reader.onload = (event) => {
-                        additionalImages.push(event.target.result);
-                        processedCount++;
-
-                        if (processedCount === files.length) {
-                            renderAdditionalImages();
-                        }
-                    };
-
-                    reader.readAsDataURL(file);
-                });
-
-                // Reset the file input
-                e.target.value = '';
-            });
-            
-            // Initialize additional images from product data if available
-            function initAdditionalImages(images) {
-                if (Array.isArray(images) && images.length > 0) {
-                    additionalImages = [...images];
-                    renderAdditionalImages();
-                }
+                mainImageFile = file;
+                imagePreview.src = URL.createObjectURL(file);
             }
-            
-            // Preview image when URL changes
-            document.getElementById('product-image').addEventListener('input', function() {
-                const preview = document.getElementById('image-preview');
-                if (this.value) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
-            
-            // Load product data
-            async function loadProduct() {
-                let isLoading = true;
-                try {
-                    showLoading(true);
-                    console.log('Loading product with ID:', productId);
-                    
-                    if (!productId) {
-                        throw new Error('No product ID provided');
-                    }
-                    
-                    // First, try to get the product from the products list if available
-                    let product;
-                    if (window.productsList && Array.isArray(window.productsList)) {
-                        console.log('Checking products list for product...');
-                        product = window.productsList.find(p => (p._id === productId || p.id === productId));
-                        console.log('Found in products list:', !!product);
-                    }
-                    
-                    // If not found in the list, try to fetch it directly using the API
-                    if (!product) {
-                        console.log('Product not in list, fetching directly...');
-                        try {
-                            // Use the API method from api.js
-                            product = await window.api.products.getProductById(productId);
-                            console.log('Fetched product:', product);
-                        } catch (fetchError) {
-                            console.error('Error fetching product:', {
-                                message: fetchError.message,
-                                stack: fetchError.stack,
-                                name: fetchError.name
-                            });
-                            throw new Error('Could not fetch product details. Please try again later.');
+
+            uploadBtn.addEventListener('click', () => imageUploadInput.click());
+            imageUploadInput.addEventListener('change', (e) => handleMainImageSelect(e.target.files[0]));
+
+            function renderAdditionalImages() {
+                additionalImagesContainer.innerHTML = '';
+                const allImages = [
+                    ...existingAdditionalImages.map(url => ({ type: 'existing', data: url })),
+                    ...newAdditionalFiles.map(file => ({ type: 'new', data: file }))
+                ];
+
+                allImages.forEach((image, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'additional-image-item';
+                    const src = image.type === 'existing' ? image.data : URL.createObjectURL(image.data);
+                    item.innerHTML = `
+                        <img src="${src}" alt="Product Image">
+                        <button type="button" class="btn btn-danger btn-sm remove-btn">&times;</button>
+                    `;
+                    item.querySelector('.remove-btn').addEventListener('click', () => {
+                        if (image.type === 'existing') {
+                            existingAdditionalImages = existingAdditionalImages.filter(url => url !== image.data);
+                        } else {
+                            newAdditionalFiles = newAdditionalFiles.filter(file => file !== image.data);
                         }
-                    }
-                    
-                    if (!product) {
-                        throw new Error('Product not found');
-                    }
-                    
-                    console.log('Product data to load:', product);
-                    
-                    // Set basic fields
-                    setValue('product-id', product._id || product.id || '');
-                    setValue('product-name', product.name || '');
-                    setValue('product-price', product.price || '');
-                    setValue('product-description', product.description || '');
-                    setValue('product-category', product.category || '');
-                    
-                    // Set small description if it exists
-                    const smallDescription = document.getElementById('small-description');
-                    const charCount = document.getElementById('char-count');
-                    console.log('Product data when loading:', {
-                        productId: product._id || product.id,
-                        hasSmallDescription: 'smallDescription' in product,
-                        smallDescriptionValue: product.smallDescription,
-                        productData: product
+                        renderAdditionalImages();
                     });
-                    
-                    if (smallDescription && charCount) {
-                        smallDescription.value = product.smallDescription || '';
-                        charCount.textContent = smallDescription.value.length;
-                        console.log('Set small description field:', smallDescription.value);
+                    additionalImagesContainer.appendChild(item);
+                });
+            }
+
+            addImageBtn.addEventListener('click', () => {
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = 'image/*';
+                fileInput.multiple = true;
+                fileInput.onchange = (e) => {
+                    for (const file of e.target.files) {
+                        if (!file.type.match('image.*') || file.size > 3.5 * 1024 * 1024) {
+                            showAlert(`Skipping invalid file: ${file.name}`, 'warning');
+                            continue;
+                        }
+                        newAdditionalFiles.push(file);
                     }
+                    renderAdditionalImages();
+                };
+                fileInput.click();
+            });
+
+            // --- Data Loading ---
+            async function loadProduct() {
+                showLoading(true);
+                try {
+                    const API_BASE = window.API_BASE_URL || window.location.origin;
+                    const response = await fetch(`${API_BASE}/api/products/${productId}`, { credentials: 'include' });
+                    if (!response.ok) throw new Error('Product not found.');
                     
-                    // Handle image preview
-                    const imagePreview = document.getElementById('image-preview');
-                    const imageInput = document.getElementById('product-image');
+                    const product = await response.json();
+
+                    document.getElementById('product-id').value = product._id;
+                    document.getElementById('product-name').value = product.name;
+                    document.getElementById('product-price').value = product.price;
+                    document.getElementById('product-description').value = product.description;
+                    document.getElementById('small-description').value = product.smallDescription || '';
+                    document.getElementById('stock-quantity').value = product.stock?.quantity || 0;
+                    document.getElementById('display-on-home').checked = product.display_home;
+                    document.getElementById('home-position').value = product.home_position || 0;
+                    document.getElementById('home-position-container').style.display = product.display_home ? 'block' : 'none';
+
                     if (product.image) {
                         imagePreview.src = product.image;
                         imagePreview.style.display = 'block';
-                        imageInput.value = product.image;  // Set the hidden input value
-                        
-                        // Update upload button text
-                        const uploadBtn = document.getElementById('upload-btn');
-                        if (uploadBtn) {
-                            uploadBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Change Image';
-                        }
                     }
-                    
-                    // Initialize additional images if they exist
-                    if (product.additionalImages && product.additionalImages.length > 0) {
-                        initAdditionalImages(product.additionalImages);
-                    } else if (product.images && product.images.length > 0) {
-                        // Fallback to the old images property if it exists
-                        initAdditionalImages(product.images);
-                    }
-                    
-                    // Show the form container
-                    const formContainer = document.getElementById('product-form-container');
-                    if (formContainer) {
-                        formContainer.style.display = 'block';
-                    }
-                    
-                    // Handle stock settings
-                    const stockQuantity = document.getElementById('stock-quantity');
-                    const stockStatusAvailable = document.getElementById('stock-available');
-                    const stockStatusUnavailable = document.getElementById('stock-unavailable');
-                    
-                    if (stockQuantity) {
-                        stockQuantity.value = product.stock?.quantity || 0;
-                    }
-                    
-                    // Set the correct stock status based on the product data
-                    if (product.stock?.status) {
-                        // If the product has a stock status, use it
-                        if (product.stock.status === 'متاح') {
-                            stockStatusAvailable.checked = true;
-                        } else {
-                            stockStatusUnavailable.checked = true;
-                        }
-                    } else {
-                        // Default to unavailable if no status is set
-                        stockStatusUnavailable.checked = true;
-                    }
-                    
-                    // Handle home display settings
-                    const displayHome = document.getElementById('display-on-home');
-                    const homePositionContainer = document.getElementById('home-position-container');
-                    
-                    if (product.display_home) {
-                        displayHome.checked = true;
-                        homePositionContainer.style.display = 'block';
-                        setValue('home-position', product.home_position || 0);
-                    } else {
-                        displayHome.checked = false;
-                        homePositionContainer.style.display = 'none';
-                    }
-                    
-                    // Toggle home position field when display_home changes
-                    displayHome.addEventListener('change', function() {
-                        homePositionContainer.style.display = this.checked ? 'block' : 'none';
-                        if (!this.checked) {
-                            setValue('home-position', 0);
-                        }
-                    });
-                    
-                    return product;
-                    
+
+                    existingAdditionalImages = product.additionalImages || [];
+                    renderAdditionalImages();
+
                 } catch (error) {
-                    console.error('Error loading product:', error);
-                    showError(error.message || 'Failed to load product');
-                    throw error; // Re-throw to be caught by the outer try-catch
+                    showAlert(error.message, 'danger');
                 } finally {
-                    // Always hide loading indicator when done
-                    if (isLoading) {
-                        isLoading = false;
-                        showLoading(false);
-                    }
+                    showLoading(false);
                 }
             }
-            
-            // Handle form submission
-            form.addEventListener('submit', async function(e) {
+
+            // --- Form Submission ---
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                
-                // Get all form elements
-                const formElements = {
-                    id: document.getElementById('product-id'),
-                    name: document.getElementById('product-name'),
-                    price: document.getElementById('product-price'),
-                    description: document.getElementById('product-description'),
-                    smallDescription: document.getElementById('small-description'),
-                    image: document.getElementById('product-image'),
-                    displayHome: document.getElementById('display-on-home'),
-                    homePosition: document.getElementById('home-position'),
-                    category: document.getElementById('product-category')
-                };
-                
-                // Create product data object with only existing fields
-                const productData = {};
-                const productId = formElements.id.value;
-                
-                // Required fields
-                if (!formElements.name.value || !formElements.price.value || !formElements.description.value) {
-                    showAlert('Please fill in all required fields', 'warning');
-                    return;
-                }
-                
-                // Basic product data
-                productData.name = formElements.name.value;
-                if (formElements.smallDescription && formElements.smallDescription.value) {
-                    productData.smallDescription = formElements.smallDescription.value;
-                }
-                productData.price = parseFloat(formElements.price.value);
-                productData.description = formElements.description.value;
-                
-                // Handle stock data
-                const stockQuantityInput = document.getElementById('stock-quantity');
-                const stockStatusRadio = document.querySelector('input[name="stock-status"]:checked');
-                
-                // Default values
-                let stockQuantity = 0;
-                let stockStatus = 'غير متاح';
-                
-                // Parse stock quantity safely
-                if (stockQuantityInput && stockQuantityInput.value !== '') {
-                    const parsed = parseInt(stockQuantityInput.value, 10);
-                    stockQuantity = isNaN(parsed) ? 0 : Math.max(0, parsed); // Ensure non-negative
-                }
-                
-                // Get stock status if available
-                if (stockStatusRadio) {
-                    stockStatus = stockStatusRadio.value;
-                } else {
-                    // If no status selected but quantity > 0, default to 'متاح'
-                    stockStatus = stockQuantity > 0 ? 'متاح' : 'غير متاح';
-                }
-                
-                // Update the stock data
-                productData.stock = {
-                    quantity: stockQuantity,
-                    status: stockStatus
-                };
-                
-                // Additional images
-                if (additionalImages.length > 0) {
-                    productData.additionalImages = additionalImages;
-                }
-                
-                // Optional fields
-                if (formElements.image && formElements.image.value) {
-                    productData.image = formElements.image.value;
-                }
-                
-                if (formElements.category && formElements.category.value) {
-                    productData.category = formElements.category.value;
-                }
-                
-                // Home display settings
-                if (formElements.displayHome) {
-                    productData.display_home = formElements.displayHome.checked;
-                    
-                    if (formElements.homePosition && formElements.displayHome.checked) {
-                        productData.home_position = parseInt(formElements.homePosition.value) || 0;
-                    } else {
-                        productData.home_position = 0;
-                    }
-                }
-                
+                showLoading(true);
+
                 try {
-                    showLoading(true);
+                    const formData = new FormData();
+                    formData.append('name', document.getElementById('product-name').value);
+                    formData.append('price', document.getElementById('product-price').value);
+                    formData.append('description', document.getElementById('product-description').value);
+                    formData.append('smallDescription', document.getElementById('small-description').value);
+                    formData.append('display_home', document.getElementById('display-on-home').checked);
+                    formData.append('home_position', document.getElementById('home-position').value || '0');
                     
-                    // If we have a new image upload, handle it first
-                    const fileInput = document.getElementById('image-upload');
-                    if (fileInput.files && fileInput.files[0]) {
-                        const file = fileInput.files[0];
-                        if (file.size > 3.5 * 1024 * 1024) { // 3.5MB limit
-                            throw new Error('Image size should be less than 3.5MB');
-                        }
-                        
-                        // Convert image to base64
-                        const base64Image = await new Promise((resolve, reject) => {
-                            const reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onload = () => resolve(reader.result);
-                            reader.onerror = error => reject(error);
-                        });
-                        
-                        productData.image = base64Image;
+                    const stockQuantity = parseInt(document.getElementById('stock-quantity').value, 10) || 0;
+                    formData.append('stock', JSON.stringify({ 
+                        quantity: stockQuantity,
+                        status: stockQuantity > 0 ? 'متاح' : 'غير متاح'
+                    }));
+
+                    // Append new main image if one was selected
+                    if (mainImageFile) {
+                        formData.append('image', mainImageFile);
                     }
-                    
-                    // Update the product
-                    await window.dbOperations.products.updateProduct(
-                        productId.toString(),
-                        productData
-                    );
-                    
-                    // Show success message
+
+                    // Append the list of REMAINING existing image URLs as a JSON string
+                    formData.append('additionalImages', JSON.stringify(existingAdditionalImages));
+
+                    // Append NEW additional image files
+                    newAdditionalFiles.forEach(file => {
+                        formData.append('additionalImages', file);
+                    });
+
+                    const API_BASE = window.API_BASE_URL || window.location.origin;
+                    const response = await fetch(`${API_BASE}/api/products/${productId}`, {
+                        method: 'PUT',
+                        credentials: 'include',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+                    if (!response.ok) {
+                        throw new Error(result.message || 'Failed to update product.');
+                    }
+
                     showAlert('Product updated successfully!', 'success');
-                    
-                    // Redirect to products list after a short delay
-                    setTimeout(() => {
-                        window.location.href = 'admin.html';
-                    }, 1000);
-                    
+                    setTimeout(() => window.location.href = 'admin.html', 1500);
+
                 } catch (error) {
-                    showError(error.message || 'Failed to update product');
+                    showAlert(error.message, 'danger');
                 } finally {
                     showLoading(false);
                 }
             });
-            
-            // Delete product
-            document.getElementById('delete-btn').addEventListener('click', () => {
-                deleteModal.show();
-            });
-            
-            document.getElementById('confirm-delete').addEventListener('click', async () => {
-                try {
-                    showLoading(true);
-                    const success = await window.dbOperations.products.deleteProduct(productId);
-                    
-                    if (success) {
-                        alert('Product deleted successfully!');
-                        window.location.href = 'admin.html';
-                    } else {
-                        throw new Error('Failed to delete product');
-                    }
-                } catch (error) {
-                    console.error('Error deleting product:', error);
-                    alert('Failed to delete product: ' + (error.message || 'Unknown error'));
-                } finally {
-                    showLoading(false);
-                    deleteModal.hide();
-                }
-            });
-            
-            // Show loading overlay
-            function showLoading(show) {
-                console.log(`showLoading(${show}) called`);
-                const loadingOverlay = document.querySelector('.loading-overlay');
-                if (loadingOverlay) {
-                    console.log(`Setting loading overlay display to: ${show ? 'flex' : 'none'}`);
-                    loadingOverlay.style.display = show ? 'flex' : 'none';
-                } else {
-                    console.warn('Loading overlay element not found');
-                    // Create a fallback loading indicator if needed
-                    if (show) {
-                        const fallbackLoading = document.createElement('div');
-                        fallbackLoading.id = 'fallback-loading';
-                        fallbackLoading.style.position = 'fixed';
-                        fallbackLoading.style.top = '10px';
-                        fallbackLoading.style.right = '10px';
-                        fallbackLoading.style.padding = '10px';
-                        fallbackLoading.style.background = 'rgba(0,0,0,0.8)';
-                        fallbackLoading.style.color = 'white';
-                        fallbackLoading.style.borderRadius = '4px';
-                        fallbackLoading.style.zIndex = '9999';
-                        fallbackLoading.textContent = 'Loading...';
-                        document.body.appendChild(fallbackLoading);
-                    } else {
-                        const fallback = document.getElementById('fallback-loading');
-                        if (fallback) {
-                            console.log('Removing fallback loading indicator');
-                            fallback.remove();
-                        }
-                    }
-                }
-            }
-            
-            // Show alert message
-            function showAlert(message, type = 'info') {
-                const alertDiv = document.createElement('div');
-                alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
-                alertDiv.role = 'alert';
-                alertDiv.style.zIndex = '1100';
-                alertDiv.style.minWidth = '300px';
-                alertDiv.innerHTML = `
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                `;
-                
-                // Remove any existing alerts
-                document.querySelectorAll('.alert').forEach(alert => alert.remove());
-                
-                // Add to document
-                document.body.appendChild(alertDiv);
-                
-                // Auto-remove after 5 seconds
-                setTimeout(() => {
-                    alertDiv.remove();
-                }, 5000);
-            }
-            
-            function showError(message) {
-                alert('Error: ' + message);
-            }
-            
-            // Initial load with safety timeout
-            loadProduct().catch(error => {
-                console.error('Error in initial load:', error);
-                showError('Failed to load product: ' + (error.message || 'Unknown error'));
-            }).finally(() => {
-                // Safety check - hide loading after 5 seconds no matter what
-                setTimeout(() => {
-                    console.log('Safety timeout - forcing loading overlay to hide');
-                    showLoading(false);
-                }, 5000);
-            });
+
+            // Initial Load
+            loadProduct();
         });
     </script>
 

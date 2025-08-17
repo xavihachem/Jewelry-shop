@@ -348,7 +348,7 @@
                                             <i class="bi bi-cloud-arrow-up upload-icon"></i>
                                             <p class="mb-2">Drag & drop an image here or click to browse</p>
                                         </div>
-                                        <input type="file" id="image-upload" class="d-none" accept="image/*">
+                                        <input type="file" id="product-image-upload" class="d-none" accept="image/*">
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="upload-btn">
                                             <i class="bi bi-upload"></i> Browse Files
                                         </button>
@@ -363,7 +363,7 @@
                                         <!-- Additional images will be added here -->
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <button type="button" class="btn btn-outline-primary btn-sm" id="add-another-image">
+                                        <button type="button" class="btn btn-outline-primary btn-sm" id="add-additional-image">
                                             <i class="bi bi-plus-lg"></i> Add Another Image
                                         </button>
                                         <small class="text-muted ms-2">Add more images to create a product gallery</small>
@@ -395,309 +395,114 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/api.js"></script>
     <script>
-        // Character counter for small description
-        const smallDescription = document.getElementById('small-description');
-        const charCount = document.getElementById('char-count');
-        
-        if (smallDescription && charCount) {
-            smallDescription.addEventListener('input', function() {
-                const currentLength = this.value.length;
-                charCount.textContent = currentLength;
-                
-                // Optional: Add warning when approaching limit
-                if (currentLength > 140) {
-                    charCount.style.color = 'red';
-                } else {
-                    charCount.style.color = '';
-                }
-            });
-            
-            // Initialize counter
-            charCount.textContent = smallDescription.value.length;
-        }
         document.addEventListener('DOMContentLoaded', function() {
-            // Get DOM elements
             const form = document.getElementById('add-product-form');
-            const imageUpload = document.getElementById('image-upload');
-            const imagePreview = document.getElementById('image-preview');
-            const uploadBtn = document.getElementById('upload-btn');
+            const imageUpload = document.getElementById('product-image-upload');
             const uploadContainer = document.getElementById('upload-container');
-            const uploadPlaceholder = document.getElementById('upload-placeholder');
+            const imagePreview = document.getElementById('image-preview');
+            const additionalImagesContainer = document.getElementById('additional-images-container');
+            const addAdditionalImageBtn = document.getElementById('add-additional-image');
+            const loadingOverlay = document.getElementById('loading-overlay');
             const displayHome = document.getElementById('display-on-home');
             const homePositionContainer = document.getElementById('home-position-container');
-            const loadingOverlay = document.getElementById('loading-overlay');
-            const productImageInput = document.getElementById('product-image');
 
-            // Hide image preview initially
-            imagePreview.style.display = 'none';
+            let mainImageFile = null; // Will hold the main image File object
+            let additionalImages = []; // Will hold additional image File objects
 
-            // Handle click on upload container
-            uploadContainer.addEventListener('click', function(e) {
-                // Don't trigger file input if clicking on the button or file input
-                if (e.target !== imageUpload && e.target !== uploadBtn) {
-                    imageUpload.click();
-                }
-            });
-
-            // Handle click on upload button
-            uploadBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                imageUpload.click();
-            });
-
-            // Handle file selection
+            // Function to handle main image file selection
             function handleFileSelect(file) {
-                if (!file) return false;
-                
-                // Check if file is an image
+                if (!file) return;
+
                 if (!file.type.match('image.*')) {
-                    showAlert('Please select a valid image file (JPEG, PNG, etc.)', 'warning');
-                    return false;
+                    showAlert('Please select a valid image file (JPEG, PNG, etc.)', 'danger');
+                    return;
                 }
-                
-                // Check file size (max 2MB)
-                if (file.size > 3.5 * 1024 * 1024) {
-                    showAlert('Image size should be less than 3.5MB', 'warning');
-                    return false;
+
+                if (file.size > 3.5 * 1024 * 1024) { // 3.5MB limit
+                    showAlert('Image size should be less than 3.5MB', 'danger');
+                    return;
                 }
-                
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    // Show the image preview
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                    
-                    // Hide the upload placeholder
-                    uploadPlaceholder.style.display = 'none';
-                    
-                    // Update the hidden input with base64 data
-                    productImageInput.value = e.target.result;
-                    
-                    // Update the upload button text
-                    uploadBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Change Image';
-                    
-                    // Add visual feedback
-                    uploadContainer.classList.add('has-image');
-                };
-                
-                reader.onerror = function() {
-                    console.error('Error reading file');
-                    showAlert('Error reading the image file. Please try again.', 'danger');
-                };
-                
-                reader.readAsDataURL(file);
-                return true;
+
+                mainImageFile = file; // Store the File object
+                imagePreview.src = URL.createObjectURL(file); // Use object URL for preview
+                imagePreview.style.display = 'block';
+                uploadContainer.classList.add('has-image');
             }
-            
-            // Handle file input change
-            imageUpload.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                handleFileSelect(file);
-            });
-            
-            // Handle drag and drop
+
+            // Event listeners for main image upload
+            imageUpload.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
+            uploadContainer.addEventListener('click', () => imageUpload.click());
+
+            // Drag and drop handlers for main image
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                 uploadContainer.addEventListener(eventName, preventDefaults, false);
             });
-            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, () => uploadContainer.classList.add('highlight'), false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, () => uploadContainer.classList.remove('highlight'), false);
+            });
+            uploadContainer.addEventListener('drop', (e) => handleFileSelect(e.dataTransfer.files[0]), false);
+
             function preventDefaults(e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            
-            ['dragenter', 'dragover'].forEach(eventName => {
-                uploadContainer.addEventListener(eventName, highlight, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                uploadContainer.addEventListener(eventName, unhighlight, false);
-            });
-            
-            function highlight() {
-                uploadContainer.classList.add('drag-over');
-            }
-            
-            function unhighlight() {
-                uploadContainer.classList.remove('drag-over');
-            }
-            
-            // Handle dropped files
-            uploadContainer.addEventListener('drop', function(e) {
-                const dt = e.dataTransfer;
-                const file = dt.files[0];
-                
-                if (file) {
-                    if (handleFileSelect(file)) {
-                        // Update the file input
-                        const dataTransfer = new DataTransfer();
-                        dataTransfer.items.add(file);
-                        imageUpload.files = dataTransfer.files;
-                    }
-                }
-            });
-            
-            // Additional Images Functionality
-            const additionalImagesContainer = document.getElementById('additional-images-container');
-            const addImageBtn = document.getElementById('add-another-image');
-            const additionalImagesInput = document.getElementById('additional-images-input');
-            let additionalImages = [];
-            
-            // Function to create an image item
-            function createImageItem(imageData, index) {
-                const item = document.createElement('div');
-                item.className = 'additional-image-item';
-                item.innerHTML = `
-                    <img src="${imageData}" alt="Additional product image">
-                    <button type="button" class="additional-image-remove" data-index="${index}">
-                        <i class="bi bi-x"></i>
-                    </button>
+
+            // --- Additional Images Logic ---
+
+            function createImageItem(file, index) {
+                const div = document.createElement('div');
+                div.className = 'additional-image-item';
+                div.innerHTML = `
+                    <img src="${URL.createObjectURL(file)}" alt="Additional Image ${index + 1}">
+                    <button type="button" class="btn btn-danger btn-sm remove-btn">&times;</button>
                 `;
-                return item;
+                div.querySelector('.remove-btn').addEventListener('click', () => {
+                    additionalImages.splice(index, 1);
+                    renderAdditionalImages();
+                });
+                return div;
             }
-            
-            // Function to update the hidden input with all images
-            function updateAdditionalImagesInput() {
-                additionalImagesInput.value = JSON.stringify(additionalImages);
-            }
-            
-            // Function to handle additional image upload
+
             function handleAdditionalImageUpload(file) {
                 return new Promise((resolve, reject) => {
                     if (!file.type.match('image.*')) {
-                        reject('Please select a valid image file (JPEG, PNG, etc.)');
-                        return;
+                        return reject('Please select a valid image file.');
                     }
-                    
                     if (file.size > 3.5 * 1024 * 1024) {
-                        reject('Image size should be less than 3.5MB');
-                        return;
+                        return reject('Image size should be less than 3.5MB');
                     }
-                    
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(e) {
-                        additionalImages.push(e.target.result);
-                        updateAdditionalImagesInput();
-                        renderAdditionalImages();
-                        resolve();
-                    };
-                    
-                    reader.onerror = function() {
-                        reject('Error reading the image file');
-                    };
-                    
-                    reader.readAsDataURL(file);
+                    additionalImages.push(file); // Push the File object
+                    renderAdditionalImages();
+                    resolve();
                 });
             }
-            
-            // Function to render all additional images
+
             function renderAdditionalImages() {
                 additionalImagesContainer.innerHTML = '';
-                
-                // Add existing images
-                additionalImages.forEach((img, index) => {
-                    const item = createImageItem(img, index);
+                additionalImages.forEach((file, index) => {
+                    const item = createImageItem(file, index);
                     additionalImagesContainer.appendChild(item);
                 });
-                
-                // Add the "add more" button if we have less than 10 images
-                if (additionalImages.length < 10) {
-                    const addMoreItem = document.createElement('div');
-                    addMoreItem.className = 'additional-image-upload';
-                    addMoreItem.innerHTML = `
-                        <i class="bi bi-plus-lg"></i>
-                        <small>Add Image</small>
-                    `;
-                    
-                    const fileInput = document.createElement('input');
-                    fileInput.type = 'file';
-                    fileInput.accept = 'image/*';
-                    fileInput.className = 'd-none';
-                    fileInput.multiple = false;
-                    
-                    addMoreItem.appendChild(fileInput);
-                    additionalImagesContainer.appendChild(addMoreItem);
-                    
-                    // Handle click on add more
-                    addMoreItem.addEventListener('click', () => {
-                        fileInput.click();
-                    });
-                    
-                    // Handle file selection
-                    fileInput.addEventListener('change', (e) => {
-                        const file = e.target.files[0];
-                        if (file) {
-                            handleAdditionalImageUpload(file)
-                                .catch(error => {
-                                    showAlert(error, 'warning');
-                                });
-                        }
-                    });
-                }
-                
-                // Add event listeners to remove buttons
-                document.querySelectorAll('.additional-image-remove').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const index = parseInt(btn.getAttribute('data-index'));
-                        additionalImages.splice(index, 1);
-                        updateAdditionalImagesInput();
-                        renderAdditionalImages();
-                    });
-                });
             }
-            
-            // Initialize the additional images section
-            renderAdditionalImages();
-            
-            // Handle click on "Add Another Image" button
-            addImageBtn.addEventListener('click', () => {
+
+            addAdditionalImageBtn.addEventListener('click', () => {
                 const fileInput = document.createElement('input');
                 fileInput.type = 'file';
                 fileInput.accept = 'image/*';
-                fileInput.multiple = false;
-                
-                fileInput.addEventListener('change', (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        handleAdditionalImageUpload(file)
-                            .catch(error => {
-                                showAlert(error, 'warning');
-                            });
+                fileInput.multiple = true;
+                fileInput.onchange = async (e) => {
+                    for (const file of e.target.files) {
+                        try {
+                            await handleAdditionalImageUpload(file);
+                        } catch (error) {
+                            showAlert(error, 'danger');
+                        }
                     }
-                });
-                
+                };
                 fileInput.click();
-            });
-            
-            // Handle drag and drop for additional images container
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                additionalImagesContainer.addEventListener(eventName, preventDefaults, false);
-            });
-            
-            ['dragenter', 'dragover'].forEach(eventName => {
-                additionalImagesContainer.addEventListener(eventName, function() {
-                    this.classList.add('drag-over');
-                }, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                additionalImagesContainer.addEventListener(eventName, function() {
-                    this.classList.remove('drag-over');
-                }, false);
-            });
-            
-            additionalImagesContainer.addEventListener('drop', function(e) {
-                const dt = e.dataTransfer;
-                const file = dt.files[0];
-                
-                if (file) {
-                    handleAdditionalImageUpload(file)
-                        .catch(error => {
-                            showAlert(error, 'warning');
-                        });
-                }
             });
 
             // Toggle home position field
@@ -708,166 +513,87 @@
                 }
             });
 
-            // Show loading overlay
+            // --- Utility Functions ---
             function showLoading(show) {
                 loadingOverlay.style.display = show ? 'flex' : 'none';
             }
 
-            // Show alert message
             function showAlert(message, type = 'info') {
                 const alertDiv = document.createElement('div');
                 alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-                alertDiv.role = 'alert';
-                alertDiv.innerHTML = `
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                `;
-                
-                const container = document.querySelector('.container');
-                container.insertBefore(alertDiv, container.firstChild);
-                
-                // Auto-dismiss after 5 seconds
-                setTimeout(() => {
-                    const bsAlert = new bootstrap.Alert(alertDiv);
-                    bsAlert.close();
-                }, 5000);
+                alertDiv.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+                document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.container').firstChild);
+                setTimeout(() => new bootstrap.Alert(alertDiv).close(), 5000);
             }
 
-            // Form submission
+            // --- Form Submission ---
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                
+
+                if (!mainImageFile) {
+                    showAlert('Please upload a main product image.', 'danger');
+                    return;
+                }
+
+                showLoading(true);
+
                 try {
-                    const formData = new FormData(form);
-                    
-                    // Get the main image data
-                    const mainImage = document.getElementById('product-image').value;
-                    if (!mainImage) {
-                        throw new Error('Please upload a main product image');
+                    const formData = new FormData();
+
+                    // Append text and other form fields
+                    formData.append('name', document.getElementById('product-name').value);
+                    formData.append('price', document.getElementById('product-price').value);
+                    formData.append('description', document.getElementById('product-description').value);
+                    formData.append('smallDescription', document.getElementById('small-description').value);
+                    formData.append('display_home', displayHome.checked);
+                    if (displayHome.checked) {
+                        formData.append('home_position', document.getElementById('home-position').value || '0');
                     }
-                    
-                    // Get additional images from the array
-                    let additionalImagesData = Array.isArray(additionalImages) ? 
-                        additionalImages.filter(img => img && typeof img === 'string' && img.trim() !== '') : [];
-                    
-                    console.log('Additional images to be saved:', additionalImagesData);
-                    
-                    // Get main product data
-                    
-                    const productData = {
-                        name: formData.get('name'),
-                        price: parseFloat(formData.get('price') || 0),
-                        description: formData.get('description'),
-                        smallDescription: formData.get('small-description') || '',
-                        image: mainImage,
-                        display_home: document.getElementById('display-on-home').checked,
-                        home_position: document.getElementById('display-on-home').checked ? 
-                            parseInt(document.getElementById('home-position').value) || 0 : 0,
-                        stock: parseInt(formData.get('stock') || 0),
-                        additionalImages: additionalImagesData // Add the filtered array of additional images
+
+                    // Append stock as a JSON string for the backend to parse
+                    const stockQuantity = parseInt(document.getElementById('stock').value, 10) || 0;
+                    const stockData = {
+                        quantity: stockQuantity,
+                        status: stockQuantity > 0 ? 'متاح' : 'غير متاح'
                     };
-                    
-                    console.log('Product data being submitted:', JSON.stringify(productData, null, 2));
-                    
-                    console.log('Submitting product with additional images:', additionalImagesData.length);
-                    console.log('Full product data being submitted:', JSON.stringify(productData, null, 2));
-                    
-                    // Basic validation
-                    if (!productData.name) {
-                        throw new Error('Product name is required');
-                    }
-                    if (isNaN(productData.price) || productData.price <= 0) {
-                        throw new Error('Please enter a valid price');
-                    }
-                    if (!productData.description) {
-                        throw new Error('Product description is required');
-                    }
-                    if (!productData.image) {
-                        throw new Error('Please upload an image for the product');
-                    }
-                    
-                    showLoading(true);
-                    
-                    // Add the new product
+                    formData.append('stock', JSON.stringify(stockData));
+
+                    // Append the main image file
+                    formData.append('image', mainImageFile);
+
+                    // Append all additional image files
+                    additionalImages.forEach(file => {
+                        formData.append('additionalImages', file);
+                    });
+
                     const API_BASE = window.API_BASE_URL || window.location.origin;
                     const response = await fetch(`${API_BASE}/api/products`, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        credentials: 'include', // send session cookie to backend
-                        body: JSON.stringify(productData)
+                        credentials: 'include', // Send cookies
+                        body: formData // The browser will set the correct Content-Type for multipart/form-data
                     });
-                    
+
                     const result = await response.json();
-                    console.log('Server response:', result);
-                    
+
                     if (!response.ok) {
-                        // Log the full response for debugging
-                        console.error('Server validation error - Status:', response.status);
-                        console.error('Response headers:', Object.fromEntries(response.headers.entries()));
-                        
-                        let errorMessage = 'Failed to add product';
-                        
-                        try {
-                            // Try to parse the response body as JSON
-                            if (result) {
-                                console.error('Error details:', result);
-                                if (result.errors) {
-                                    // If we have field-specific errors, show them
-                                    const errorMessages = Object.values(result.errors).join('\n');
-                                    errorMessage = errorMessages || 'Validation error';
-                                } else if (result.message) {
-                                    errorMessage = result.message;
-                                }
-                            }
-                        } catch (e) {
-                            console.error('Error parsing error response:', e);
+                        let errorMessage = result.message || 'Failed to add product.';
+                        if (result.errors) {
+                            errorMessage = Object.values(result.errors).join('\n');
                         }
-                        
                         throw new Error(errorMessage);
                     }
-                    
-                    // Refresh the admin panel if opened as a popup
-                    if (window.opener && !window.opener.closed) {
-                        const productAddedEvent = new CustomEvent('productAdded');
-                        window.opener.document.dispatchEvent(productAddedEvent);
-                        
-                        // Close the window after a short delay to allow the event to be processed
-                        setTimeout(() => {
-                            window.close();
-                        }, 500);
-                    } else {
-                        // If not opened as a popup, just show success message and reset form
-                        showAlert('Product added successfully!', 'success');
-                        form.reset();
-                        
-                        // If there's a file input, reset it too
-                        const fileInput = document.getElementById('product-image');
-                        if (fileInput) {
-                            fileInput.value = '';
-                        }
-                        
-                        // Clear additional images
-                        const additionalImagesContainer = document.getElementById('additional-images-container');
-                        if (additionalImagesContainer) {
-                            additionalImagesContainer.innerHTML = '';
-                            additionalImagesData = [];
-                        }
-                    }
-                    
+
                     showAlert('Product added successfully!', 'success');
-                    
-                    // Reset form
                     form.reset();
                     imagePreview.style.display = 'none';
-                    uploadPlaceholder.style.display = 'block';
-                    document.getElementById('product-image').value = '';
-                    uploadBtn.innerHTML = '<i class="bi bi-upload"></i> Upload Image';
                     uploadContainer.classList.remove('has-image');
-                    homePositionContainer.style.display = 'none';
-                    
+                    mainImageFile = null;
+                    additionalImages = [];
+                    renderAdditionalImages();
+
                 } catch (error) {
                     console.error('Error adding product:', error);
-                    showAlert(error.message || 'Failed to add product. Please try again.', 'danger');
+                    showAlert(error.message || 'An unexpected error occurred.', 'danger');
                 } finally {
                     showLoading(false);
                 }
