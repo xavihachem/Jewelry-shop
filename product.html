@@ -591,6 +591,11 @@
       color: var(--primary-gold);
       text-decoration: none;
     }
+    /* Improve hover feedback for cart link */
+    .mobile-cart-wrapper .cart-link:hover {
+      color: var(--light-gold);
+      text-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
+    }
     .mobile-cart-wrapper .cart-count-badge {
       position: absolute;
       top: -6px;
@@ -604,6 +609,8 @@
       padding: 0 4px;
       font-size: 11px;
       border-radius: 10px;
+      pointer-events: none; /* Do not block hover/click on the icon */
+      z-index: 1;
     }
     
     /* Back to shop link */
@@ -879,6 +886,10 @@
       color: var(--primary-gold);
       text-decoration: none;
     }
+    .mobile-cart-wrapper .cart-link:hover {
+      color: var(--light-gold);
+      text-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
+    }
     .mobile-cart-wrapper .cart-count-badge {
       position: absolute;
       top: -6px;
@@ -888,6 +899,8 @@
       padding: 0 4px;
       font-size: 11px;
       line-height: 18px;
+      pointer-events: none; /* Ensure badge doesn't intercept events */
+      z-index: 1;
     }
     /* Gold badge for cart count on product page */
     .cart-count-badge {
