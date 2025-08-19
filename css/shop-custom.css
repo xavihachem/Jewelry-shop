@@ -1061,11 +1061,11 @@ html, body {
 @media (max-width: 767px) {
   .product-grid {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 4px !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: 0 6px !important;
+    padding: 0 4px !important;
     box-sizing: border-box !important;
   }
   
@@ -1074,14 +1074,18 @@ html, body {
     float: none !important;
     padding: 0 !important;
     margin: 0 !important;
+    min-width: 0; /* Prevent flex items from overflowing */
   }
   
   /* Override Bootstrap's row negative margins */
   /* Make cards more compact */
   .product-card-new {
     width: 100% !important;
+    height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
     transition: transform 0.2s ease, box-shadow 0.2s ease !important;
     border-radius: 10px !important;
     overflow: hidden !important;
@@ -1121,22 +1125,33 @@ html, body {
   
   /* Product info styles for mobile */
   .product-info-new {
-    padding: 8px !important;
+    padding: 4px 3px !important;
     display: flex !important;
     flex-direction: column !important;
     flex-grow: 1 !important;
+    min-height: 0; /* Fix for flex children overflow */
   }
   
   .product-title, .product-title-new {
-    font-size: 13px !important;
-    margin: 0 0 4px 0 !important;
+    font-size: 10px !important;
+    margin: 0 0 2px 0 !important;
+    line-height: 1.1 !important;
+    min-height: 22px;
+    max-height: 22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
     line-height: 1.2 !important;
     font-weight: 500 !important;
-    min-height: 32px;
+    min-height: 28px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    line-clamp: 2;
   }
   
   .product-description-new {
@@ -1144,11 +1159,11 @@ html, body {
   }
   
   .product-price-new {
-    margin: 4px 0 8px 0 !important;
+    margin: 2px 0 4px 0 !important;
   }
   
   .item-price {
-    font-size: 14px !important;
+    font-size: 12px !important;
     font-weight: 600 !important;
   }
   
@@ -1157,13 +1172,15 @@ html, body {
   }
   
   .btn-outline-gold {
-    padding: 6px 8px !important;
-    font-size: 11px !important;
+    padding: 2px 4px !important;
+    font-size: 9px !important;
+    margin-top: 4px !important;
     margin-top: auto !important;
-    min-height: 34px;
+    min-height: 26px;
     display: flex !important;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
   }
   
   .btn-outline-gold .bi-arrow-right {
