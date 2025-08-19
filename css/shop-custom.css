@@ -562,6 +562,23 @@ html, body {
   overflow: hidden;
 }
 
+/* Desktop enhancements: make cards larger and use more horizontal space */
+@media (min-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 24px;
+    padding: 24px 12px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 28px;
+    padding: 28px 12px;
+  }
+}
+
 /* Product Column */
 .product-col {
   width: 100%;
