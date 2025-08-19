@@ -311,6 +311,36 @@ html, body {
   font-weight: 500;
 }
 
+/* Product CTA button (View Product) */
+.btn-outline-gold {
+  color: #E6C56E;
+  background: rgba(184, 154, 79, 0.1);
+  border: 2px solid #b89a4f;
+  box-shadow: 0 4px 15px rgba(184, 154, 79, 0.15);
+  border-radius: 50px;
+  padding: 0.6rem 1.2rem;
+  transition: all 0.3s ease;
+  font-family: 'Jost', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-outline-gold:hover {
+  color: #fff;
+  background: rgba(184, 154, 79, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25);
+}
+
+.btn-outline-gold i { transition: transform 0.3s ease; }
+.btn-outline-gold:hover i { transform: translateX(3px); }
+
+.product-btn { width: 100%; }
+
 /* Add to Cart Button */
 .add-to-cart-btn {
   display: flex;

@@ -486,15 +486,10 @@ async function loadProductsIntoGrid(productGrid, page = 1) {
                 <span class="item-price">${parseFloat(product.price).toLocaleString('en-US')}</span>
                 <span class="price-currency" data-en="DZD" data-ar="د.ج">DZD</span>
               </div>
-              <a href="product.html?id=${product.id || product._id}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center" style="padding: 0.6rem 1.5rem; border-radius: 50px; transition: all 0.3s ease; gap: 8px; color: #E6C56E !important; background: rgba(184, 154, 79, 0.1) !important; border: 2px solid #b89a4f !important; box-shadow: 0 4px 15px rgba(184, 154, 79, 0.15) !important; font-family: 'Jost', sans-serif; font-weight: 400; letter-spacing: 0.5px;">
-                <span class="btn-text" data-i18n-key="view_product" style="margin-right: 8px;">${window.translations?.[window.currentLanguage || 'en']?.['view_product'] || 'View Product'}</span>
-                <i class="bi bi-arrow-right" style="font-size: 1rem; transition: transform 0.3s ease;"></i>
+              <a href="product.html?id=${product.id || product._id}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center product-btn">
+                <span class="btn-text" data-i18n-key="view_product">${window.translations?.[window.currentLanguage || 'en']?.['view_product'] || 'View Product'}</span>
+                <i class="bi bi-arrow-right"></i>
               </a>
-              <style>
-                .btn-outline-gold:hover { color: #fff !important; background: rgba(184, 154, 79, 0.3) !important; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(184, 154, 79, 0.25) !important; }
-                .btn-outline-gold i { transition: transform 0.3s ease; }
-                .btn-outline-gold:hover i { transform: translateX(3px); }
-              </style>
             </div>
           </a>
         </div>`;
