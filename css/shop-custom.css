@@ -160,6 +160,7 @@ html, body {
   position: relative;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
   z-index: 1;
+  margin-bottom: 0;
 }
 
 /* Glass effect overlay */
@@ -637,7 +638,7 @@ html, body {
 .image-holder {
   position: relative;
   overflow: hidden;
-  height: 280px;
+  height: 200px;
   background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
   margin: 0;
   padding: 0 15px 20px; /* No top padding, only bottom padding */
@@ -1059,11 +1060,41 @@ html, body {
 
 @media (max-width: 767px) {
   .product-grid {
-    grid-template-columns: 1fr;
-    max-width: 420px;
-    margin: 0 auto;
-    gap: 15px;
-    padding: 15px 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    margin: 0;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+  
+  /* Override Bootstrap's row negative margins */
+  /* Ensure grid items take full width and maintain aspect ratio */
+  .product-card-new {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* Adjust image holder for mobile */
+  .image-holder {
+    height: 0;
+    padding-bottom: 100%; /* 1:1 Aspect Ratio */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Make sure images fill their container */
+  .product-image-new, 
+  .product-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   
   .image-holder {
