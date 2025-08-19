@@ -520,8 +520,8 @@ html, body {
 /* Product Grid Layout */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
   padding: 20px 0;
   margin: 0 auto;
   position: relative;
@@ -1454,4 +1454,63 @@ html, body {
   -webkit-text-fill-color: transparent;
   background-size: 200% auto;
   animation: shine 3s linear infinite;
+}
+
+/* Ultra-compact mobile overrides */
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    padding: 4px !important;
+  }
+
+  .product-col {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .product-card-new {
+    border-radius: 8px !important;
+  }
+
+  .product-image-new-wrapper {
+    border-bottom: none !important;
+  }
+
+  .product-info-new {
+    padding: 4px 4px !important;
+  }
+
+  /* Strip decorative title effects to save space */
+  .product-title-new {
+    font-size: 11px !important;
+    margin: 0 0 2px 0 !important;
+    padding: 0 !important;
+    background: none !important;
+    -webkit-text-fill-color: currentColor !important;
+    text-shadow: none !important;
+    animation: none !important;
+  }
+
+  .product-description-new { display: none !important; }
+
+  .product-price-new {
+    font-size: 0.95rem !important;
+    padding-top: 4px !important;
+    margin: 0 0 4px 0 !important;
+  }
+  .product-price-new::before { display: none !important; }
+
+  .item-price { font-size: 0.95rem !important; }
+  .price-currency { font-size: 0.75rem !important; }
+
+  .btn-outline-gold {
+    padding: 4px 6px !important;
+    font-size: 10px !important;
+    min-height: 28px !important;
+    border-width: 1px !important;
+    box-shadow: none !important;
+    gap: 6px !important;
+  }
+  .btn-outline-gold .bi { font-size: 0.9rem !important; }
 }
