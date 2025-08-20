@@ -604,44 +604,6 @@
       box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
     }
     
-    /* Mobile cart icon wrapper */
-    .mobile-cart-wrapper {
-      position: relative;
-      margin-left: 8px;
-    }
-    .mobile-cart-wrapper .cart-link {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      color: var(--primary-gold);
-      text-decoration: none;
-    }
-    /* Improve hover feedback for cart link */
-    .mobile-cart-wrapper .cart-link:hover {
-      color: var(--light-gold);
-      text-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
-    }
-    .mobile-cart-wrapper .cart-count-badge {
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      transform: translate(0, 0);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      min-width: 18px;
-      height: 18px;
-      padding: 0 4px;
-      font-size: 11px;
-      border-radius: 10px;
-      pointer-events: none; /* Do not block hover/click on the icon */
-      z-index: 1;
-    }
-    
     /* Back to shop link */
     header a {
       color: var(--text-muted);
@@ -903,47 +865,8 @@
     ::-webkit-scrollbar-thumb:hover {
       background: var(--dark-gold);
     }
-    /* Cart icon/link positioning and styling */
-    .mobile-cart-wrapper .cart-link {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      color: var(--primary-gold);
-      text-decoration: none;
-    }
-    .mobile-cart-wrapper .cart-link:hover {
-      color: var(--light-gold);
-      text-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
-    }
-    .mobile-cart-wrapper .cart-count-badge {
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      min-width: 18px;
-      height: 18px;
-      padding: 0 4px;
-      font-size: 11px;
-      line-height: 18px;
-      pointer-events: none; /* Ensure badge doesn't intercept events */
-      z-index: 1;
-    }
-    /* Gold badge for cart count on product page */
-    .cart-count-badge {
-      background-color: var(--primary-gold) !important;
-      color: #000 !important;
-    }
-    .cart-text {
-      white-space: nowrap;
-      color: var(--primary-gold);
-      font-weight: 500;
-    }
-    /* In RTL (Arabic), ensure cart stays on the right and back on the left by swapping item order */
-    [dir="rtl"] .product-topbar .mobile-cart-wrapper { order: 0; }
-    [dir="rtl"] .product-topbar .back-button-wrapper { order: 1; }
+    /* RTL adjustments for product topbar */
+    [dir="rtl"] .product-topbar .back-button-wrapper { margin-right: 0; }
   </style>
 </head>
 <body class="homepage">
@@ -957,12 +880,6 @@
                 <i class="bi bi-arrow-left-short fs-5 me-2"></i>
                 <span data-i18n-key="product.back_to_shop">Back to Shop</span>
                 <div class="btn-glow"></div>
-              </a>
-            </div>
-            <div class="mobile-cart-wrapper">
-              <a href="cart.html" class="cart-link position-relative" aria-label="Cart">
-                <i class="bi bi-cart3 fs-5"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-count-badge bg-gold text-dark" style="display: none; min-width: 20px; height: 20px; font-size: 0.7rem; padding: 0.25em 0.4em;">0</span>
               </a>
             </div>
           </div>
@@ -1741,14 +1658,6 @@
         });
       }
       
-      // Cart link in header
-      const cartLink = document.querySelector('.cart-link');
-      if (cartLink) {
-        cartLink.addEventListener('click', function(e) {
-          e.preventDefault();
-          window.location.href = 'cart.html';
-        });
-      }
       
       // i18n logic for product page
       // Log current language from localStorage
