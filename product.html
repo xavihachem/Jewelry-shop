@@ -602,6 +602,8 @@
       background: linear-gradient(to right, #0f0c09, #1a1610);
       border-bottom: 1px solid rgba(45, 39, 30, 0.8);
       box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 1100; /* Higher than toast container */
     }
     
     /* Back to shop link */
@@ -967,10 +969,13 @@
         toastContainer = document.createElement('div');
         toastContainer.id = 'toast-container';
         toastContainer.style.position = 'fixed';
-        toastContainer.style.top = '20px';
+        // Position toast below the header but above other content
+        const header = document.querySelector('header');
+        const headerHeight = header ? header.offsetHeight : 0;
+        toastContainer.style.top = `${headerHeight + 20}px`;
         toastContainer.style.right = '20px';
         toastContainer.style.left = 'auto';
-        toastContainer.style.zIndex = '9999';
+        toastContainer.style.zIndex = '1000'; // Lower than header's z-index
         toastContainer.style.maxWidth = 'calc(100% - 40px)';
         document.body.appendChild(toastContainer);
       }
@@ -988,6 +993,7 @@
       toast.style.transition = 'all 0.3s ease';
       toast.style.maxWidth = '400px';
       toast.style.width = 'auto';
+      toast.style.pointerEvents = 'auto'; // Ensure the toast itself is clickable
       toast.role = 'alert';
       toast.setAttribute('aria-live', 'assertive');
       toast.setAttribute('aria-atomic', 'true');
