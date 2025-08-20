@@ -960,9 +960,9 @@
               </a>
             </div>
             <div class="mobile-cart-wrapper">
-              <a href="cart.html" class="cart-link" aria-label="Cart">
+              <a href="cart.html" class="cart-link position-relative" aria-label="Cart">
                 <i class="bi bi-cart3 fs-5"></i>
-                <span class="position-absolute translate-middle badge rounded-pill cart-count-badge" style="display:none;">0</span>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-count-badge bg-gold text-dark" style="display: none; min-width: 20px; height: 20px; font-size: 0.7rem; padding: 0.25em 0.4em;">0</span>
               </a>
             </div>
           </div>
@@ -1012,7 +1012,7 @@
             <span class="btn-text">Add to Cart</span>
             <span class="btn-price ms-2" id="priceDisplay"></span>
           </button>
-          <a href="cart.html" class="go-to-cart-btn" id="goToCartBtn">
+          <a href="cart.html" class="go-to-cart-btn" id="goToCartBtn" data-i18n-key="go_to_cart">
             <span class="btn-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -1272,19 +1272,31 @@
     // Update cart count in UI
     function updateCartCount() {
       try {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        document.querySelectorAll('.cart-count-badge').forEach(el => {
-          el.style.display = count > 0 ? 'inline-flex' : 'none';
-          el.textContent = count > 0 ? count : '';
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const count = Array.isArray(cart) ? cart.reduce((total, item) => total + (parseInt(item.quantity) || 1), 0) : 0;
+        const cartBadges = document.querySelectorAll('.cart-count-badge');
+        
+        cartBadges.forEach(badge => {
+          if (badge) {
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'flex' : 'none';
+            badge.style.alignItems = 'center';
+            badge.style.justifyContent = 'center';
+          }
         });
-      } catch (e) {
-        console.error('Error updating cart count:', e);
+        
+        return count;
+      } catch (error) {
+        console.error('Error updating cart count:', error);
+        return 0;
       }
     }
     
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
+      // Initialize cart count on page load
+      updateCartCount();
+      
       const addBtn = document.getElementById('addToCartBtn');
       const productId = new URLSearchParams(window.location.search).get('id');
       
@@ -1718,11 +1730,21 @@
       return translatedCount;
     };
     
-    // Add event listener for Go to Cart button
+    // Add event listeners for navigation
     document.addEventListener('DOMContentLoaded', function() {
+      // Go to Cart button
       const goToCartBtn = document.getElementById('goToCartBtn');
       if (goToCartBtn) {
         goToCartBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.location.href = 'cart.html';
+        });
+      }
+      
+      // Cart link in header
+      const cartLink = document.querySelector('.cart-link');
+      if (cartLink) {
+        cartLink.addEventListener('click', function(e) {
           e.preventDefault();
           window.location.href = 'cart.html';
         });
