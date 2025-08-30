@@ -900,6 +900,18 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
     }
+    
+    /* Make specific form labels white */
+    #orderFirstName + .form-label,
+    #orderLastName + .form-label,
+    #orderPhone + .form-label,
+    #orderAddress + .form-label,
+    label[for="orderFirstName"],
+    label[for="orderLastName"],
+    label[for="orderPhone"],
+    label[for="orderAddress"] {
+      color: #ffffff !important;
+    }
     .text-gold {
       color: #d4af37 !important;
     }
