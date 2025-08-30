@@ -646,7 +646,6 @@
       }
     }
     
-
     .btn-gold {
       background: linear-gradient(145deg, #d4af37, #a88a2c);
       color: #0f0c09;
@@ -847,8 +846,62 @@
     .alert-warning {
       background-color: rgba(255, 243, 205, 0.1);
       border-color: rgba(255, 229, 168, 0.3);
-      color: #ffecb5;
-      color: var(--text-light);
+      color: rgba(255, 229, 168, 0.9);
+    }
+    
+    /* Order Form Styles */
+    .order-container { 
+      max-width: 1200px; 
+      margin: 2rem auto; 
+      padding: 0 1.5rem; 
+    }
+    .card-gradient-bg {
+      background: linear-gradient(145deg, rgba(26, 26, 26, 0.9), rgba(42, 42, 42, 0.8));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    .order-summary-card {
+      top: 2rem;
+      height: fit-content;
+    }
+    .order-summary-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .order-summary-item:last-child {
+      border-bottom: none;
+    }
+    .delivery-option {
+      flex: 1;
+      min-width: 180px;
+    }
+    .delivery-option .form-check-label {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(212, 175, 55, 0.05);
+    }
+    .delivery-option .form-check-input:checked + .form-check-label {
+      border-color: #d4af37;
+      background: rgba(212, 175, 55, 0.15);
+      color: #d4af37;
+    }
+    .place-order-btn {
+      background: linear-gradient(135deg, #d4af37, #a88a2c);
+      color: #0f0c09;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .place-order-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    .text-gold {
+      color: #d4af37 !important;
     }
     
     /* Custom scrollbar */
@@ -946,101 +999,6 @@
       </div>
     </div>
   </main>
-
-  <!-- Direct Order Section (static, not collapsible) -->
-  <section id="directOrderSection" class="container pb-5">
-    <div class="row g-4">
-      <div class="col-12">
-        <div class="card border-0" style="background-color: var(--card-bg); border: 1px solid var(--border-color);">
-          <div class="card-body p-4">
-            <h3 class="text-gold mb-3 d-flex align-items-center">
-              <i class="bi bi-bag-check me-2"></i>
-              <span data-i18n-key="order.place_direct_order">Place Your Order Now</span>
-            </h3>
-
-            <!-- Order Form -->
-            <form id="directOrderForm" class="ltr-form">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="firstName" class="form-label">First Name</label>
-                  <input type="text" class="form-control" id="firstName" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="lastName" class="form-label">Last Name</label>
-                  <input type="text" class="form-control" id="lastName" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="phone" class="form-label">Phone</label>
-                  <input type="tel" class="form-control" id="phone" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="city" class="form-label">City</label>
-                  <select id="city" class="form-select" required>
-                    <option value="" selected disabled>Select City</option>
-                  </select>
-                </div>
-                <div class="col-12">
-                  <label for="address" class="form-label">Address</label>
-                  <input type="text" class="form-control" id="address" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="quantity" class="form-label">Quantity</label>
-                  <input type="number" id="quantity" class="form-control" min="1" step="1" value="1" required>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label d-block">Delivery Method</label>
-                  <div class="d-flex gap-3 flex-wrap">
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="deliveryMethod" id="deliveryDesktop" value="desktop" checked>
-                      <label class="form-check-label" for="deliveryDesktop">
-                        <i class="bi bi-shop me-1"></i> Office Pickup
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="deliveryMethod" id="deliveryHouse" value="house">
-                      <label class="form-check-label" for="deliveryHouse">
-                        <i class="bi bi-house-door me-1"></i> Home Delivery
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <label for="notes" class="form-label">Notes (optional)</label>
-                  <textarea id="notes" class="form-control" rows="2" placeholder="Any extra instructions..."></textarea>
-                </div>
-
-                <!-- Order Summary -->
-                <div class="col-12">
-                  <div class="row g-3 align-items-center">
-                    <div class="col-md-4">
-                      <div class="small text-muted">Subtotal</div>
-                      <div id="directSubtotal" class="fw-semibold">-</div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="small text-muted">Shipping</div>
-                      <div id="directShipping" class="fw-semibold">-</div>
-                      <input type="hidden" id="shippingFee" value="0">
-                    </div>
-                    <div class="col-md-4">
-                      <div class="small text-muted">Total</div>
-                      <div id="directTotal" class="fw-bold text-gold">-</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-12 d-grid d-md-flex gap-2 mt-2">
-                  <button type="button" class="btn btn-gold place-order-btn">
-                    <i class="bi bi-check2-circle me-1"></i>
-                    <span>Place Order</span>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
   
   <!-- Loading Overlay -->
   <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 4, 3, 0.95); z-index: 9999; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(4px);">
@@ -1847,176 +1805,6 @@
   <!-- Custom Scripts -->
   <script src="js/api.js"></script>
   <script>
-    // ===== Direct Order (single product) Helpers =====
-    let selectedDeliveryMethod = 'desktop';
-
-    async function loadCitiesForDirectOrder() {
-      try {
-        const res = await fetch(`${API_BASE}/api/cities`);
-        if (!res.ok) throw new Error('Failed to fetch cities');
-        const cities = await res.json();
-        const citySelect = document.getElementById('city');
-        if (!citySelect) return;
-        citySelect.innerHTML = '<option value="" disabled selected>Select City</option>';
-        cities.forEach(c => {
-          const opt = document.createElement('option');
-          opt.value = c._id;
-          opt.textContent = c.name;
-          opt.dataset.desktopFee = c.desktopFee ?? 0;
-          opt.dataset.houseFee = c.houseFee ?? 0;
-          citySelect.appendChild(opt);
-        });
-      } catch (err) {
-        console.error('loadCities error:', err);
-      }
-    }
-
-    function getSelectedShippingFee() {
-      const citySelect = document.getElementById('city');
-      if (!citySelect || !citySelect.value) return 0;
-      const opt = citySelect.options[citySelect.selectedIndex];
-      const fee = selectedDeliveryMethod === 'house'
-        ? parseFloat(opt.dataset.houseFee || '0')
-        : parseFloat(opt.dataset.desktopFee || '0');
-      return isNaN(fee) ? 0 : fee;
-    }
-
-    function formatCurrency(val) {
-      if (typeof formatPrice === 'function') {
-        try { return formatPrice(val); } catch(e) {}
-      }
-      return `${Number(val || 0).toFixed(2)}`;
-    }
-
-    function updateDirectOrderTotals() {
-      const qty = Math.max(1, parseInt(document.getElementById('quantity')?.value || '1', 10));
-      const product = window.currentProduct || {};
-      const unitPrice = parseFloat(product.price) || 0;
-      const subtotal = unitPrice * qty;
-      const shipping = getSelectedShippingFee();
-      const total = subtotal + shipping;
-      document.getElementById('directSubtotal').textContent = formatCurrency(subtotal);
-      document.getElementById('directShipping').textContent = formatCurrency(shipping);
-      document.getElementById('directTotal').textContent = formatCurrency(total);
-      const hiddenShip = document.getElementById('shippingFee');
-      if (hiddenShip) hiddenShip.value = shipping;
-    }
-
-    function buildSingleItem() {
-      const product = window.currentProduct || {};
-      const qty = Math.max(1, parseInt(document.getElementById('quantity')?.value || '1', 10));
-      const baseUrl = window.location.origin;
-      let imageUrl = 'img/logo.png';
-      const pImg = product.image || product.imageUrl || '';
-      if (pImg && typeof pImg === 'string') {
-        if (pImg.startsWith('http')) imageUrl = pImg;
-        else if (!pImg.startsWith('data:')) imageUrl = pImg.startsWith('/') ? `${baseUrl}${pImg}` : `${baseUrl}/uploads/${pImg}`;
-      }
-      return {
-        productId: product._id || product.id,
-        productName: product.name || 'Product',
-        productImage: imageUrl,
-        price: parseFloat(product.price) || 0,
-        quantity: qty
-      };
-    }
-
-    async function handleDirectOrderSubmission(e) {
-      e?.preventDefault?.();
-      const form = document.getElementById('directOrderForm');
-      const btn = document.querySelector('.place-order-btn');
-      if (!form || !btn) return;
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-      const citySelect = document.getElementById('city');
-      if (!citySelect?.value) { showError('Please select a city'); citySelect?.focus(); return; }
-
-      const original = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Placing Order...';
-      try {
-        const item = buildSingleItem();
-        const subtotal = item.price * item.quantity;
-        const shipping = parseFloat(document.getElementById('shippingFee')?.value || '0');
-        const orderData = {
-          firstName: document.getElementById('firstName').value.trim(),
-          lastName: document.getElementById('lastName').value.trim(),
-          phone: document.getElementById('phone').value.trim(),
-          address: document.getElementById('address').value.trim(),
-          city: citySelect.options[citySelect.selectedIndex].text,
-          deliveryMethod: selectedDeliveryMethod,
-          notes: document.getElementById('notes')?.value?.trim() || '',
-          items: [item],
-          subtotal: subtotal,
-          shippingFee: shipping,
-          total: subtotal + shipping
-        };
-
-        const response = await fetch(`${API_BASE}/api/orders`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(orderData)
-        });
-        if (!response.ok) {
-          const txt = await response.text();
-          let msg = 'Failed to place order';
-          try { msg = (JSON.parse(txt).message) || msg; } catch(_) {}
-          throw new Error(msg);
-        }
-        const result = await response.json();
-
-        const currentLang = localStorage.getItem('language') || 'ar';
-        const isRTL = currentLang === 'ar';
-        const translations = {
-          en: { title: 'Order Placed Successfully!', successMsg: "Your order has been placed successfully. We'll contact you soon with order confirmation and delivery details.", orderId: 'Order ID:', backToHome: 'Back to Home' },
-          ar: { title: 'تم تقديم الطلب بنجاح!', successMsg: 'تم تقديم طلبك بنجاح. سوف نتصل بك قريباً لتأكيد الطلب وتفاصيل التوصيل.', orderId: 'رقم الطلب:', backToHome: 'العودة للصفحة الرئيسية' }
-        };
-        const t = translations[currentLang] || translations.en;
-        const successModal = `
-          <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true" data-bs-backdrop="static" dir="${isRTL ? 'rtl' : 'ltr'}">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content bg-dark text-white border border-gold" style="max-width: 500px; margin: 0 auto;">
-                <div class="modal-header border-bottom border-gold">
-                  <h5 class="modal-title text-gold m-0" id="successModalLabel">
-                    <i class="bi bi-check-circle-fill text-success me-2"></i>${t.title}
-                  </h5>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center py-4 px-4">
-                  <p class="mb-3">${t.successMsg}</p>
-                  <p class="mb-0">${t.orderId} <span class="text-gold fw-bold">${result.orderId || ''}</span></p>
-                </div>
-                <div class="modal-footer border-top border-gold justify-content-center">
-                  <a href="index_new.html" class="btn btn-gold px-4 py-2"><i class="bi bi-house-door ${isRTL ? 'ms-2' : 'me-2'}"></i>${t.backToHome}</a>
-                </div>
-              </div>
-            </div>
-          </div>`;
-        document.body.insertAdjacentHTML('beforeend', successModal);
-        const modal = new bootstrap.Modal(document.getElementById('successModal'));
-        modal.show();
-        document.getElementById('successModal').addEventListener('hidden.bs.modal', function () {
-          window.location.href = 'index_new.html';
-        });
-      } catch (error) {
-        let m = error.message || 'An error occurred while placing your order. Please try again.';
-        if (m.includes('Failed to fetch')) m = 'Unable to connect to the server. Please check your internet connection and try again.';
-        showError(m);
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = original;
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      loadCitiesForDirectOrder().then(() => updateDirectOrderTotals());
-      document.querySelectorAll('input[name="deliveryMethod"]').forEach(r => {
-        r.addEventListener('change', () => { selectedDeliveryMethod = r.value; updateDirectOrderTotals(); });
-      });
-      const citySel = document.getElementById('city');
-      citySel?.addEventListener('change', updateDirectOrderTotals);
-      document.getElementById('quantity')?.addEventListener('input', updateDirectOrderTotals);
-      document.querySelector('.place-order-btn')?.addEventListener('click', handleDirectOrderSubmission);
-    });
-  </script>
-  <script>
     // Initialize the API
     document.addEventListener('DOMContentLoaded', function() {
       window.api.init().then(() => {
@@ -2032,8 +1820,436 @@
     });
   </script>
 
+  <!-- Order Form JavaScript -->
+  <script>
+    // Order form variables
+    let orderCities = [];
+    let selectedOrderCity = null;
+    let selectedOrderDeliveryMethod = 'desktop';
+    let currentProductForOrder = null;
+
+    // Load cities for order form
+    async function loadOrderCities() {
+      try {
+        const response = await fetch(`${API_BASE}/api/cities`);
+        if (response.ok) {
+          orderCities = await response.json();
+          populateOrderCitySelect();
+        }
+      } catch (error) {
+        console.error('Error loading cities:', error);
+      }
+    }
+
+    // Populate city select dropdown
+    function populateOrderCitySelect() {
+      const citySelect = document.getElementById('orderCity');
+      if (!citySelect) return;
+      
+      citySelect.innerHTML = '<option value="">-- Select City --</option>';
+      orderCities.forEach(city => {
+        const option = document.createElement('option');
+        option.value = city._id;
+        option.textContent = city.name;
+        option.dataset.desktopFee = city.desktopFee || 0;
+        option.dataset.houseFee = city.houseFee || 0;
+        citySelect.appendChild(option);
+      });
+    }
+
+    // Display current product in order items
+    function displayOrderProduct() {
+      const container = document.getElementById('orderItemsContainer');
+      if (!container || !currentProductForOrder) return;
+
+      const itemHTML = `
+        <div class="row align-items-center mb-3">
+          <div class="col-2 d-flex align-items-center">
+            <div class="order-item-image-container bg-light rounded d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; overflow: hidden;">
+              <img src="${currentProductForOrder.image || 'img/logo.png'}" 
+                   alt="${currentProductForOrder.name}" 
+                   class="img-fluid" 
+                   style="max-height: 100%; max-width: 100%; object-fit: contain;"
+                   onerror="this.onerror=null; this.src='img/logo.png'">
+            </div>
+          </div>
+          <div class="col-6">
+            <h6 class="mb-1 text-truncate text-white" style="max-width: 90%;" title="${currentProductForOrder.name}">${currentProductForOrder.name}</h6>
+            <small class="text-muted">Quantity: 1</small>
+          </div>
+          <div class="col-4 text-end">
+            <span class="fw-semibold text-white">${parseFloat(currentProductForOrder.price).toFixed(2)} DZD</span>
+            <div class="text-muted small">${parseFloat(currentProductForOrder.price).toFixed(2)} DZD each</div>
+          </div>
+        </div>
+      `;
+      container.innerHTML = itemHTML;
+    }
+
+    // Update order total
+    function updateOrderTotal() {
+      if (!currentProductForOrder) return;
+      
+      const subtotal = parseFloat(currentProductForOrder.price);
+      const shippingFee = selectedOrderCity ? 
+        (selectedOrderDeliveryMethod === 'desktop' ? selectedOrderCity.desktopFee : selectedOrderCity.houseFee) : 0;
+      const total = subtotal + shippingFee;
+
+      document.getElementById('orderSubtotal').textContent = `${subtotal.toFixed(2)} DZD`;
+      document.getElementById('orderShippingFeeDisplay').textContent = `${shippingFee.toFixed(2)} TND`;
+      document.getElementById('orderTotal').textContent = `${total.toFixed(2)} TND`;
+      document.getElementById('orderShippingFee').value = shippingFee;
+    }
+
+    // Handle order submission
+    async function handleProductOrderSubmission(e) {
+      e.preventDefault();
+      
+      const form = document.getElementById('productOrderForm');
+      const submitBtn = document.getElementById('placeProductOrderBtn');
+      const originalBtnText = submitBtn.innerHTML;
+
+      // Validate form
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // Validate city selection
+      const citySelect = document.getElementById('orderCity');
+      if (!citySelect.value) {
+        showError('Please select a city');
+        citySelect.focus();
+        return;
+      }
+
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Placing Order...';
+
+      try {
+        const baseUrl = window.location.origin;
+        let imageUrl = 'img/logo.png';
+        
+        if (currentProductForOrder.image && !currentProductForOrder.image.startsWith('data:')) {
+          if (currentProductForOrder.image.startsWith('http')) {
+            imageUrl = currentProductForOrder.image;
+          } else if (!currentProductForOrder.image.startsWith('data:')) {
+            if (currentProductForOrder.image.startsWith('/')) {
+              imageUrl = `${baseUrl}${currentProductForOrder.image}`;
+            } else {
+              imageUrl = `${baseUrl}/uploads/${currentProductForOrder.image}`;
+            }
+          }
+        }
+
+        // Create single item array
+        const items = [{
+          productId: currentProductForOrder.id,
+          productName: currentProductForOrder.name,
+          productImage: imageUrl,
+          price: parseFloat(currentProductForOrder.price),
+          quantity: 1
+        }];
+
+        // Prepare order data
+        const orderData = {
+          firstName: document.getElementById('orderFirstName').value.trim(),
+          lastName: document.getElementById('orderLastName').value.trim(),
+          phone: document.getElementById('orderPhone').value.trim(),
+          address: document.getElementById('orderAddress').value.trim(),
+          city: citySelect.options[citySelect.selectedIndex].text,
+          deliveryMethod: selectedOrderDeliveryMethod,
+          notes: document.getElementById('orderNotes')?.value?.trim() || '',
+          items: items,
+          subtotal: parseFloat(currentProductForOrder.price),
+          shippingFee: parseFloat(document.getElementById('orderShippingFee').value || '0'),
+          total: parseFloat(currentProductForOrder.price) + parseFloat(document.getElementById('orderShippingFee').value || '0')
+        };
+
+        // Send order to backend
+        const response = await fetch(`${API_BASE}/api/orders`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(orderData)
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          let errorMessage = 'Failed to place order';
+          try {
+            const errorData = JSON.parse(errorText);
+            errorMessage = errorData.message || errorMessage;
+          } catch (e) {
+            // Use default message
+          }
+          throw new Error(errorMessage);
+        }
+
+        const result = await response.json();
+        
+        // Show success message
+        const currentLang = localStorage.getItem('language') || 'ar';
+        const isRTL = currentLang === 'ar';
+        
+        const translations = {
+          en: {
+            title: 'Order Placed Successfully!',
+            successMsg: 'Your order has been placed successfully. We\'ll contact you soon with order confirmation and delivery details.',
+            orderId: 'Order ID:',
+            backToHome: 'Back to Home'
+          },
+          ar: {
+            title: 'تم تقديم الطلب بنجاح!',
+            successMsg: 'تم تقديم طلبك بنجاح. سوف نتصل بك قريباً لتأكيد الطلب وتفاصيل التوصيل.',
+            orderId: 'رقم الطلب:',
+            backToHome: 'العودة للصفحة الرئيسية'
+          }
+        };
+        const t = translations[currentLang] || translations.en;
+
+        const successModal = `
+          <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-labelledby="orderSuccessModalLabel" aria-hidden="true" data-bs-backdrop="static" dir="${isRTL ? 'rtl' : 'ltr'}">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content bg-dark text-white border border-gold" style="max-width: 500px; margin: 0 auto;">
+                <div class="modal-header border-bottom border-gold">
+                  <h5 class="modal-title text-gold m-0" id="orderSuccessModalLabel">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    ${t.title}
+                  </h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4 px-4">
+                  <p class="mb-3">${t.successMsg}</p>
+                  <p class="mb-0">${t.orderId} <span class="text-gold fw-bold">${result.orderId}</span></p>
+                </div>
+                <div class="modal-footer border-top border-gold justify-content-center">
+                  <a href="index_new.html" class="btn btn-gold px-4 py-2">
+                    <i class="bi bi-house-door ${isRTL ? 'ms-2' : 'me-2'}"></i>
+                    ${t.backToHome}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', successModal);
+        const modal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
+        modal.show();
+
+        // Clear form
+        form.reset();
+        
+      } catch (error) {
+        let errorMessage = error.message || 'An error occurred while placing your order. Please try again.';
+        if (error.message.includes('Failed to fetch')) {
+          errorMessage = 'Unable to connect to the server. Please check your internet connection and try again.';
+        } else if (error.message.includes('Missing required fields')) {
+          errorMessage = 'Please fill in all required fields.';
+        }
+        showError(errorMessage);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+      }
+    }
+
+    // Initialize order form when product is loaded
+    function initializeOrderForm(product) {
+      currentProductForOrder = product;
+      
+      // Pre-fill hidden fields
+      document.getElementById('orderProductId').value = product.id;
+      document.getElementById('orderProductName').value = product.name;
+      document.getElementById('orderProductPrice').value = product.price;
+      
+      // Display product in order items
+      displayOrderProduct();
+      
+      // Update totals
+      updateOrderTotal();
+      
+      // Load cities
+      loadOrderCities();
+    }
+
+    // Event listeners for order form
+    document.addEventListener('DOMContentLoaded', function() {
+      // City selection change
+      const orderCitySelect = document.getElementById('orderCity');
+      if (orderCitySelect) {
+        orderCitySelect.addEventListener('change', function() {
+          const selectedOption = this.options[this.selectedIndex];
+          if (selectedOption.value) {
+            selectedOrderCity = {
+              _id: selectedOption.value,
+              name: selectedOption.textContent,
+              desktopFee: parseFloat(selectedOption.dataset.desktopFee || 0),
+              houseFee: parseFloat(selectedOption.dataset.houseFee || 0)
+            };
+          } else {
+            selectedOrderCity = null;
+          }
+          updateOrderTotal();
+        });
+      }
+
+      // Delivery method change
+      document.querySelectorAll('input[name="orderDeliveryMethod"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          selectedOrderDeliveryMethod = this.value;
+          updateOrderTotal();
+        });
+      });
+
+      // Place order button
+      const placeOrderBtn = document.getElementById('placeProductOrderBtn');
+      if (placeOrderBtn) {
+        placeOrderBtn.addEventListener('click', handleProductOrderSubmission);
+      }
+    });
+
+    // Update the existing updateProductUI function to initialize order form
+    const originalUpdateProductUI = window.updateProductUI;
+    window.updateProductUI = function(product) {
+      if (originalUpdateProductUI) {
+        originalUpdateProductUI(product);
+      }
+      // Initialize order form with current product
+      initializeOrderForm(product);
+    };
+  </script>
+
     <!-- Facebook Pixel NoScript -->
     <!--#include virtual="/includes/facebook-pixel-noscript.html" -->
     <!-- End Facebook Pixel NoScript -->
+
+    <!-- Order Form Section -->
+    <section class="order-section py-5 mt-5" style="background: radial-gradient(ellipse at center, #1a1610 0%, #0f0c09 80%);">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 text-center mb-5">
+            <h2 class="text-gold" style="font-family: 'Marcellus', serif;">
+              <i class="bi bi-lightning-charge me-2"></i>
+              <span data-i18n-key="product.quick_order">Quick Order</span>
+            </h2>
+            <p class="text-muted" data-i18n-key="product.order_directly">Order this product directly without adding to cart</p>
+          </div>
+        </div>
+        
+        <div class="row position-relative order-container">
+          <div class="col-lg-8">
+            <div class="card border-0 mb-4 card-gradient-bg">
+              <div class="card-body p-4">
+                <h3 class="text-gold mb-4"><span data-i18n-key="order.your_items">Your Items</span></h3>
+                <div id="orderItemsContainer">
+                  <!-- Product item will be dynamically inserted here by JavaScript -->
+                </div>
+              </div>
+            </div>
+            <div class="card border-0 card-gradient-bg">
+              <div class="card-body p-4">
+                <h3 class="text-gold mb-4">
+                  <i class="bi bi-truck me-2"></i> <span data-i18n-key="order.shipping_information">Shipping Information</span>
+                </h3>
+                <form id="productOrderForm">
+                  <input type="hidden" id="orderProductId" name="productId">
+                  <input type="hidden" id="orderProductName" name="productName">
+                  <input type="hidden" id="orderProductPrice" name="productPrice">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="orderFirstName" class="form-label" data-i18n-key="order.first_name">First Name</label>
+                      <input type="text" class="form-control" id="orderFirstName" name="firstName" placeholder="Enter your first name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="orderLastName" class="form-label" data-i18n-key="order.last_name">Last Name</label>
+                      <input type="text" class="form-control" id="orderLastName" name="lastName" placeholder="Enter your last name" required>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="orderPhone" class="form-label" data-i18n-key="order.phone">Phone</label>
+                    <input type="tel" class="form-control" id="orderPhone" name="phone" placeholder="Enter your phone number" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="orderAddress" class="form-label" data-i18n-key="order.address">Address</label>
+                    <input type="text" class="form-control" id="orderAddress" name="address" placeholder="Your full address" required>
+                  </div>
+                  <div class="mb-4">
+                    <label class="form-label d-block mb-3" data-i18n-key="order.delivery_method">Delivery Method</label>
+                    <div class="d-flex flex-wrap gap-3">
+                      <div class="form-check delivery-option">
+                        <input class="form-check-input" type="radio" name="orderDeliveryMethod" id="orderDeliveryDesktop" value="desktop" checked>
+                        <label class="form-check-label" for="orderDeliveryDesktop">
+                          <i class="bi bi-pc-display"></i>
+                          <span data-i18n-key="order.deliver_desktop">Deliver to desktop</span>
+                        </label>
+                      </div>
+                      <div class="form-check delivery-option">
+                        <input class="form-check-input" type="radio" name="orderDeliveryMethod" id="orderDeliveryHome" value="home">
+                        <label class="form-check-label" for="orderDeliveryHome">
+                          <i class="bi bi-house-door"></i>
+                          <span data-i18n-key="order.deliver_home">Deliver to home</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="orderCity" class="form-label" data-i18n-key="order.city">City</label>
+                    <select class="form-select" id="orderCity" name="city" aria-label="Select your city" required>
+                      <option value="">-- Select City --</option>
+                      <!-- Cities will be populated by JavaScript -->
+                    </select>
+                    <input type="hidden" id="orderShippingFee" name="shippingFee" value="0">
+                  </div>
+                  <div class="mb-3">
+                    <label for="orderNotes" class="form-label" data-i18n-key="order.notes">Additional Notes (Optional)</label>
+                    <textarea class="form-control" id="orderNotes" name="notes" rows="3" placeholder="Any special instructions or notes"></textarea>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 position-lg-sticky order-summary-card">
+            <div class="card border-0 mb-4 card-gradient-bg">
+              <div class="card-body p-4">
+                <h3 class="text-gold mb-4">
+                  <i class="bi bi-cart-check me-2"></i> <span data-i18n-key="order.order_summary">Order Summary</span>
+                </h3>
+                <div class="order-summary-item d-flex justify-content-between py-2">
+                  <span class="text-light" data-i18n-key="order.subtotal">Subtotal</span>
+                  <span id="orderSubtotal" class="fw-semibold text-light">0.00 DZD</span>
+                </div>
+                <div class="order-summary-item d-flex justify-content-between py-2">
+                  <span class="text-light" data-i18n-key="order.shipping">Shipping</span>
+                  <span id="orderShippingFeeDisplay" class="text-light">0.00 TND</span>
+                </div>
+                <hr class="my-3 border-secondary">
+                <div class="d-flex justify-content-between align-items-center py-2">
+                  <h5 class="mb-0 text-light" data-i18n-key="order.total">Total</h5>
+                  <h4 id="orderTotal" class="text-gold mb-0 fw-bold">0.00 TND</h4>
+                </div>
+                <div class="mt-4">
+                  <button id="placeProductOrderBtn" class="place-order-btn w-100 py-3 fw-bold mb-4" style="background: linear-gradient(135deg, #d4af37, #a88a2c); color: #0f0c09; border: none; border-radius: 6px;">
+                    <i class="bi bi-bag-check"></i> <span data-i18n-key="order.place_order">Place Order</span>
+                  </button>
+                  <a href="shop.html" class="btn btn-outline-light w-100">
+                    <i class="bi bi-arrow-left me-2"></i> <span data-i18n-key="order.continue_shopping">Continue Shopping</span>
+                  </a>
+                </div>
+                <div class="mt-3 text-center">
+                  <small class="text-light">
+                    <i class="bi bi-lock-fill me-1"></i> <span data-i18n-key="order.secure_payment">Secure Payment</span>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
 </body>
 </html>
