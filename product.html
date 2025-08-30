@@ -883,13 +883,12 @@
       cursor: pointer;
       transition: all 0.3s ease;
       background: rgba(212, 175, 55, 0.05);
-      color: #ffffff !important; /* Ensure white text */
+      color: #ffffff;
     }
     .delivery-option .form-check-input:checked + .form-check-label {
       border-color: #d4af37;
-      background: rgba(212, 175, 55, 0.3);
-      color: #ffffff !important;
-      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+      background: rgba(212, 175, 55, 0.15);
+      color: #d4af37;
     }
     .place-order-btn {
       background: linear-gradient(135deg, #d4af37, #a88a2c);
@@ -2215,7 +2214,7 @@
                       <div class="form-check delivery-option">
                         <input class="form-check-input" type="radio" name="orderDeliveryMethod" id="orderDeliveryDesktop" value="desktop" checked>
                         <label class="form-check-label" for="orderDeliveryDesktop" dir="rtl">
-                          <i class="bi bi-envelope"></i>
+                          <i class="bi bi-pc-display"></i>
                           <span data-i18n-key="order.deliver_desktop">توصيل الى مكتب البريد</span>
                         </label>
                       </div>
