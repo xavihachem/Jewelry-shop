@@ -1931,6 +1931,9 @@
         const baseUrl = window.location.origin;
         let imageUrl = 'img/logo.png';
         
+        // Debug: Log current product data
+        console.log('Current product for order:', currentProductForOrder);
+        
         if (currentProductForOrder.image && !currentProductForOrder.image.startsWith('data:')) {
           if (currentProductForOrder.image.startsWith('http')) {
             imageUrl = currentProductForOrder.image;
@@ -1943,7 +1946,12 @@
           }
         }
 
-        // Create single item array
+        // Ensure we have all required fields
+        if (!currentProductForOrder.id || !currentProductForOrder.name) {
+          throw new Error('Product information is missing. Please refresh the page and try again.');
+        }
+
+        // Create single item array (matching order-index.html structure)
         const items = [{
           productId: currentProductForOrder.id,
           productName: currentProductForOrder.name,
@@ -1951,6 +1959,9 @@
           price: parseFloat(currentProductForOrder.price),
           quantity: 1
         }];
+
+        // Debug: Log items array
+        console.log('Items to send:', items);
 
         // Prepare order data
         const orderData = {
@@ -1960,7 +1971,6 @@
           address: document.getElementById('orderAddress').value.trim(),
           city: citySelect.options[citySelect.selectedIndex].text,
           deliveryMethod: selectedOrderDeliveryMethod,
-          notes: document.getElementById('orderNotes')?.value?.trim() || '',
           items: items,
           subtotal: parseFloat(currentProductForOrder.price),
           shippingFee: parseFloat(document.getElementById('orderShippingFee').value || '0'),
@@ -2203,10 +2213,6 @@
                       <!-- Cities will be populated by JavaScript -->
                     </select>
                     <input type="hidden" id="orderShippingFee" name="shippingFee" value="0">
-                  </div>
-                  <div class="mb-3">
-                    <label for="orderNotes" class="form-label" data-i18n-key="order.notes">Additional Notes (Optional)</label>
-                    <textarea class="form-control" id="orderNotes" name="notes" rows="3" placeholder="Any special instructions or notes"></textarea>
                   </div>
                 </form>
               </div>
