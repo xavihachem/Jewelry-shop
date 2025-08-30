@@ -1946,14 +1946,15 @@
           }
         }
 
-        // Ensure we have all required fields
-        if (!currentProductForOrder.id || !currentProductForOrder.name) {
+        // Ensure we have all required fields (product uses _id, not id)
+        const productId = currentProductForOrder._id || currentProductForOrder.id;
+        if (!productId || !currentProductForOrder.name) {
           throw new Error('Product information is missing. Please refresh the page and try again.');
         }
 
         // Create single item array (matching order-index.html structure)
         const items = [{
-          productId: currentProductForOrder.id,
+          productId: productId,
           productName: currentProductForOrder.name,
           productImage: imageUrl,
           price: parseFloat(currentProductForOrder.price),
@@ -1977,6 +1978,9 @@
           total: parseFloat(currentProductForOrder.price) + parseFloat(document.getElementById('orderShippingFee').value || '0')
         };
 
+        // Debug: Log complete order data before sending
+        console.log('Complete order data to send:', orderData);
+
         // Send order to backend
         const response = await fetch(`${API_BASE}/api/orders`, {
           method: 'POST',
@@ -1985,6 +1989,9 @@
           },
           body: JSON.stringify(orderData)
         });
+
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
 
         if (!response.ok) {
           const errorText = await response.text();
@@ -2071,8 +2078,9 @@
     function initializeOrderForm(product) {
       currentProductForOrder = product;
       
-      // Pre-fill hidden fields
-      document.getElementById('orderProductId').value = product.id;
+      // Pre-fill hidden fields (use _id or id)
+      const productId = product._id || product.id;
+      document.getElementById('orderProductId').value = productId;
       document.getElementById('orderProductName').value = product.name;
       document.getElementById('orderProductPrice').value = product.price;
       
